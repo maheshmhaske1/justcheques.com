@@ -41,16 +41,17 @@ class PersonalChequeController extends Controller
      */
     public function show($id)
     {
-        $chequeList = ChequeCategories::where('laser_cheque_id', $id)->get();
+        // Find the cheque categories by manual_cheque_id
+        $chequeList = ChequeCategories::where('personal_cheque_id', $id)->get();
 
         // Set the cheque category name statically
         $chequeCategoryName = 'Personal Cheques';
 
         // Retrieve only the categoriesName from ManualCheque
         $chequeSubCategoryName = PersonalCheque::where('id', $id)->pluck('categoriesName')->first();
-        
+
         // Pass the cheque, chequeCategoryName, and chequeSubCategoryName to the view
-        return view('partials/personalChequesList', compact('chequeList', 'chequeCategoryName', 'chequeSubCategoryName'));
+        return view('partials/chequesList', compact('chequeList', 'chequeCategoryName', 'chequeSubCategoryName'));
     }
 
     /**

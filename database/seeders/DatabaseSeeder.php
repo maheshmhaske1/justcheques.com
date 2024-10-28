@@ -90,6 +90,7 @@ class DatabaseSeeder extends Seeder
             [
                 'manual_cheque_id' => '1',
                 'laser_cheque_id' => '0',
+                'personal_cheque_id' => '0',
                 'chequeName' => '1-Per Page',
                 'price' => '48.00',
                 'img' => '1-per-page-manual-cheque.jpg'
@@ -97,6 +98,7 @@ class DatabaseSeeder extends Seeder
             [
                 'manual_cheque_id' => '1',
                 'laser_cheque_id' => '0',
+                'personal_cheque_id' => '1',
                 'chequeName' => '2-Per Page',
                 'price' => '69.00',
                 'img' => 'manual-cheques-two-per-page.png'
@@ -104,6 +106,7 @@ class DatabaseSeeder extends Seeder
             [
                 'manual_cheque_id' => '0',
                 'laser_cheque_id' => '1',
+                'personal_cheque_id' => '1',
                 'chequeName' => 'Laser Cheques / Computer Cheques on top',
                 'price' => '48.00',
                 'img' => 'economical-top.jpg'
@@ -111,6 +114,7 @@ class DatabaseSeeder extends Seeder
             [
                 'manual_cheque_id' => '0',
                 'laser_cheque_id' => '1',
+                'personal_cheque_id' => '0',
                 'chequeName' => 'Premium High Security Foil Hologram Laser Cheques / Computer Cheques on top',
                 'price' => '69.00',
                 'img' => 'premium-foil-eng.jpg'
@@ -118,6 +122,7 @@ class DatabaseSeeder extends Seeder
             [
                 'manual_cheque_id' => '0',
                 'laser_cheque_id' => '3',
+                'personal_cheque_id' => '0',
                 'chequeName' => '2 Part Premium High Security Foil Hologram Cheque - 2 Copies',
                 'price' => '222.00',
                 'img' => 'premium-foil-2-part-english.jpg'
