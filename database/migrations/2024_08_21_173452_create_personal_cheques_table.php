@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('personal_cheques', function (Blueprint $table) {
             $table->id();
+            $table->string('categoriesName');
+            $table->string('img');
             $table->timestamps();
         });
     }

@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class PersonalCheque extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'categoriesName',
+        'img',
+    ];
 }

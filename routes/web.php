@@ -70,6 +70,7 @@ Route::post('customer', [CustomerController::class, 'store'])->name('customer.st
 
 Route::get('manual-cheque-list/{id}', [ManualChequeController::class, 'show'])->name('manual-cheque-list');
 Route::get('laser-cheque-list/{id}', [LaserChequeController::class, 'show'])->name('laser-cheque-list');
+Route::get('personal-cheque-list/{id}', [PersonalChequeController::class, 'show'])->name('personal-cheque-list');
 
 Route::get('about-us', [AboutusController::class, 'index'])->name('about-us');
 

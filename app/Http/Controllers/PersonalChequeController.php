@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PersonalCheque;
+use App\Models\ChequeCategories;
 use Illuminate\Http\Request;
 
 class PersonalChequeController extends Controller
@@ -16,7 +17,7 @@ class PersonalChequeController extends Controller
         $chequesCategory = PersonalCheque::all();
         // Define a static cheque name
         $chequeName = 'Personal Cheques';
-        return view('partials/chequesCategory', compact('chequesCategory', 'chequeName'));
+        return view('partials/personalCheque', compact('chequesCategory', 'chequeName'));
     }
 
     /**
@@ -38,9 +39,19 @@ class PersonalChequeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(PersonalCheque $personalCheque)
+    public function show($id)
     {
-        //
+        // Find the cheque categories by manual_cheque_id
+        $chequeList = ChequeCategories::where('personal_cheque_id', $id)->get();
+
+        // Set the cheque category name statically
+        $chequeCategoryName = 'Personal Cheques';
+
+        // Retrieve only the categoriesName from ManualCheque
+        $chequeSubCategoryName = PersonalCheque::where('id', $id)->pluck('categoriesName')->first();
+
+        // Pass the cheque, chequeCategoryName, and chequeSubCategoryName to the view
+        return view('partials/chequesList', compact('chequeList', 'chequeCategoryName', 'chequeSubCategoryName'));
     }
 
     /**
