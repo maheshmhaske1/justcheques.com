@@ -22,13 +22,20 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(LoginRequest $request)
     {
-        $request->authenticate();
+        $result = $request->authenticate();
 
-        $request->session()->regenerate();
+        if ($result=="We couldn't find an account with that email and password. Please try again") {
+            return back()->with('error', "We couldn't find an account with that email and password. Please try again");
+        }else{
+            $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        
+            return redirect()->intended(route('dashboard', absolute: false))->with('success', "You've been successfully logged in");
+        }
+
+       
     }
 
     /**
@@ -42,6 +49,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/')->with('success', "You've been successfully logout in");;
     }
 }
