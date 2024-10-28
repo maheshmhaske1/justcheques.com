@@ -42,6 +42,18 @@
                                                         </a>
                                                     </li>
                                                 @endforeach
+                                            @elseif ($chequeName == 'Personal Cheques')
+                                                @foreach ($chequesCategory as $cheque)
+                                                    <li class="productListing twoColOne threeColOne fourColOne back "><a
+                                                            href="{{ url('personal-cheque-list/' . $cheque->id) }}"><img
+                                                                src="{{ asset('assets/front/img/' . $cheque->img) }}"
+                                                                alt="{{ $cheque->categoriesName }}"
+                                                                title=" {{ $cheque->categoriesName }} " width="100"
+                                                                height="80">
+                                                            <br>{{ $cheque->categoriesName }}
+                                                        </a>
+                                                    </li>
+                                                @endforeach
                                             @endif
                                         </div>
                                     </ul><!-- EOF: Display grid of available sub-categories -->

@@ -13,11 +13,11 @@ class PersonalChequeController extends Controller
      */
     public function index()
     {
-        // Fetch all records from personalCheque
+        // Fetch all records from ManualCheque
         $chequesCategory = PersonalCheque::all();
         // Define a static cheque name
         $chequeName = 'Personal Cheques';
-        return view('partials/personalCheque', compact('chequesCategory', 'chequeName'));
+        return view('partials/chequesCategory', compact('chequesCategory', 'chequeName'));
     }
 
     /**
