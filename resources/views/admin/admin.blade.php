@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="{{ asset('assets/admin/assets/vendor/fonts/boxicons.css') }}">
 
     <!-- Core CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/assets/vendor/css/rtl/core.css') }}"/>
     <link rel="stylesheet" href="{{ asset('assets/admin/assets/vendor/css/core.css') }}"
         class="template-customizer-core-css" />
     <link rel="stylesheet" href="{{ asset('assets/admin/assets/vendor/css/theme-default.css') }}"
@@ -32,10 +33,29 @@
     <link rel="stylesheet" href="{{ asset('assets/admin/assets/css/main.css') }}" />
 
     <!-- Vendors CSS -->
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/assets/vendor/libs/typeahead-js/typeahead.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/assets/vendor/libs/select2/select2.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/assets/vendor/libs/@form-validation/form-validation.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/assets/vendor/fonts/boxicons.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/assets/vendor/fonts/fontawesome.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/assets/vendor/fonts/flag-icons.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/assets/css/demo.css') }}">
+
+
+
     <link rel="stylesheet"
         href="{{ asset('assets/admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/admin/assets/vendor/css/pages/page-auth.css') }}" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/7.4.47/css/materialdesignicons.min.css" integrity="sha512-/k658G6UsCvbkGRB3vPXpsPHgWeduJwiWGPCGS14IQw3xpr63AEMdA8nMYG2gmYkXitQxDTn6iiK/2fD4T87qA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/7.4.47/css/materialdesignicons.min.css"
+        integrity="sha512-/k658G6UsCvbkGRB3vPXpsPHgWeduJwiWGPCGS14IQw3xpr63AEMdA8nMYG2gmYkXitQxDTn6iiK/2fD4T87qA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Helpers -->
     <script src="{{ asset('assets/admin/assets/vendor/js/helpers.js') }}"></script>
     <script src="{{ asset('assets/admin/assets/js/config.js') }}"></script>
@@ -61,7 +81,7 @@
                     <!-- Content -->
                     <div class="container-xxl flex-grow-1 container-p-y">
                         {{-- <div class="row"> --}}
-                            @yield('content')
+                        @yield('content')
                         {{-- </div> --}}
                     </div>
                     <!-- / Content -->
@@ -90,6 +110,26 @@
     <script src="{{ asset('assets/admin/assets/vendor/js/menu.js') }}"></script>
     <script src="{{ asset('assets/admin/assets/js/main.js') }}"></script>
     <!-- Place this tag in your head or just before your close body tag. -->
+
+    <script src="{{ asset('assets/assets/vendor/libs/jquery/jquery.js') }}"></script>
+    <script src="{{ asset('assets/assets/vendor/libs/popper/popper.js') }}"></script>
+    <script src="{{ asset('assets/assets/vendor/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('assets/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
+    <script src="{{ asset('assets/assets/vendor/libs/hammer/hammer.js') }}"></script>
+    <script src="{{ asset('assets/assets/vendor/libs/i18n/i18n.js') }}"></script>
+    <script src="{{ asset('assets/assets/vendor/libs/typeahead-js/typeahead.js') }}"></script>
+    <script src="{{ asset('assets/assets/vendor/js/menu.js') }}"></script>
+    <script src="{{ asset('assets/assets/vendor/libs/moment/moment.js') }}"></script>
+    <script src="{{ asset('assets/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
+    <script src="{{ asset('assets/assets/vendor/libs/select2/select2.js') }}"></script>
+    <script src="{{ asset('assets/assets/vendor/libs/@form-validation/popular.js') }}"></script>
+    <script src="{{ asset('assets/assets/vendor/libs/@form-validation/bootstrap5.js') }}"></script>
+    <script src="{{ asset('assets/assets/vendor/libs/@form-validation/auto-focus.js') }}"></script>
+    <script src="{{ asset('assets/assets/vendor/libs/cleavejs/cleave.js') }}"></script>
+    <script src="{{ asset('assets/assets/vendor/libs/cleavejs/cleave-phone.js') }}"></script>
+    <script src="{{ asset('assets/assets/js/main.js') }}"></script>
+    <script src="{{ asset('assets/assets/js/app-user-list.js') }}"></script>
+
     <script async defer src="https://buttons.github.io/buttons.js"></script>
 </body>
 
