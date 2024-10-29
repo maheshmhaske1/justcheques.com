@@ -29,11 +29,13 @@
     <link rel="stylesheet" href="{{ asset('assets/admin/assets/vendor/css/theme-default.css') }}"
         class="template-customizer-theme-css" />
     <link rel="stylesheet" href="{{ asset('assets/admin/assets/css/demo.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/admin/assets/css/main.css') }}" />
 
     <!-- Vendors CSS -->
     <link rel="stylesheet"
         href="{{ asset('assets/admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/admin/assets/vendor/css/pages/page-auth.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/7.4.47/css/materialdesignicons.min.css" integrity="sha512-/k658G6UsCvbkGRB3vPXpsPHgWeduJwiWGPCGS14IQw3xpr63AEMdA8nMYG2gmYkXitQxDTn6iiK/2fD4T87qA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Helpers -->
     <script src="{{ asset('assets/admin/assets/vendor/js/helpers.js') }}"></script>
     <script src="{{ asset('assets/admin/assets/js/config.js') }}"></script>
