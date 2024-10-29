@@ -12,7 +12,7 @@
             </div>
           </div>
           <div class="avatar">
-              <i class="mdi mdi-account-multiple-outline bx-lg text-success"></i>
+              <i class="mdi mdi-account-multiple-outline bx-md text-success"></i>
           </div>
         </div>
       </div>
@@ -29,7 +29,7 @@
             </div>
           </div>
           <div class="avatar">
-              <i class="mdi mdi-border-all bx-lg text-primary"></i>
+              <i class="mdi mdi-border-all bx-md text-primary"></i>
           </div>
         </div>
       </div>
@@ -46,7 +46,7 @@
             </div>
           </div>
           <div class="avatar">
-              <i class="mdi mdi-account-group-outline bx-lg text-primary"></i>
+              <i class="mdi mdi-account-group-outline bx-md text-primary"></i>
           </div>
         </div>
       </div>
@@ -63,7 +63,7 @@
             </div>
           </div>
           <div class="avatar">
-              <i class="mdi mdi-account-supervisor-outline bx-lg text-warning"></i>
+              <i class="mdi mdi-account-supervisor-outline bx-md text-warning"></i>
           </div>
         </div>
       </div>
