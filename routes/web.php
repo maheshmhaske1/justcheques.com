@@ -10,7 +10,9 @@ use App\Http\Controllers\LaserChequeController;
 use App\Http\Controllers\ManualChequeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AboutusController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\PersonalChequeController;
+use App\Http\Controllers\Admin\LoginController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -73,5 +75,9 @@ Route::get('laser-cheque-list/{id}', [LaserChequeController::class, 'show'])->na
 Route::get('personal-cheque-list/{id}', [PersonalChequeController::class, 'show'])->name('personal-cheque-list');
 
 Route::get('about-us', [AboutusController::class, 'index'])->name('about-us');
+
+//admin section
+Route::get('admin-login', [LoginController::class, 'index'])->name('admin-login');
+Route::get('admin', [DashboardController::class, 'index'])->name('admin');
 
 require __DIR__.'/auth.php';
