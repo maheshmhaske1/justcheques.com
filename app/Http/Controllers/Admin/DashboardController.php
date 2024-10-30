@@ -3,12 +3,21 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Customer;
+use App\Models\Order;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        return view('admin/partials/dashboard/dashboard');
+
+        $totalUsers=User::all()->count();
+        $totalOrder=Order::all()->count();
+        $totalCustomer=User::where('role', 'vendor')->count();
+        $totalVendor=User::where('role', 'customer')->count();
+
+        return view('admin/partials/dashboard/dashboard',compact('totalUsers', 'totalOrder', 'totalVendor', 'totalCustomer'));
     }
 }

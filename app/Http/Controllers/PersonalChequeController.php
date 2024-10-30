@@ -33,7 +33,29 @@ class PersonalChequeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'categoriesName' => 'required|string|max:255',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        
+        $imageName = $request->file('image')->getClientOriginalName();
+
+        $imagePath = public_path('assets/front/img/' . $imageName);
+        
+        $imageExists = file_exists($imagePath);
+       
+        if (!$imageExists) {
+            $request->file('image')->move(public_path('assets/front/img'), $imageName);
+        }
+
+        PersonalCheque::create([
+            'categoriesName' => $request->categoriesName,
+            'img' => $imageName,
+        ]);
+
+        // Redirect or return a response as needed
+        return redirect('admin/personalcheques')->with('success', 'Personal cheque created successfully.');
     }
 
     /**
@@ -57,24 +79,54 @@ class PersonalChequeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(PersonalCheque $personalCheque)
+    public function edit($id)
     {
-        //
+        $chequesCategory = PersonalCheque::findOrFail($id);
+        return view('admin/partials/dashboard/edit_personal_cheques_form', compact('chequesCategory'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, PersonalCheque $personalCheque)
+    public function update(Request $request ,$id)
     {
-        //
+        $request->validate([
+            'categoriesName' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $personalCheque = PersonalCheque::findOrFail($id);
+
+        $personalCheque->categoriesName = $request->categoriesName;
+
+        if ($request->hasFile('image')) {
+            $imageName = $request->file('image')->getClientOriginalName();
+
+            $imagePath = public_path('assets/front/img/' . $imageName);
+            
+            $imageExists = file_exists($imagePath);
+           
+            if (!$imageExists) {
+                $request->file('image')->move(public_path('assets/front/img'), $imageName);
+            }
+
+            $personalCheque->img = $imageName;
+
+        }
+        
+        $personalCheque->save();
+        // Redirect or return a response as needed
+        return redirect('admin/personalcheques')->with('success', 'Personal cheque updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(PersonalCheque $personalCheque)
+    public function destroy($id)
     {
-        //
+        $personalCheque = PersonalCheque::findOrFail($id);
+        $personalCheque->delete();
+    
+        return redirect()->back()->with('success', 'Personal cheque deleted successfully.');
     }
 }

@@ -18,7 +18,7 @@
     <ul class="menu-inner py-1">
         <!-- Dashboard -->
         <li class="menu-item active">
-            <a href="index.html" class="menu-link">
+            <a href="{{ url('admin') }}" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-view-dashboard"></i>
                 <div data-i18n="Analytics">Dashboard</div>
             </a>
@@ -32,21 +32,21 @@
 
             <ul class="menu-sub">
                 <li class="menu-item">
-                    <a href="layouts-without-menu.html" class="menu-link">
+                    <a href="{{ url('admin/manualcheques') }}" class="menu-link">
                         <div data-i18n="Without menu">
                             Manual Cheques
                         </div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="layouts-without-navbar.html" class="menu-link">
+                    <a href="{{ url('admin/lasercheques') }}" class="menu-link">
                         <div data-i18n="Without navbar">
                             Laser Cheques
                         </div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="layouts-container.html" class="menu-link">
+                    <a href="{{ url('admin/personalcheques') }}" class="menu-link">
                         <div data-i18n="Container">
                             Personal Cheques
                         </div>
