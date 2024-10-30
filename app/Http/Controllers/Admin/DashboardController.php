@@ -16,9 +16,10 @@ class DashboardController extends Controller
         $totalUsers=User::all()->count();
         $users=User::all();
         $totalOrder=Order::all()->count();
-        $totalCustomer=User::where('role', 'vendor')->count();
-        $totalVendor=User::where('role', 'customer')->count();
+        $totalCustomer = Customer::all()->count();
+        $orders = Order::all();
+        $totalVendor=User::where('role', 'vendor')->count();
 
-        return view('admin/partials/dashboard/dashboard',compact('totalUsers', 'totalOrder', 'totalVendor', 'totalCustomer','users'));
+        return view('admin/partials/dashboard/dashboard',compact('totalUsers', 'totalOrder', 'totalVendor', 'totalCustomer','users','orders'));
     }
 }
