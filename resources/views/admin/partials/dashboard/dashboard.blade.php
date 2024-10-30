@@ -73,41 +73,49 @@
 
 
 {{-- tables --}}
-<div class="d-flex justify-content-evenly">
-    <div class="card mx-1">
-        <h5 class="card-header">Table Users</h5>
-        <div class="card-datatable table-responsive text-nowrap">
+<div class="row px-2">
+
+    <div class="card mt-2 mb-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <h5 class="card-header"><strong>Users</strong></h5>
+            <div>
+                <a class="btn btn-primary my-2 mx-2" href="{{ url('admin/manual_cheques_form') }}" role="button">Add User </a>
+            </div>
+        </div>
+        <div class="table-responsive text-nowrap">
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Project</th>
-                        <th>Client</th>
-                        <th>Users</th>
-                        <th>Status</th>
-                        <th>Actions</th>
+                        <th><strong>Sr No.</strong></th>
+                        <th><strong>First Name</strong></th>
+                        <th><strong>Last Name</strong></th>
+                        <th><strong>Telephone</strong></th>
+                        <th><strong>Company</strong></th>
+                        <th><strong>Street Address</strong></th>
+                        <th><strong>Email</strong></th>
+                        <th><strong>Role</strong></th>
+                        <th><strong>City</strong></th>
+                        <th><strong>Post Code</strong></th>
+                        <th><strong>State</strong></th>
+                        <th><strong>Country</strong></th>
+                        <th><strong>Actions</strong></th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
+                  @foreach( $users as $user)
                     <tr>
-                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>Angular Project</strong></td>
-                        <td>Albert Cook</td>
-                        <td>
-                            <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-                                <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                                    class="avatar avatar-xs pull-up" title="Lilian Fuller">
-                                    <img src="../assets/img/avatars/5.png" alt="Avatar" class="rounded-circle" />
-                                </li>
-                                <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                                    class="avatar avatar-xs pull-up" title="Sophia Wilkerson">
-                                    <img src="../assets/img/avatars/6.png" alt="Avatar" class="rounded-circle" />
-                                </li>
-                                <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                                    class="avatar avatar-xs pull-up" title="Christina Parker">
-                                    <img src="../assets/img/avatars/7.png" alt="Avatar" class="rounded-circle" />
-                                </li>
-                            </ul>
-                        </td>
-                        <td><span class="badge bg-label-primary me-1">Active</span></td>
+                        <td><strong>{{ $user->id}}</strong></td>
+                        <td>{{ $user->firstname}}</td>
+                        <td>{{ $user->lastname}}</td>
+                        <td>{{ $user->telephone}}</td>
+                        <td>{{ $user->company}}</td>
+                        <td>{{ $user->street_address}}</td>
+                        <td>{{ $user->email}}</td>
+                        <td>{{ $user->role}}</td>
+                        <td>{{ $user->city}}</td>
+                        <td>{{ $user->postcode}}</td>
+                        <td>{{ $user->state}}</td>
+                        <td>{{ $user->country}}</td>
                         <td>
                             <div class="dropdown">
                                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -122,14 +130,23 @@
                             </div>
                         </td>
                     </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
     </div>
-    
-    <div class="card mx-1">
-        <h5 class="card-header">Table Orders</h5>
-        <div class="card-datatable table-responsive text-nowrap">
+
+
+
+
+    <div class="card">
+        <div class="d-flex justify-content-between align-items-center">
+            <h5 class="card-header">Orders</h5>
+            <div>
+                <a class="btn btn-primary my-2" href="{{ url('admin/manual_cheques_form') }}" role="button">Add Order </a>
+            </div>
+        </div>
+        <div class="table-responsive text-nowrap">
             <table class="table">
                 <thead>
                     <tr>
