@@ -80,4 +80,31 @@ Route::get('about-us', [AboutusController::class, 'index'])->name('about-us');
 Route::get('admin-login', [LoginController::class, 'index'])->name('admin-login');
 Route::get('admin', [DashboardController::class, 'index'])->name('admin');
 
+
+Route::get('admin/manualcheques', [AdminController::class, 'manual_cheques'])->name('admin-manual_cheques');
+Route::get('admin/lasercheques', [AdminController::class, 'laser_cheques'])->name('admin-laser_cheques');
+Route::get('admin/personalcheques', [AdminController::class, 'personal_cheques'])->name('admin-personal_cheques');
+
+Route::get('admin/manual_cheques_form', [AdminController::class, 'add_manual_cheques_form']);
+Route::get('admin/laser_cheques_form', [AdminController::class, 'add_laser_cheques_form']);
+Route::get('admin/personal_cheques_form', [AdminController::class, 'add_personal_cheques_form']);
+
+Route::post('/admin/store-manual-cheque', [ManualChequeController::class, 'store'])->name('store.manual.cheque');
+Route::get('/admin/edit-manual-cheque/{id}', [ManualChequeController::class, 'edit'])->name('edit.manual.cheque');
+Route::post('/admin/update-manual-cheque/{id}', [ManualChequeController::class, 'update'])->name('update.manual.cheque');
+Route::delete('/admin/delete-manual-cheque/{id}', [ManualChequeController::class, 'destroy'])->name('delete.manual.cheque');
+
+
+Route::post('/admin/store-laser-cheque', [LaserChequeController::class, 'store'])->name('store.laser.cheque');
+Route::get('/admin/edit-laser-cheque/{id}', [LaserChequeController::class, 'edit'])->name('edit.laser.cheque');
+Route::post('/admin/update-laser-cheque/{id}', [LaserChequeController::class, 'update'])->name('update.laser.cheque');
+Route::delete('/admin/delete-laser-cheque/{id}', [LaserChequeController::class, 'destroy'])->name('delete.laser.cheque');
+
+
+Route::post('/admin/store-personal-cheque', [PersonalChequeController::class, 'store'])->name('store.personal.cheque');
+Route::get('/admin/edit-personal-cheque/{id}', [PersonalChequeController::class, 'edit'])->name('edit.personal.cheque');
+Route::post('/admin/update-personal-cheque/{id}', [PersonalChequeController::class, 'update'])->name('update.personal.cheque');
+Route::delete('/admin/delete-personal-cheque/{id}', [PersonalChequeController::class, 'destroy'])->name('delete.personal.cheque');
+
+
 require __DIR__.'/auth.php';

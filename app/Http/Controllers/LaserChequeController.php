@@ -33,7 +33,29 @@ class LaserChequeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'categoriesName' => 'required|string|max:255',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        
+        $imageName = $request->file('image')->getClientOriginalName();
+
+        $imagePath = public_path('assets/front/img/' . $imageName);
+        
+        $imageExists = file_exists($imagePath);
+       
+        if (!$imageExists) {
+            $request->file('image')->move(public_path('assets/front/img'), $imageName);
+        }
+
+        LaserCheque::create([
+            'categoriesName' => $request->categoriesName,
+            'img' => $imageName,
+        ]);
+
+        // Redirect or return a response as needed
+        return redirect('admin/lasercheques')->with('success', 'Manual cheque created successfully.');
     }
 
     /**
@@ -57,24 +79,54 @@ class LaserChequeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(LaserCheque $laserCheque)
+    public function edit($id)
     {
-        //
+        $chequesCategory = LaserCheque::findOrFail($id);
+        return view('admin/partials/dashboard/edit_laser_cheques_form', compact('chequesCategory'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, LaserCheque $laserCheque)
+    public function update(Request $request ,$id)
     {
-        //
+        $request->validate([
+            'categoriesName' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $laserCheque = LaserCheque::findOrFail($id);
+
+        $laserCheque->categoriesName = $request->categoriesName;
+
+        if ($request->hasFile('image')) {
+            $imageName = $request->file('image')->getClientOriginalName();
+
+            $imagePath = public_path('assets/front/img/' . $imageName);
+            
+            $imageExists = file_exists($imagePath);
+           
+            if (!$imageExists) {
+                $request->file('image')->move(public_path('assets/front/img'), $imageName);
+            }
+
+            $laserCheque->img = $imageName;
+
+        }
+        
+        $laserCheque->save();
+        // Redirect or return a response as needed
+        return redirect('admin/lasercheques')->with('success', 'Laser cheque updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(LaserCheque $laserCheque)
+    public function destroy($id)
     {
-        //
+        $laserCheque = LaserCheque::findOrFail($id);
+        $laserCheque->delete();
+    
+        return redirect()->back()->with('success', 'Laser cheque deleted successfully.');
     }
 }
