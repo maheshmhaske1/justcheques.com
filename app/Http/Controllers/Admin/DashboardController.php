@@ -281,4 +281,71 @@ class DashboardController extends Controller
 
         return redirect()->route('admin')->with('success', 'Order deleted successfully');
     }
+
+    //customer
+    public function customerIndex(){
+        $customers = Customer::paginate(10);
+        return view('admin/partials/customers/index',compact('customers'));
+    }
+
+    public function customerStore(Request $request)
+    {
+        $validated = $request->validate([
+            'firstname' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'telephone' => 'required|string|max:15',
+            'company' => 'nullable|string|max:255',
+            'street_address' => 'required|string|max:255',
+            'suburb' => 'nullable|string|max:255',
+            'buzzer_code' => 'nullable|string|max:255',
+            'city' => 'required|string|max:255',
+            'postcode' => 'required|string|max:10',
+            'state' => 'required|string|max:255',
+            'country' => 'required|string|max:255',
+            'email' => 'required|email|unique:customers',
+            'user_id' => 'required|exists:users,id',
+        ]);
+        Customer::create($validated);
+
+        return redirect()->route('admin.customer')->with('success', 'Customer created successfully.');
+    }
+
+    public function customerEdit($id)
+    {
+        $customerData = Customer::findOrFail($id);
+        $customers = Customer::paginate(10);
+        return view('admin/partials/customers/index', compact('customerData','customers'));
+    }
+
+    public function customerUpdate(Request $request, $id)
+    {
+        $customer = Customer::findOrFail($id);
+
+         $request->validate([
+            'firstname' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'telephone' => 'required|string|max:15',
+            'company' => 'nullable|string|max:255',
+            'street_address' => 'required|string|max:255',
+            'suburb' => 'nullable|string|max:255',
+            'buzzer_code' => 'nullable|string|max:255',
+            'city' => 'required|string|max:255',
+            'postcode' => 'required|string|max:10',
+            'state' => 'required|string|max:255',
+            'country' => 'required|string|max:255',
+            'email' => 'required|email',
+            'user_id' => 'required|exists:users,id',
+        ]);
+        $customer->update($request->all());
+
+        return redirect()->route('admin.customer')->with('success', 'Customer Updated successfully.');
+    }
+
+    public function customerDestroy($id)
+    {
+        $order = Customer::findOrFail($id);
+        $order->delete();
+
+        return redirect()->route('admin.customer')->with('success', 'Customer deleted successfully');
+    }
 }

@@ -118,6 +118,13 @@ Route::get('admin/orders/{id}/edit', [DashboardController::class, 'orderEdit'])-
 Route::put('admin/orders/{id}', [DashboardController::class, 'orderUpdate'])->name('admin.orders.update');
 Route::delete('admin/orders/{id}', [DashboardController::class, 'orderDestroy'])->name('admin.orders.destroy');
 
+// Customer
+Route::get('/admin/customer', [DashboardController::class, 'customerIndex'])->name('admin.customer');
+Route::post('/admin/customer/store', [DashboardController::class, 'customerStore'])->name('admin.customerStore');
+Route::get('admin/customer/{id}/edit', [DashboardController::class, 'customerEdit'])->name('admin.customer.edit');
+Route::put('admin/customer/{id}', [DashboardController::class, 'customerUpdate'])->name('admin.customer.update');
+Route::delete('admin/customer/{id}', [DashboardController::class, 'customerDestroy'])->name('admin.customer.destroy');
+
 
 
 require __DIR__.'/auth.php';
