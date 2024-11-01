@@ -1,0 +1,179 @@
+<div class="col-lg-4 col-md-6">
+    <div class="mt-3">
+        <!-- Modal -->
+        <div class="modal fade" id="modalOrder" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <form
+                    action="{{ isset($orderData) ? route('admin.orders.update', $orderData->id) : route('admin.orderStore') }}"
+                    method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @if (isset($orderData))
+                        @method('PUT')
+                    @endif
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalCenterTitle">
+                                {{ isset($orderData) ? 'Edit Order' : 'Add Order' }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="card-body">
+                                <!-- Customer ID -->
+                                <div class="mb-3">
+                                    <label class="form-label" for="customer_id">Customer ID</label>
+                                    <input type="text" class="form-control" name="customer_id" id="customer_id"
+                                        value="{{ old('customer_id', $orderData->customer_id ?? '') }}" required />
+                                </div>
+
+                                <!-- Quantity -->
+                                <div class="mb-3">
+                                    <label class="form-label" for="quantity">Quantity</label>
+                                    <input type="number" class="form-control" name="quantity" id="quantity"
+                                        value="{{ old('quantity', $orderData->quantity ?? '') }}" required />
+                                </div>
+
+                                <!-- Color -->
+                                <div class="mb-3">
+                                    <label class="form-label" for="color">Color</label>
+                                    <input type="text" class="form-control" name="color" id="color"
+                                        value="{{ old('color', $orderData->color ?? '') }}" />
+                                </div>
+
+                                <!-- Company Info -->
+                                <div class="mb-3">
+                                    <label class="form-label" for="company_info">Company Info</label>
+                                    <input type="text" class="form-control" name="company_info" id="company_info"
+                                        value="{{ old('company_info', $orderData->company_info ?? '') }}" />
+                                </div>
+
+                                <!-- Voided Cheque -->
+                                <div class="mb-3">
+                                    <label class="form-label" for="voided_cheque">Voided Cheque</label>
+                                    <input type="checkbox" name="voided_cheque" id="voided_cheque"
+                                        {{ old('voided_cheque', $orderData->voided_cheque ?? false) ? 'checked' : '' }} />
+                                </div>
+
+                                <!-- Institution Number -->
+                                <div class="mb-3">
+                                    <label class="form-label" for="institution_number">Institution Number</label>
+                                    <input type="text" class="form-control" name="institution_number" id="institution_number"
+                                        value="{{ old('institution_number', $orderData->institution_number ?? '') }}" />
+                                </div>
+
+                                <!-- Transit Number -->
+                                <div class="mb-3">
+                                    <label class="form-label" for="transit_number">Transit Number</label>
+                                    <input type="text" class="form-control" name="transit_number" id="transit_number"
+                                        value="{{ old('transit_number', $orderData->transit_number ?? '') }}" />
+                                </div>
+
+                                <!-- Account Number -->
+                                <div class="mb-3">
+                                    <label class="form-label" for="account_number">Account Number</label>
+                                    <input type="text" class="form-control" name="account_number" id="account_number"
+                                        value="{{ old('account_number', $orderData->account_number ?? '') }}" />
+                                </div>
+
+                                <!-- Confirm Account Number -->
+                                <div class="mb-3">
+                                    <label class="form-label" for="confirm_account_number">Confirm Account Number</label>
+                                    <input type="text" class="form-control" name="confirm_account_number" id="confirm_account_number"
+                                        value="{{ old('confirm_account_number', $orderData->confirm_account_number ?? '') }}" />
+                                </div>
+
+                                <!-- Cheque Start Number -->
+                                <div class="mb-3">
+                                    <label class="form-label" for="cheque_start_number">Cheque Start Number</label>
+                                    <input type="text" class="form-control" name="cheque_start_number" id="cheque_start_number"
+                                        value="{{ old('cheque_start_number', $orderData->cheque_start_number ?? '') }}" />
+                                </div>
+
+                                <!-- Cheque End Number -->
+                                <div class="mb-3">
+                                    <label class="form-label" for="cheque_end_number">Cheque End Number</label>
+                                    <input type="text" class="form-control" name="cheque_end_number" id="cheque_end_number"
+                                        value="{{ old('cheque_end_number', $orderData->cheque_end_number ?? '') }}" />
+                                </div>
+
+                                <!-- Cart Quantity -->
+                                <div class="mb-3">
+                                    <label class="form-label" for="cart_quantity">Cart Quantity</label>
+                                    <input type="number" class="form-control" name="cart_quantity" id="cart_quantity"
+                                        value="{{ old('cart_quantity', $orderData->cart_quantity ?? '') }}" required />
+                                </div>
+
+                                <!-- Cheque Category ID -->
+                                <div class="mb-3">
+                                    <label class="form-label" for="cheque_category_id">Cheque Category ID</label>
+                                    <input type="text" class="form-control" name="cheque_category_id" id="cheque_category_id"
+                                        value="{{ old('cheque_category_id', $orderData->cheque_category_id ?? '') }}" />
+                                </div>
+
+                                <!-- Voided Cheque File -->
+                                <div class="mb-3">
+                                    <label class="form-label" for="voided_cheque_file">Voided Cheque File</label>
+                                    <input type="file" class="form-control" name="voided_cheque_file" id="voided_cheque_file" />
+                                    @if(isset($orderData) && $orderData->voided_cheque_file)
+                                        <a href="{{ asset('assets/front/img/' . $orderData->voided_cheque_file) }}" target="_blank">View File</a>
+                                    @endif
+                                </div>
+
+                                <!-- Company Logo -->
+                                <div class="mb-3">
+                                    <label class="form-label" for="company_logo">Company Logo</label>
+                                    <input type="file" class="form-control" name="company_logo" id="company_logo" />
+                                    @if(isset($orderData) && $orderData->company_logo)
+                                        <a href="{{ asset('assets/front/img/' . $orderData->company_logo) }}" target="_blank">View Logo</a>
+                                    @endif
+                                </div>
+
+                                <!-- Vendor ID -->
+                                <div class="mb-3">
+                                    <label class="form-label" for="vendor_id">Vendor ID</label>
+                                    <input type="text" class="form-control" name="vendor_id" id="vendor_id"
+                                        value="{{ old('vendor_id', $orderData->vendor_id ?? '') }}" required />
+                                </div>
+
+                                <!-- Cheque Image -->
+                                <div class="mb-3">
+                                    <label class="form-label" for="cheque_img">Cheque Image</label>
+                                    <input type="file" class="form-control" name="cheque_img" id="cheque_img" />
+                                    @if(isset($orderData) && $orderData->cheque_img)
+                                        <a href="{{ asset('assets/front/img/' . $orderData->cheque_img) }}" target="_blank">View Image</a>
+                                    @endif
+                                </div>
+
+                                <!-- Order Status -->
+                                <div class="mb-3">
+                                    <label class="form-label" for="order_status">Order Status</label>
+                                    <input type="text" class="form-control" name="order_status" id="order_status"
+                                        value="{{ old('order_status', $orderData->order_status ?? '') }}" />
+                                </div>
+
+                                <!-- Balance Status -->
+                                <div class="mb-3">
+                                    <label class="form-label" for="balance_status">Balance Status</label>
+                                    <input type="text" class="form-control" name="balance_status" id="balance_status"
+                                        value="{{ old('balance_status', $orderData->balance_status ?? '') }}" />
+                                </div>
+
+                                <!-- Reorder -->
+                                <div class="mb-3">
+                                    <label class="form-label" for="reorder">Reorder</label>
+                                    <input type="checkbox" name="reorder" id="reorder"
+                                        {{ old('reorder', $orderData->reorder ?? false) ? 'checked' : '' }} />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary"
+                                data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

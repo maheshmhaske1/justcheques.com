@@ -106,5 +106,18 @@ Route::get('/admin/edit-personal-cheque/{id}', [PersonalChequeController::class,
 Route::post('/admin/update-personal-cheque/{id}', [PersonalChequeController::class, 'update'])->name('update.personal.cheque');
 Route::delete('/admin/delete-personal-cheque/{id}', [PersonalChequeController::class, 'destroy'])->name('delete.personal.cheque');
 
+//user
+Route::post('/admin/user/store', [DashboardController::class, 'userStore'])->name('adminUser.userStore');
+Route::get('admin/users/{id}/edit', [DashboardController::class, 'userEdit'])->name('admin.users.edit');
+Route::put('admin/users/{id}', [DashboardController::class, 'userUpdate'])->name('admin.users.update');
+Route::delete('admin/users/{id}', [DashboardController::class, 'userDestroy'])->name('admin.users.destroy');
+
+// Order Routes
+Route::post('/admin/orders/store', [DashboardController::class, 'orderStore'])->name('admin.orderStore');
+Route::get('admin/orders/{id}/edit', [DashboardController::class, 'orderEdit'])->name('admin.orders.edit');
+Route::put('admin/orders/{id}', [DashboardController::class, 'orderUpdate'])->name('admin.orders.update');
+Route::delete('admin/orders/{id}', [DashboardController::class, 'orderDestroy'])->name('admin.orders.destroy');
+
+
 
 require __DIR__.'/auth.php';
