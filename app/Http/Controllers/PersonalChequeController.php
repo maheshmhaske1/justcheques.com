@@ -81,8 +81,9 @@ class PersonalChequeController extends Controller
      */
     public function edit($id)
     {
+        $personalCheques = PersonalCheque::all();
         $chequesCategory = PersonalCheque::findOrFail($id);
-        return view('admin/partials/dashboard/edit_personal_cheques_form', compact('chequesCategory'));
+        return view('admin/partials/dashboard/personal_cheques', compact('chequesCategory','personalCheques'));
     }
 
     /**
@@ -127,6 +128,6 @@ class PersonalChequeController extends Controller
         $personalCheque = PersonalCheque::findOrFail($id);
         $personalCheque->delete();
     
-        return redirect()->back()->with('success', 'Personal cheque deleted successfully.');
+        return redirect('admin/personalcheques')->with('success', 'Personal cheque deleted successfully.');
     }
 }
