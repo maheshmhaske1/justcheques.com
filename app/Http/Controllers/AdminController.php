@@ -29,13 +29,13 @@ class AdminController extends Controller
 
     //all cheque form
 
-    public function add_manual_cheques_form(){
-        return view('admin/partials/dashboard/add_manual_cheques_form');
-    }
-    public function add_laser_cheques_form(){
-        return view('admin/partials/dashboard/add_laser_cheques_form');
-    }
-    public function add_personal_cheques_form(){
-        return view('admin/partials/dashboard/add_personal_cheques_form');
-    }
+    // public function add_manual_cheques_form(){
+    //     return view('admin/partials/dashboard/add_manual_cheques_form');
+    // }
+    // public function add_laser_cheques_form(){
+    //     return view('admin/partials/dashboard/add_laser_cheques_form');
+    // }
+    // public function add_personal_cheques_form(){
+    //     return view('admin/partials/dashboard/add_personal_cheques_form');
+    // }
 }

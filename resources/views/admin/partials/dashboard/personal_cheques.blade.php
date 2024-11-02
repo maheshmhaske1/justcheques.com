@@ -12,11 +12,17 @@
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 @endif
-<div style="display: flex; justify-content: flex-start;">
+<!-- <div style="display: flex; justify-content: flex-start;">
     <a class="btn btn-primary my-4" href="{{ url('admin/personal_cheques_form') }}" role="button">Add PersonalCheques </a>
-</div>
+</div> -->
 <div class="card">
-    <h5 class="card-header">Personal Cheques</h5>
+    <div class="d-flex justify-content-between align-items-center">
+        <h5 class="card-header"><strong>Manual Cheque</strong></h5>
+        <div>
+            <button type="button" class="btn btn-primary mx-2" data-bs-toggle="modal" data-bs-target="#modalManualCheque">
+            Personal Cheques</button>
+        </div>
+    </div>
     <div class="table-responsive text-nowrap">
         <table class="table">
             <thead>
@@ -55,3 +61,14 @@
     </div>
 </div>
 @endsection
+@include('admin.partials.dashboard.personalcheque_form')
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        @if (isset($chequesCategory))
+            var editModal = new bootstrap.Modal(document.getElementById('modalManualCheque'));
+            editModal.show();
+        @endif
+    });
+
+
+</script>

@@ -81,8 +81,9 @@ class LaserChequeController extends Controller
      */
     public function edit($id)
     {
+        $laserCheques=LaserCheque::all();
         $chequesCategory = LaserCheque::findOrFail($id);
-        return view('admin/partials/dashboard/edit_laser_cheques_form', compact('chequesCategory'));
+        return view('admin/partials/dashboard/laser_cheques', compact('chequesCategory','laserCheques'));
     }
 
     /**

@@ -34,12 +34,12 @@ class ManualChequeController extends Controller
     public function store(Request $request)
     {
         
+       
         $request->validate([
             'categoriesName' => 'required|string|max:255',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
-
-        
+       
         $imageName = $request->file('image')->getClientOriginalName();
 
         $imagePath = public_path('assets/front/img/' . $imageName);
@@ -82,8 +82,9 @@ class ManualChequeController extends Controller
      */
     public function edit($id)
     {
+        $manualCheques = ManualCheque::all();
         $chequesCategory = ManualCheque::findOrFail($id);
-        return view('admin/partials/dashboard/edit_manual_cheques_form', compact('chequesCategory'));
+        return view('admin/partials/dashboard/manual_cheques', compact('chequesCategory','manualCheques'));
     }
 
     /**
@@ -129,6 +130,6 @@ class ManualChequeController extends Controller
         $manualCheque = ManualCheque::findOrFail($id);
         $manualCheque->delete();
     
-        return redirect()->back()->with('success', 'Manual cheque deleted successfully.');
+        return redirect('admin/manualcheques')->with('success', 'Manual cheque deleted successfully.');
     }
 }
