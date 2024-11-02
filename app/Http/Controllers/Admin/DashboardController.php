@@ -7,6 +7,7 @@ use App\Models\ChequeCategories;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Hash;
@@ -427,5 +428,13 @@ class DashboardController extends Controller
         $chequeCategories->delete();
 
         return redirect()->route('admin.cheque_categories')->with('success', 'Cheque Category deleted successfully.');
+    }
+
+
+    public function accountDetails(){
+        $users = Auth::user();
+        $logoName = substr($users->firstname, 0, 1) . substr($users->lastname, 0, 1);
+
+        return view('admin.login.profile',compact('users','logoName'));
     }
 }
