@@ -6,3 +6,27 @@
 .bg-menu-theme .menu-inner>.menu-item.active:before {
     background: rgb(179, 146, 122) !important;
 }
+
+.btn-primary {
+    color: #fff;
+    background-color: rgb(179, 146, 122);
+    border-color: rgb(179, 146, 122);
+    box-shadow: 0 0.125rem 0.25rem 0 rgba(179, 146, 122, 0.4) !important;
+}
+
+.btn-primary:hover {
+    color: #000;
+    background-color: rgb(205, 181, 164);
+    border-color: rgb(205, 181, 164);
+    transform: translateY(-1px);
+}
+
+.btn-check:focus+.btn-primary,
+.btn-primary:focus,
+.btn-primary.focus {
+    color: #fff;
+    background-color: rgb(179, 146, 122);
+    border-color: rgb(179, 146, 122);
+    transform: translateY(0);
+    box-shadow: none;
+}
