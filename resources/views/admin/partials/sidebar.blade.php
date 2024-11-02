@@ -4,7 +4,8 @@
             <span class="app-brand-logo demo">
             </span>
             <span class="app-brand-text demo menu-text fw-bolder ms-2">
-                <img src="{{ asset('assets/front/img/logo/logo.webp') }}" class="img-fluid w-80 h-80 rounded" alt="Logo" width="60px" height="40px">
+                <img src="{{ asset('assets/front/img/logo/logo.webp') }}" class="img-fluid w-80 h-80 rounded"
+                    alt="Logo" width="60px" height="40px">
             </span>
         </a>
 
@@ -25,7 +26,8 @@
         </li>
 
         <!-- Cheques -->
-        <li class="menu-item {{ Request::is('admin/manualcheques', 'admin/lasercheques', 'admin/personalcheques') ? 'active' : '' }}">
+        <li
+            class="menu-item {{ Request::is('admin/manualcheques', 'admin/lasercheques', 'admin/personalcheques') ? 'active' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons mdi mdi-checkbook-arrow-right"></i>
                 <div data-i18n="Layouts">Cheques</div>
@@ -58,8 +60,8 @@
         </li>
 
         <!-- Cheques Categories -->
-        <li class="menu-item {{ Request::is('admin/cheques-categories') ? 'active' : '' }}">
-            <a href="index.html" class="menu-link">
+        <li class="menu-item {{ Request::is('admin/cheque_categories') ? 'active' : '' }}">
+            <a href="{{ route('admin.cheque_categories') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-category"></i>
                 <div data-i18n="Analytics">Cheques Categories</div>
             </a>

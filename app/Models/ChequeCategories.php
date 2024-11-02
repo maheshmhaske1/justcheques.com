@@ -12,6 +12,7 @@ class ChequeCategories extends Model
     protected $fillable = [
         'manual_cheque_id',
         'laser_cheque_id',
+        'personal_cheque_id',
         'chequeName',
         'price',
         'img',

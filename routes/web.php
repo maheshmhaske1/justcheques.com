@@ -126,5 +126,13 @@ Route::put('admin/customer/{id}', [DashboardController::class, 'customerUpdate']
 Route::delete('admin/customer/{id}', [DashboardController::class, 'customerDestroy'])->name('admin.customer.destroy');
 
 
+// cheque_categories
+Route::get('/admin/cheque_categories', [DashboardController::class, 'chequeCategoriesIndex'])->name('admin.cheque_categories');
+Route::post('/admin/cheque_categories/store', [DashboardController::class, 'chequeCategoriesStore'])->name('admin.chequeCategoriesStore');
+Route::get('admin/cheque_categories/{id}/edit', [DashboardController::class, 'chequeCategoriesEdit'])->name('admin.cheque_categories.edit');
+Route::put('admin/cheque_categories/{id}', [DashboardController::class, 'chequeCategoriesUpdate'])->name('admin.cheque_categories.update');
+Route::delete('admin/cheque_categories/{id}', [DashboardController::class, 'chequeCategoriesDestroy'])->name('admin.cheque_categories.destroy');
+
+
 
 require __DIR__.'/auth.php';

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ChequeCategories;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\User;
@@ -347,5 +348,84 @@ class DashboardController extends Controller
         $order->delete();
 
         return redirect()->route('admin.customer')->with('success', 'Customer deleted successfully');
+    }
+
+
+
+    //chequeCategories
+
+    public function chequeCategoriesIndex()
+    {
+        $chequeCategories = ChequeCategories::paginate(10);
+        return view('admin.partials.cheques_categories.index', compact('chequeCategories'));
+    }
+
+
+    public function chequeCategoriesStore(Request $request)
+    {
+        $request->validate([
+            'manual_cheque_id' => 'nullable|string',
+            'laser_cheque_id' => 'nullable|string',
+            'personal_cheque_id' => 'nullable|string',
+            'chequeName' => 'required|string',
+            'price' => 'required|numeric',
+            'img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $data = $request->all();
+
+        if ($request->hasFile('img')) {
+            $file = $request->file('img');
+            $hash = md5(uniqid($file->getClientOriginalName(), true));
+            $filename = $hash . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('assets/front/img'), $filename);
+            $data['img'] = $filename;
+        }
+
+        ChequeCategories::create($data);
+        return redirect()->route('admin.cheque_categories')->with('success', 'Cheque Category added successfully.');
+    }
+
+    public function chequeCategoriesEdit($id)
+    {
+        $chequeCategoryData = ChequeCategories::findOrFail($id);
+        $chequeCategories = ChequeCategories::paginate(10);
+        return view('admin.partials.cheques_categories.index', compact('chequeCategoryData', 'chequeCategories'));
+    }
+
+    public function chequeCategoriesUpdate(Request $request, $id)
+    {
+        $customer = ChequeCategories::findOrFail($id);
+
+        $request->validate([
+            'manual_cheque_id' => 'nullable|string',
+            'laser_cheque_id' => 'nullable|string',
+            'personal_cheque_id' => 'nullable|string',
+            'chequeName' => 'required|string',
+            'price' => 'required|numeric',
+            'img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $data = $request->all();
+
+        if ($request->hasFile('img')) {
+            $file = $request->file('img');
+            $hash = md5(uniqid($file->getClientOriginalName(), true));
+            $filename = $hash . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('assets/front/img'), $filename);
+            $data['img'] = $filename;
+        }
+
+        $customer->update($data);
+
+        return redirect()->route('admin.cheque_categories')->with('success', 'Cheque Category Updated successfully.');
+    }
+
+    public function chequeCategoriesDestroy($id)
+    {
+        $chequeCategories = ChequeCategories::findOrFail($id);
+        $chequeCategories->delete();
+
+        return redirect()->route('admin.cheque_categories')->with('success', 'Cheque Category deleted successfully.');
     }
 }

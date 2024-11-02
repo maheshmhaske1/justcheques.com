@@ -112,7 +112,7 @@
                     <tbody class="table-border-bottom-0">
                         @foreach ($users as $user)
                             <tr>
-                                <td><strong>{{ $user->id }}</strong></td>
+                                <td><strong>{{ $loop->iteration + ($users->currentPage() - 1) * $users->perPage() }}</strong></td>
                                 <td>{{ $user->firstname }}</td>
                                 <td>{{ $user->lastname }}</td>
                                 <td>{{ $user->telephone }}</td>
@@ -194,7 +194,7 @@
                     <tbody class="table-border-bottom-0">
                         @foreach ($orders as $order)
                             <tr>
-                                <td><strong>{{ $order->id }}</strong></td>
+                                <td><strong>{{ $loop->iteration + ($orders->currentPage() - 1) * $orders->perPage() }}</strong></td>
                                 <td>{{ $order->customer_id }}</td>
                                 <td>{{ $order->quantity }}</td>
                                 <td>{{ $order->color }}</td>
