@@ -203,77 +203,77 @@ class DashboardController extends Controller
     }
 
     public function orderUpdate(Request $request, $id)
-{
-    $request->validate([
-        'customer_id' => 'required|string',
-        'quantity' => 'required|integer',
-        'color' => 'nullable|string',
-        'company_info' => 'nullable|string',
-        'voided_cheque' => 'nullable|string',
-        'institution_number' => 'nullable|string',
-        'transit_number' => 'nullable|string',
-        'account_number' => 'nullable|string',
-        'confirm_account_number' => 'nullable|string',
-        'cheque_start_number' => 'nullable|string',
-        'cart_quantity' => 'required|integer',
-        'cheque_category_id' => 'nullable|string',
-        'voided_cheque_file' => 'nullable|file',
-        'company_logo' => 'nullable|file',
-        'vendor_id' => 'required|string',
-        'cheque_img' => 'nullable|file',
-        'order_status' => 'nullable|string',
-        'balance_status' => 'nullable|string',
-        'reorder' => 'nullable|string',
-    ]);
+    {
+        $request->validate([
+            'customer_id' => 'required|string',
+            'quantity' => 'required|integer',
+            'color' => 'nullable|string',
+            'company_info' => 'nullable|string',
+            'voided_cheque' => 'nullable|string',
+            'institution_number' => 'nullable|string',
+            'transit_number' => 'nullable|string',
+            'account_number' => 'nullable|string',
+            'confirm_account_number' => 'nullable|string',
+            'cheque_start_number' => 'nullable|string',
+            'cart_quantity' => 'required|integer',
+            'cheque_category_id' => 'nullable|string',
+            'voided_cheque_file' => 'nullable|file',
+            'company_logo' => 'nullable|file',
+            'vendor_id' => 'required|string',
+            'cheque_img' => 'nullable|file',
+            'order_status' => 'nullable|string',
+            'balance_status' => 'nullable|string',
+            'reorder' => 'nullable|string',
+        ]);
 
-    // Find the order by ID
-    $order = Order::findOrFail($id);
-    $order->fill($request->all()); // Update fields with the request data
+        // Find the order by ID
+        $order = Order::findOrFail($id);
+        $order->fill($request->all()); // Update fields with the request data
 
-    // Handle file uploads
-    if ($request->hasFile('voided_cheque_file')) {
-        // Delete old file if exists
-        if ($order->voided_cheque_file) {
-            File::delete(public_path('assets/front/img/' . $order->voided_cheque_file));
+        // Handle file uploads
+        if ($request->hasFile('voided_cheque_file')) {
+            // Delete old file if exists
+            if ($order->voided_cheque_file) {
+                File::delete(public_path('assets/front/img/' . $order->voided_cheque_file));
+            }
+
+            $file = $request->file('voided_cheque_file');
+            $hash = md5(uniqid($file->getClientOriginalName(), true));
+            $filename = $hash . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('assets/front/img'), $filename);
+            $order->voided_cheque_file = $filename;
         }
 
-        $file = $request->file('voided_cheque_file');
-        $hash = md5(uniqid($file->getClientOriginalName(), true));
-        $filename = $hash . '.' . $file->getClientOriginalExtension();
-        $file->move(public_path('assets/front/img'), $filename);
-        $order->voided_cheque_file = $filename;
-    }
+        if ($request->hasFile('company_logo')) {
+            // Delete old file if exists
+            if ($order->company_logo) {
+                File::delete(public_path('assets/front/img/' . $order->company_logo));
+            }
 
-    if ($request->hasFile('company_logo')) {
-        // Delete old file if exists
-        if ($order->company_logo) {
-            File::delete(public_path('assets/front/img/' . $order->company_logo));
+            $file = $request->file('company_logo');
+            $hash = md5(uniqid($file->getClientOriginalName(), true));
+            $filename = $hash . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('assets/front/img'), $filename);
+            $order->company_logo = $filename;
         }
 
-        $file = $request->file('company_logo');
-        $hash = md5(uniqid($file->getClientOriginalName(), true));
-        $filename = $hash . '.' . $file->getClientOriginalExtension();
-        $file->move(public_path('assets/front/img'), $filename);
-        $order->company_logo = $filename;
-    }
+        if ($request->hasFile('cheque_img')) {
+            // Delete old file if exists
+            if ($order->cheque_img) {
+                File::delete(public_path('assets/front/img/' . $order->cheque_img));
+            }
 
-    if ($request->hasFile('cheque_img')) {
-        // Delete old file if exists
-        if ($order->cheque_img) {
-            File::delete(public_path('assets/front/img/' . $order->cheque_img));
+            $file = $request->file('cheque_img');
+            $hash = md5(uniqid($file->getClientOriginalName(), true));
+            $filename = $hash . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('assets/front/img'), $filename);
+            $order->cheque_img = $filename;
         }
 
-        $file = $request->file('cheque_img');
-        $hash = md5(uniqid($file->getClientOriginalName(), true));
-        $filename = $hash . '.' . $file->getClientOriginalExtension();
-        $file->move(public_path('assets/front/img'), $filename);
-        $order->cheque_img = $filename;
+        $order->update();
+
+        return redirect()->route('admin')->with('success', 'Order updated successfully!');
     }
-
-    $order->update();
-
-    return redirect()->route('admin')->with('success', 'Order updated successfully!');
-}
 
 
     public function orderDestroy($id)
@@ -285,9 +285,10 @@ class DashboardController extends Controller
     }
 
     //customer
-    public function customerIndex(){
+    public function customerIndex()
+    {
         $customers = Customer::paginate(10);
-        return view('admin/partials/customers/index',compact('customers'));
+        return view('admin/partials/customers/index', compact('customers'));
     }
 
     public function customerStore(Request $request)
@@ -316,14 +317,14 @@ class DashboardController extends Controller
     {
         $customerData = Customer::findOrFail($id);
         $customers = Customer::paginate(10);
-        return view('admin/partials/customers/index', compact('customerData','customers'));
+        return view('admin/partials/customers/index', compact('customerData', 'customers'));
     }
 
     public function customerUpdate(Request $request, $id)
     {
         $customer = Customer::findOrFail($id);
 
-         $request->validate([
+        $request->validate([
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
             'telephone' => 'required|string|max:15',
@@ -431,10 +432,11 @@ class DashboardController extends Controller
     }
 
 
-    public function accountDetails(){
+    public function accountDetails()
+    {
         $users = Auth::user();
         $logoName = substr($users->firstname, 0, 1) . substr($users->lastname, 0, 1);
 
-        return view('admin.login.profile',compact('users','logoName'));
+        return view('admin.login.profile', compact('users', 'logoName'));
     }
 }

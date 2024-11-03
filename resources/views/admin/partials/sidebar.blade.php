@@ -69,10 +69,14 @@
 
         <!-- Logout -->
         <li class="menu-item">
-            <a href="index.html" class="menu-link">
+            <a href="index.html" class="menu-link"
+                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                 <i class="menu-icon tf-icons bx bx-log-out"></i>
                 <div data-i18n="Analytics">Logout</div>
             </a>
+            <form id="logout-form" method="POST" action="{{ route('logout') }}" style="display: none;">
+                @csrf
+            </form>
         </li>
     </ul>
 </aside>
