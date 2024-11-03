@@ -79,6 +79,7 @@ Route::get('about-us', [AboutusController::class, 'index'])->name('about-us');
 //admin section
 Route::get('admin-login', [LoginController::class, 'index'])->name('admin-login');
 Route::get('admin', [DashboardController::class, 'index'])->name('admin');
+Route::get('/admin/profile', [DashboardController::class, 'accountDetails'])->name('admin.profile');
 
 
 Route::get('admin/manualcheques', [AdminController::class, 'manual_cheques'])->name('admin-manual_cheques');
