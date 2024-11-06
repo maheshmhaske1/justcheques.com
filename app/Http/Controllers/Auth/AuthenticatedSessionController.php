@@ -22,20 +22,26 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request)
+    public function store(LoginRequest $request): RedirectResponse
     {
         $result = $request->authenticate();
 
-        if ($result=="We couldn't find an account with that email and password. Please try again") {
+        if ($result == "We couldn't find an account with that email and password. Please try again") {
             return back()->with('error', "We couldn't find an account with that email and password. Please try again");
-        }else{
+        } else {
             $request->session()->regenerate();
 
-        
-            return redirect()->intended(route('dashboard', absolute: false))->with('success', "You've been successfully logged in");
-        }
+            // Check user role after authentication
+            $user = Auth::user();
+            if ($user->role === 'admin') {
+                return redirect()->route('admin')->with('success', "You've been successfully logged in as Admin");
+            } elseif ($user->role === 'vendor') {
+                return redirect()->route('dashboard')->with('success', "You've been successfully logged in as Vendor");
+            }
 
-       
+            // Default fallback route if role is not matched
+            return redirect()->intended('/')->with('success', "You've been successfully logged in");
+        }
     }
 
     /**

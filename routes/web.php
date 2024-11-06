@@ -38,11 +38,45 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'role:vendor'])->group(function () {
-    Route::get('/vendor-dashboard', [VendorController::class, 'index'])->name('vendor.dashboard');
+    Route::get('/', function () {
+        return view('partials.home');
+    })->name('dashboard');
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/admin-dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('admin', [DashboardController::class, 'index'])->name('admin');
+
+    //admin section
+    Route::get('admin-login', [LoginController::class, 'index'])->name('admin-login');
+    Route::get('/admin/profile', [DashboardController::class, 'accountDetails'])->name('admin.profile');
+
+    //user
+    Route::post('/admin/user/store', [DashboardController::class, 'userStore'])->name('adminUser.userStore');
+    Route::get('admin/users/{id}/edit', [DashboardController::class, 'userEdit'])->name('admin.users.edit');
+    Route::put('admin/users/{id}', [DashboardController::class, 'userUpdate'])->name('admin.users.update');
+    Route::delete('admin/users/{id}', [DashboardController::class, 'userDestroy'])->name('admin.users.destroy');
+
+    // Order Routes
+    Route::post('/admin/orders/store', [DashboardController::class, 'orderStore'])->name('admin.orderStore');
+    Route::get('admin/orders/{id}/edit', [DashboardController::class, 'orderEdit'])->name('admin.orders.edit');
+    Route::put('admin/orders/{id}', [DashboardController::class, 'orderUpdate'])->name('admin.orders.update');
+    Route::delete('admin/orders/{id}', [DashboardController::class, 'orderDestroy'])->name('admin.orders.destroy');
+
+    // Customer
+    Route::get('/admin/customer', [DashboardController::class, 'customerIndex'])->name('admin.customer');
+    Route::post('/admin/customer/store', [DashboardController::class, 'customerStore'])->name('admin.customerStore');
+    Route::get('admin/customer/{id}/edit', [DashboardController::class, 'customerEdit'])->name('admin.customer.edit');
+    Route::put('admin/customer/{id}', [DashboardController::class, 'customerUpdate'])->name('admin.customer.update');
+    Route::delete('admin/customer/{id}', [DashboardController::class, 'customerDestroy'])->name('admin.customer.destroy');
+
+
+    // cheque_categories
+    Route::get('/admin/cheque_categories', [DashboardController::class, 'chequeCategoriesIndex'])->name('admin.cheque_categories');
+    Route::post('/admin/cheque_categories/store', [DashboardController::class, 'chequeCategoriesStore'])->name('admin.chequeCategoriesStore');
+    Route::get('admin/cheque_categories/{id}/edit', [DashboardController::class, 'chequeCategoriesEdit'])->name('admin.cheque_categories.edit');
+    Route::put('admin/cheque_categories/{id}', [DashboardController::class, 'chequeCategoriesUpdate'])->name('admin.cheque_categories.update');
+    Route::delete('admin/cheque_categories/{id}', [DashboardController::class, 'chequeCategoriesDestroy'])->name('admin.cheque_categories.destroy');
+
 });
 
 Route::get('/manual-cheque', [ManualChequeController::class, 'index'])->name('manual-cheque');
@@ -76,10 +110,10 @@ Route::get('personal-cheque-list/{id}', [PersonalChequeController::class, 'show'
 
 Route::get('about-us', [AboutusController::class, 'index'])->name('about-us');
 
-//admin section
-Route::get('admin-login', [LoginController::class, 'index'])->name('admin-login');
-Route::get('admin', [DashboardController::class, 'index'])->name('admin');
-Route::get('/admin/profile', [DashboardController::class, 'accountDetails'])->name('admin.profile');
+// //admin section
+// Route::get('admin-login', [LoginController::class, 'index'])->name('admin-login');
+// Route::get('admin', [DashboardController::class, 'index'])->name('admin');
+// Route::get('/admin/profile', [DashboardController::class, 'accountDetails'])->name('admin.profile');
 
 
 Route::get('admin/manualcheques', [AdminController::class, 'manual_cheques'])->name('admin-manual_cheques');
@@ -107,32 +141,6 @@ Route::get('/admin/edit-personal-cheque/{id}', [PersonalChequeController::class,
 Route::post('/admin/update-personal-cheque/{id}', [PersonalChequeController::class, 'update'])->name('update.personal.cheque');
 Route::delete('/admin/delete-personal-cheque/{id}', [PersonalChequeController::class, 'destroy'])->name('delete.personal.cheque');
 
-//user
-Route::post('/admin/user/store', [DashboardController::class, 'userStore'])->name('adminUser.userStore');
-Route::get('admin/users/{id}/edit', [DashboardController::class, 'userEdit'])->name('admin.users.edit');
-Route::put('admin/users/{id}', [DashboardController::class, 'userUpdate'])->name('admin.users.update');
-Route::delete('admin/users/{id}', [DashboardController::class, 'userDestroy'])->name('admin.users.destroy');
-
-// Order Routes
-Route::post('/admin/orders/store', [DashboardController::class, 'orderStore'])->name('admin.orderStore');
-Route::get('admin/orders/{id}/edit', [DashboardController::class, 'orderEdit'])->name('admin.orders.edit');
-Route::put('admin/orders/{id}', [DashboardController::class, 'orderUpdate'])->name('admin.orders.update');
-Route::delete('admin/orders/{id}', [DashboardController::class, 'orderDestroy'])->name('admin.orders.destroy');
-
-// Customer
-Route::get('/admin/customer', [DashboardController::class, 'customerIndex'])->name('admin.customer');
-Route::post('/admin/customer/store', [DashboardController::class, 'customerStore'])->name('admin.customerStore');
-Route::get('admin/customer/{id}/edit', [DashboardController::class, 'customerEdit'])->name('admin.customer.edit');
-Route::put('admin/customer/{id}', [DashboardController::class, 'customerUpdate'])->name('admin.customer.update');
-Route::delete('admin/customer/{id}', [DashboardController::class, 'customerDestroy'])->name('admin.customer.destroy');
-
-
-// cheque_categories
-Route::get('/admin/cheque_categories', [DashboardController::class, 'chequeCategoriesIndex'])->name('admin.cheque_categories');
-Route::post('/admin/cheque_categories/store', [DashboardController::class, 'chequeCategoriesStore'])->name('admin.chequeCategoriesStore');
-Route::get('admin/cheque_categories/{id}/edit', [DashboardController::class, 'chequeCategoriesEdit'])->name('admin.cheque_categories.edit');
-Route::put('admin/cheque_categories/{id}', [DashboardController::class, 'chequeCategoriesUpdate'])->name('admin.cheque_categories.update');
-Route::delete('admin/cheque_categories/{id}', [DashboardController::class, 'chequeCategoriesDestroy'])->name('admin.cheque_categories.destroy');
 
 
 
