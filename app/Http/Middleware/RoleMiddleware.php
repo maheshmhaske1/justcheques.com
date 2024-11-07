@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 // use Illuminate\Container\Attributes\Auth;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Role;
+
 
 class RoleMiddleware
 {
@@ -15,16 +17,12 @@ class RoleMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle($request, Closure $next, $role)
+    public function handle(Request $request, Closure $next, string $role): Response
     {
-        if (!Auth::check()) {
-            return redirect('login');
+        if (Auth::check() && Auth::user()->role == $role) {
+            return $next($request);
         }
 
-        if (Auth::user()->role !== $role) {
-            return abort(403, 'Unauthorized action.');
-        }
-
-        return $next($request);
+        abort(403, 'Unauthorized action.');
     }
 }
