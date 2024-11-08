@@ -9,19 +9,19 @@ use Illuminate\Http\Request;
 class AdminController extends Controller
 {
     public function manual_cheques() {
-        $manualCheques = ManualCheque::all();
+        $manualCheques = ManualCheque::paginate(10);
         return view('admin/partials/dashboard/manual_cheques', compact('manualCheques'));
     }
 
 
     public function laser_cheques() {
-        $laserCheques = LaserCheque::all();
+        $laserCheques = LaserCheque::paginate(10);
         return view('admin/partials/dashboard/laser_cheques', compact('laserCheques'));
     }
 
 
     public function personal_cheques() {
-        $personalCheques = PersonalCheque::all();
+        $personalCheques = PersonalCheque::paginate(10);
         return view('admin/partials/dashboard/personal_cheques', compact('personalCheques'));
     }
 

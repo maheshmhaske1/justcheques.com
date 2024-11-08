@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ChequeCategories;
 use App\Models\LaserCheque;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class LaserChequeController extends Controller
 {
@@ -33,11 +34,19 @@ class LaserChequeController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(),[
             'categoriesName' => 'required|string|max:255',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
+        if ($validator->fails()) {
+            return redirect('admin/lasercheques')->with('error', $validator->errors());
+        }
 
+        $existingCheque = LaserCheque::where('categoriesName', $request->categoriesName)->first();
+
+        if ($existingCheque) {
+            return redirect('admin/lasercheques')->with('error', 'categoriesName is already present');
+        }
         
         $imageName = $request->file('image')->getClientOriginalName();
 
@@ -81,7 +90,7 @@ class LaserChequeController extends Controller
      */
     public function edit($id)
     {
-        $laserCheques=LaserCheque::all();
+        $laserCheques=LaserCheque::paginate(10);
         $chequesCategory = LaserCheque::findOrFail($id);
         return view('admin/partials/dashboard/laser_cheques', compact('chequesCategory','laserCheques'));
     }

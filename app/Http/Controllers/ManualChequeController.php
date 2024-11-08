@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ChequeCategories;
 use App\Models\ManualCheque;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ManualChequeController extends Controller
 {
@@ -35,11 +36,19 @@ class ManualChequeController extends Controller
     {
         
        
-        $request->validate([
+        $validator = Validator::make($request->all(),[
             'categoriesName' => 'required|string|max:255',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
+        if ($validator->fails()) {
+            return redirect('admin/manualcheques')->with('error', $validator->errors());
+        }
        
+        $existingCheque = ManualCheque::where('categoriesName', $request->categoriesName)->first();
+
+        if ($existingCheque) {
+            return redirect('admin/manualcheques')->with('error', 'categoriesName is already present');
+        }
         $imageName = $request->file('image')->getClientOriginalName();
 
         $imagePath = public_path('assets/front/img/' . $imageName);
@@ -82,7 +91,7 @@ class ManualChequeController extends Controller
      */
     public function edit($id)
     {
-        $manualCheques = ManualCheque::all();
+        $manualCheques = ManualCheque::paginate(10);
         $chequesCategory = ManualCheque::findOrFail($id);
         return view('admin/partials/dashboard/manual_cheques', compact('chequesCategory','manualCheques'));
     }

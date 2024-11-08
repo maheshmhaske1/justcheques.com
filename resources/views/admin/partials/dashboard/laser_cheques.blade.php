@@ -37,7 +37,7 @@
             <tbody class="table-border-bottom-0">
                 @foreach ($laserCheques as $cheque)
                 <tr>
-                    <td><strong>{{ $cheque->id }}</strong></td>
+                    <td><strong>{{ $loop->iteration + ($laserCheques->currentPage() - 1) * $laserCheques->perPage() }}</strong></td>
                     <td><strong>{{ $cheque->categoriesName }}</strong></td>
                     <td><img src="{{ asset('assets/front/img/' . $cheque->img) }}" alt="Product A Image" style="max-width: 100px; height: 50px;"></td>
                     <td>
@@ -47,10 +47,12 @@
                             </button>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="{{ route('edit.laser.cheque', $cheque->id) }}"><i class="bx bx-edit-alt me-2"></i> Edit</a>
-                                <form action="{{ route('delete.laser.cheque', $cheque->id) }}" method="POST">
+                                <a class="dropdown-item" href="{{ route('delete.laser.cheque', $cheque->id) }}" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $cheque->id }}').submit();">
+                                    <i class="bx bx-trash me-2"></i> Delete
+                                </a>
+                                <form id="delete-form-{{ $cheque->id }}" action="{{ route('delete.laser.cheque', $cheque->id) }}" method="POST" style="display: none;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="dropdown-item"><i class="bx bx-trash me-2"></i> Delete</button>
                                 </form>
                             </div>
                         </div>
@@ -59,17 +61,21 @@
                 @endforeach
             </tbody>
         </table>
+        <div class="d-flex justify-content-center">{{ $laserCheques->links() }}</div>
+        @if ($laserCheques->isEmpty())
+        <div class="d-flex justify-content-center py-5">
+            You have not yet created laser cheque.
+        </div>
+        @endif
     </div>
 </div>
 @endsection
 @include('admin.partials.dashboard.lasercheque_form')
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        @if (isset($chequesCategory))
-            var editModal = new bootstrap.Modal(document.getElementById('modalManualCheque'));
-            editModal.show();
+        @if(isset($chequesCategory))
+        var editModal = new bootstrap.Modal(document.getElementById('modalManualCheque'));
+        editModal.show();
         @endif
     });
-
-
 </script>

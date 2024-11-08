@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\PersonalCheque;
 use App\Models\ChequeCategories;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class PersonalChequeController extends Controller
 {
@@ -33,12 +34,20 @@ class PersonalChequeController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(),[
             'categoriesName' => 'required|string|max:255',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
+        if ($validator->fails()) {
+            return redirect('admin/personalcheques')->with('error', $validator->errors());
+        }
 
-        
+        $existingCheque = PersonalCheque::where('categoriesName', $request->categoriesName)->first();
+
+        if ($existingCheque) {
+            return redirect('admin/personalcheques')->with('error', 'categoriesName is already present');
+        }
+
         $imageName = $request->file('image')->getClientOriginalName();
 
         $imagePath = public_path('assets/front/img/' . $imageName);
@@ -81,7 +90,7 @@ class PersonalChequeController extends Controller
      */
     public function edit($id)
     {
-        $personalCheques = PersonalCheque::all();
+        $personalCheques = PersonalCheque::paginate(10);
         $chequesCategory = PersonalCheque::findOrFail($id);
         return view('admin/partials/dashboard/personal_cheques', compact('chequesCategory','personalCheques'));
     }
