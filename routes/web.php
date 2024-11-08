@@ -41,7 +41,7 @@ Route::middleware(['auth', 'role:vendor'])->group(function () {
    
 });
 
-Route::middleware(['auth', 'role:admin'])->group(function () {
+// Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('admin', [DashboardController::class, 'index'])->name('admin');
 
     //admin section
@@ -101,7 +101,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::delete('/admin/delete-personal-cheque/{id}', [PersonalChequeController::class, 'destroy'])->name('delete.personal.cheque');
 
 
-});
+// });
 
 Route::get('/manual-cheque', [ManualChequeController::class, 'index'])->name('manual-cheque');
 
