@@ -541,7 +541,7 @@
                                                         <input type="hidden" name="cheque_category_id"
                                                             id="cheque_category_id" value="{{ $chequeList->id }}"><input
                                                             class="cssButton submit_button button  button_in_cart"
-                                                            id="previewButton" type="button" value="Preview"
+                                                            id="previewButton" type="submit" value="Preview"
                                                             data-toggle="modal" data-target="#exampleModalCenter">
                                                         <span id="loadBar"></span><br><span id="button_cart"></span>
                                                     </div>
