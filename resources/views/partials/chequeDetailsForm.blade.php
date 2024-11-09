@@ -548,7 +548,7 @@
 
                                                     <!-- Modal -->
                                                     <!-- Modal -->
-                                                    <div class="modal fade" id="exampleModalCenter" tabindex="-1"
+                                                    <div class="modal" id="exampleModalCenter" tabindex="-1"
                                                         role="dialog" aria-labelledby="exampleModalCenterTitle"
                                                         aria-hidden="true">
                                                         <div class="modal-dialog modal-lg" role="document">
