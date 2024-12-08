@@ -83,13 +83,13 @@
                                                     <div class="wpb_wrapper">
                                                         <div
                                                             class="wpb_text_column wpb_content_element text-center enlarge">
-                                                            <div class="wpb_wrapper">
+                                                            <!-- <div class="wpb_wrapper">
                                                                 <p><strong>Are you an existing customer?&nbsp;&nbsp;</strong> <a
                                                                         class="btn btn-danger btn-lg"
                                                                         title="REORDER Express Cheque Re-Order Form"
                                                                         href="https://chequesnow.ca/reorder/">Re-Order
                                                                         Cheques Now</a></p>
-                                                            </div>
+                                                            </div> -->
                                                         </div>
                                                     </div>
                                                 </div>
