@@ -51,7 +51,7 @@
                 <div id="custom_html-5" class="widget_text widget widget-footer widget_custom_html full-width">
                     <h3 class="widget-title widget-title-footer">Contact Us</h3>
                     <div class="textwidget custom-html-widget">Toll Free : <a
-                            href="tel+:18667602661">1-866-760-2661</a><br>
+                            href="tel+:18667602661">+1 778 374 7100 </a><br>
                         Fax :877-760-2435<br>
                         Email : <a href="mailto:orders@printnow.ca">order@justcheques.ca</a>
                         <br>

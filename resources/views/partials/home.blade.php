@@ -374,7 +374,7 @@
                                                             <div class="wpb_wrapper">
                                                                 <p>Not sure which cheque type is right for you?
                                                                     <strong>Call us at <span
-                                                                            class="phone-number">1-866-760-2661</span></strong>
+                                                                            class="phone-number">+1 778 374 7100</span></strong>
                                                                 </p><strong>
 
                                                                 </strong>
