@@ -84,11 +84,7 @@
                                                         <div
                                                             class="wpb_text_column wpb_content_element text-center enlarge">
                                                             <div class="wpb_wrapper">
-                                                                <p><strong>Are you an existing customer?&nbsp;&nbsp;</strong> <a
-                                                                        class="btn btn-danger btn-lg"
-                                                                        title="REORDER Express Cheque Re-Order Form"
-                                                                        href="https://chequesnow.ca/reorder/">Re-Order
-                                                                        Cheques Now</a></p>
+                                                                <p><strong>Professional cheques printing services for businesses of all sizes.&nbsp;&nbsp;</strong></p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -374,7 +370,7 @@
                                                             <div class="wpb_wrapper">
                                                                 <p>Not sure which cheque type is right for you?
                                                                     <strong>Call us at <span
-                                                                            class="phone-number">1-866-760-2661</span></strong>
+                                                                            class="phone-number">+1 778 374 7100</span></strong>
                                                                 </p><strong>
 
                                                                 </strong>

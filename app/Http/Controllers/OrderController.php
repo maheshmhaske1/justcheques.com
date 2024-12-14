@@ -19,40 +19,43 @@ class OrderController extends Controller
         if (Auth::check()) {
             // Retrieve all orders made by the logged-in user
             $orders = Order::where('vendor_id', Auth::user()->id)->latest()->get();
-
             // Initialize an empty array to store total prices
             $totalPrices = [];
 
             // Loop through each order and calculate the total price
-            foreach ($orders as $order) {
-                // Retrieve the cheque category data
-                $chequeData = ChequeCategories::find($order->cheque_category_id);
+                foreach ($orders as $order) {
+                    // Retrieve the cheque category data
+                    $chequeData = ChequeCategories::find($order->cheque_category_id);
 
-                if ($chequeData) {
-                    // Retrieve the price from the cheque category
-                    $price = $chequeData->price;
+                    if ($chequeData) {
+                        // Retrieve the price from the cheque category
+                        $price = $chequeData->price;
 
-                    // Determine the sub-category name based on the type of cheque
-                    if ($chequeData->manual_cheque_id != 0) {
-                        $chequeSubCategory = ManualCheque::where('id', $chequeData->manual_cheque_id)->pluck('categoriesName')->first();
-                    } elseif ($chequeData->laser_cheque_id != 0) {
-                        $chequeSubCategory = LaserCheque::where('id', $chequeData->laser_cheque_id)->pluck('categoriesName')->first();
+                        // Determine the sub-category name based on the type of cheque
+                        if ($chequeData->manual_cheque_id != 0) {
+                            $chequeSubCategory = ManualCheque::where('id', $chequeData->manual_cheque_id)->pluck('categoriesName')->first();
+                        } elseif ($chequeData->laser_cheque_id != 0) {
+                            $chequeSubCategory = LaserCheque::where('id', $chequeData->laser_cheque_id)->pluck('categoriesName')->first();
+                        } else {
+                            $chequeSubCategory = 'Unknown'; // Handle case where no sub-category is found
+                        }
+
+                        // Calculate total price by multiplying quantity by price
+                        $totalPrice = $order->quantity * $price;
+
+                        // Store the total price with the order ID as the key
+                        $totalPrices[$order->id] = $totalPrice;
                     } else {
-                        $chequeSubCategory = 'Unknown'; // Handle case where no sub-category is found
+                        // Handle case where cheque category is not found
+                        $totalPrices[$order->id] = 0;
                     }
-
-                    // Calculate total price by multiplying quantity by price
-                    $totalPrice = $order->quantity * $price;
-
-                    // Store the total price with the order ID as the key
-                    $totalPrices[$order->id] = $totalPrice;
-                } else {
-                    // Handle case where cheque category is not found
-                    $totalPrices[$order->id] = 0;
                 }
+            if ($orders->isNotEmpty()) {
+                // Pass orders and total prices to the view
+                return view('partials.orderHistory', compact('orders', 'totalPrices', 'chequeData', 'chequeSubCategory'));
+            }else{
+                return view('partials.orderHistory',compact('orders',));
             }
-            // Pass orders and total prices to the view
-            return view('partials.orderHistory', compact('orders', 'totalPrices', 'chequeData','chequeSubCategory'));
         } else {
             // Redirect to the login page if the user is not authenticated
             return redirect()->route('login');
@@ -160,7 +163,7 @@ class OrderController extends Controller
             'cheque_end_number' => 'nullable|integer|min:1',
             'cart_quantity' => 'required|integer|min:1',
             'cheque_category_id' => 'required|integer',
-            'company_logo' => 'nullable', 
+            'company_logo' => 'nullable',
             'cheque_img' => 'nullable',
             'reorder' => 'nullable'
         ]);
