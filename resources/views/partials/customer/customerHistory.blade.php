@@ -107,10 +107,10 @@
                                     </table>
                                 </div>
                             </div>
-                            {{-- @if ($orders = 0) --}}
+                            @if ($customers->isEmpty())
                             <div class="centerColumn" id="noAcctHistoryDefault">
                                 You have not yet created Customer.</div>
-                            {{-- @endif --}}
+                            @endif
                         </div>
                     </div><!-- top-inr-part -->
                 </div>

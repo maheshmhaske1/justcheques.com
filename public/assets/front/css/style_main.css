@@ -381,10 +381,11 @@ span {
 
 .navigation .nav.navbar-nav a {
     background: transparent none repeat scroll 0 0;
-    color: #fff;
-    font-family: open_sansregular;
+    color:  rgb(0, 0, 0);
+    font-family: 'Montserrat', arial, sans-serif;
     font-size: 16px;
-    padding: 12px 10px 15px
+    padding: 12px 10px 15px;
+    text-transform: uppercase;
 }
 
 .nav.blah .first-nav>a {
@@ -1990,7 +1991,7 @@ a:focus,
 .navbar-nav li:hover,
 .navbar-nav li:focus,
 .navbar-nav li:active {
-    outline: medium !important
+    outline: medium !important;
 }
 
 .discount-content .buttonRow {
