@@ -1,12 +1,6 @@
 <div class="row nopadding">
     <footer>
-        <div class="container">
-            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 text-center ">
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 text-center">
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 text-center">
-            </div>
+        <div class="container d-flex flex-row justify-content-center align-items-center text-center">
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 text-center ">
                 <div id="nav_menu-2" class="widget widget-footer widget_nav_menu full-width">
                     <h3 class="widget-title widget-title-footer">Browse Sitemap</h3>
@@ -28,24 +22,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 text-center">
-
-                <div id="custom_html-4" class="widget_text widget widget-footer widget_custom_html full-width">
-                    <h3 class="widget-title widget-title-footer">Address</h3>
-                    <div class="textwidget custom-html-widget"><b>Print &amp; Cheques Now Inc.</b><br>
-                        240007 Frontier Crescent, Unit 11<br>
-                        Calgary, Alberta T1X 0R4<br>
-                        Ph: <a href="tel:+14032692661">403-269-2661</a><br>
-                        <br>
-                        {{-- <b>Manufacturing Plant</b><br>
-                        127 Keats Street<br>
-                        Southey, SK S0G 4P0<br>
-                        Ph: <a href="tel:+13067261222">306-726-1222</a><br>
-                        Ph: <a href="tel:+18667155704">1-866-715-5704</a> --}}
-
-                    </div>
-                </div>
-            </div>
+            
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 text-center">
 
                 <div id="custom_html-5" class="widget_text widget widget-footer widget_custom_html full-width">
