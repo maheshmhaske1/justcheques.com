@@ -5,7 +5,8 @@
                 <ul class="nav navbar-nav logoImg">
                     <li class="first-nav">
                         <a href="/">
-                            <img src="{{ asset('assets/front/img/logo/logo.webp') }}" class="img-fluid w-80 h-80 rounded" alt="Second slide" style="min-width:100;min-height:100px;">
+                            <img src="{{ asset('assets/front/img/logo/logo.webp') }}" class="img-fluid w-80 h-80 rounded" alt="Second slide" width="130px" height="40px">
+
                         </a>
                     </li>
                 </ul>

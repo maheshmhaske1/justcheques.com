@@ -110,6 +110,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @if ($orders->isNotEmpty())
                                             @foreach ($orders as $order)
                                                 <tr>
                                                     <td class="order-date">{{ $order->created_at }}</td>
@@ -149,6 +150,7 @@
                                                     <td class="reorder ">{{ $order->reorder }}</td>
                                                 </tr>
                                             @endforeach
+                                            @endif
                                         </tbody>
                                     </table>
                                 </div>

@@ -75,17 +75,17 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div id="re-order-section" data-vc-full-width="true"
-                                                data-vc-full-width-init="true"
-                                                class="vc_row wpb_row vc_row-fluid vc_custom_1569530319853 vc_row-has-fill">
-                                                <div class="wpb_column vc_column_container vc_col-sm-12 vc_col-has-fill">
-                                                    <div class="vc_column-inner vc_custom_1430346403163">
-                                                        <div class="wpb_wrapper">
-                                                            <div
-                                                                class="wpb_text_column wpb_content_element text-center enlarge">
-                                                                <div class="wpb_wrapper">
-                                                                    <p><strong>Professional cheques printing services for businesses of all sizes.&nbsp;&nbsp;</strong> </p>
-                                                                </div>
+                                        </div>
+                                        <div id="re-order-section" data-vc-full-width="true"
+                                            data-vc-full-width-init="true"
+                                            class="vc_row wpb_row vc_row-fluid vc_custom_1569530319853 vc_row-has-fill">
+                                            <div class="wpb_column vc_column_container vc_col-sm-12 vc_col-has-fill">
+                                                <div class="vc_column-inner vc_custom_1430346403163">
+                                                    <div class="wpb_wrapper">
+                                                        <div
+                                                            class="wpb_text_column wpb_content_element text-center enlarge">
+                                                            <div class="wpb_wrapper">
+                                                                <p><strong>Professional cheques printing services for businesses of all sizes.&nbsp;&nbsp;</strong></p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -359,19 +359,20 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="vc_row-full-width vc_clearfix"></div>
-                                            <div data-vc-full-width="true" data-vc-full-width-init="true"
-                                                class="vc_row wpb_row vc_row-fluid vc_custom_1569530740609 vc_row-has-fill">
-                                                <div class="wpb_column vc_column_container vc_col-sm-12">
-                                                    <div class="vc_column-inner ">
-                                                        <div class="wpb_wrapper">
-                                                            <div
-                                                                class="wpb_text_column wpb_content_element text-center text-black enlarge">
-                                                                <div class="wpb_wrapper">
-                                                                    <p>Not sure which cheque type is right for you?
-                                                                        <strong>Call us at <span class="phone-number">+1
-                                                                                778 374 7100</span></strong>
-                                                                    </p><strong>
+                                        </div>
+                                        <div class="vc_row-full-width vc_clearfix"></div>
+                                        <div data-vc-full-width="true" data-vc-full-width-init="true"
+                                            class="vc_row wpb_row vc_row-fluid vc_custom_1569530740609 vc_row-has-fill">
+                                            <div class="wpb_column vc_column_container vc_col-sm-12">
+                                                <div class="vc_column-inner ">
+                                                    <div class="wpb_wrapper">
+                                                        <div
+                                                            class="wpb_text_column wpb_content_element text-center text-black enlarge">
+                                                            <div class="wpb_wrapper">
+                                                                <p>Not sure which cheque type is right for you?
+                                                                    <strong>Call us at <span
+                                                                            class="phone-number">+1 778 374 7100</span></strong>
+                                                                </p><strong>
 
                                                                     </strong>
                                                                 </div><strong>
