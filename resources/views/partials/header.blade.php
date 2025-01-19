@@ -1,11 +1,12 @@
 <div class="navigation">
     <nav class="navbar navbar-custom" role="navigation">
-        <div class="container-nav">
+        <div class="navbar-main-collapse navbar-collapse d-flex justify-content-center">
             <div class="team">
                 <ul class="nav navbar-nav logoImg">
                     <li class="first-nav">
                         <a href="/">
                             <img src="{{ asset('assets/front/img/logo/logo.webp') }}" class="img-fluid w-80 h-80 rounded" alt="Second slide" width="130px" height="40px">
+
                         </a>
                     </li>
                 </ul>
