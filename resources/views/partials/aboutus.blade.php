@@ -2,7 +2,7 @@
 @section('content')
 <section class="mid-content">
     <div class="container">
-        <h2>Just Cheques</h2>
+        <h2>About Us</h2>
         <hr>
       <p>Welcome to <strong>Just Cheques</strong>, your trusted destination for premium-quality cheques designed to meet all your personal and business needs. We specialize in providing secure, affordable, and efficient cheque solutions that help streamline your financial transactions without compromising on style or safety.</p>
       <p>At Just Cheques, we pride ourselves on delivering products that stand out for their exceptional quality and advanced security features. Our cheques are equipped with state-of-the-art safeguards to protect you against fraud and ensure complete peace of mind. Whether you’re looking for manual cheques, laser cheques, or personal cheques, we offer a wide range of customizable options to suit your requirements</p>
