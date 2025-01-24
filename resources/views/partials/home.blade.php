@@ -121,7 +121,7 @@
                                                                                         class="vc_single_image-wrapper   vc_box_border_grey">
                                                                                         <img decoding="async"
                                                                                             class="vc_single_image-img "
-                                                                                            src="https://chequesnow.ca/wp-content/uploads/2010/06/manual-cheques-two-per-page1-350x198.png"
+                                                                                            src="{{ asset('assets/images/W437_green_page-0001.jpg') }}"
                                                                                             width="350" height="198"
                                                                                             alt="cheque book"
                                                                                             title="image of manual two per page cheques"
@@ -230,21 +230,21 @@
                                                                                             class="vc_single_image-img attachment-full entered lazyloaded"
                                                                                             alt="cheque"
                                                                                             title="LaserCheque-new"
-                                                                                            data-lazy-srcset="https://chequesnow.ca/wp-content/uploads/2017/06/LaserCheque-new.jpg 420w, https://chequesnow.ca/wp-content/uploads/2017/06/LaserCheque-new-300x123.jpg 300w"
+                                                                                            data-lazy-srcset="{{ asset('assets/images/W438_blue_page-0001.jpg') }}"
                                                                                             data-lazy-sizes="(max-width: 420px) 100vw, 420px"
-                                                                                            data-lazy-src="https://chequesnow.ca/wp-content/uploads/2017/06/LaserCheque-new.jpg"
-                                                                                            src="https://chequesnow.ca/wp-content/uploads/2017/06/LaserCheque-new.jpg"
+                                                                                            data-lazy-src="{{ asset('assets/images/W438_blue_page-0001.jpg') }}"
+                                                                                            src="{{ asset('assets/images/W438_blue_page-0001.jpg') }}"
                                                                                             data-ll-status="loaded"
                                                                                             sizes="(max-width: 420px) 100vw, 420px"
-                                                                                            srcset="https://chequesnow.ca/wp-content/uploads/2017/06/LaserCheque-new.jpg 420w, https://chequesnow.ca/wp-content/uploads/2017/06/LaserCheque-new-300x123.jpg 300w"><noscript><img
+                                                                                            srcset="{{ asset('assets/images/W438_blue_page-0001.jpg') }}"><noscript><img
                                                                                                 decoding="async"
                                                                                                 width="420"
                                                                                                 height="172"
-                                                                                                src="https://chequesnow.ca/wp-content/uploads/2017/06/LaserCheque-new.jpg"
+                                                                                                src="{{ asset('assets/images/W438_blue_page-0001.jpg') }}"
                                                                                                 class="vc_single_image-img attachment-full"
                                                                                                 alt="cheque"
                                                                                                 title="LaserCheque-new"
-                                                                                                srcset="https://chequesnow.ca/wp-content/uploads/2017/06/LaserCheque-new.jpg 420w, https://chequesnow.ca/wp-content/uploads/2017/06/LaserCheque-new-300x123.jpg 300w"
+                                                                                                srcset="{{ asset('assets/images/W438_blue_page-0001.jpg') }}"
                                                                                                 sizes="(max-width: 420px) 100vw, 420px" /></noscript>
                                                                                     </div>
                                                                                 </figure>
