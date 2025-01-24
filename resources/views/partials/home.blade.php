@@ -148,15 +148,10 @@
                                                                             <div
                                                                                 class="wpb_text_column wpb_content_element">
                                                                                 <div class="wpb_wrapper">
-                                                                                    <p>Get 25% MORE cheques* when you order
-                                                                                        Manual Business Cheques. Offering a
-                                                                                        complete range of quality Manual
-                                                                                        Cheques. Available in 5 different
-                                                                                        background colors. Rush next day
-                                                                                        delivery to most of Canada
-                                                                                        available.<br>
-                                                                                        <em>*Compared to other cheque
-                                                                                            suppliers</em>
+                                                                                    <p>Get <strong>25% MORE Manual Business Cheques</strong> than other suppliers and add more value to every order! Choose from a premium range of high-quality cheques available in five vibrant background colors to match your style. Perfect for businesses that demand reliability and elegance in every transaction.</p><br>
+                                                                                    <p> Our cheques are designed to meet the highest standards of quality and functionality. Need them fast? We’ve got you covered with <strong>rush next-day delivery</strong> to most locations across Canada.</p><br>
+                                                                                    <p> Don’t settle for less—upgrade your cheques and make a lasting impression. Order now and save big while enhancing your business efficiency!
+
                                                                                     </p>
                                                                                     <p><a class="btn btn-danger btn-lg"
                                                                                             href="{{ url('manual-cheque-list/' . 1) }}"
@@ -196,16 +191,10 @@
                                                                             <div
                                                                                 class="wpb_text_column wpb_content_element no-mobile">
                                                                                 <div class="wpb_wrapper">
-                                                                                    <p>Get 25% MORE cheques* when you order
-                                                                                        Laser Cheques. Our Laser Cheques
-                                                                                        have the highest security features
-                                                                                        in Canada. Cheques are 100%
-                                                                                        compatible with any cheque software
-                                                                                        program that you use. Order online
-                                                                                        24/7.<br>
-                                                                                        <em>*Compared to other cheque
-                                                                                            suppliers</em>
-                                                                                    </p>
+                                                                                    <p>Get <strong>25% MORE Laser Cheques</strong> and elevate your business transactions with unbeatable value! Crafted with Canada’s <strong>highest security features</strong>, our cheques guarantee maximum protection and peace of mind.
+                                                                                    </p><br>
+                                                                                    <p>Fully <strong>compatible with all cheque software programs</strong>, they’re designed to work effortlessly with your systems. With the convenience of <strong>24/7 online ordering</strong>, you can place your order anytime, hassle-free.</p><br>
+                                                                                    <p>Don’t miss out on this incredible deal—secure, reliable, and efficient cheques that save you money while delivering premium quality. <strong>Order today and take your business to the next level!</strong> </p>
                                                                                     <p><a class="btn btn-danger btn-lg"
                                                                                             href="{{ url('laser-cheque') }}">Order
                                                                                             Now</a></p>
@@ -338,14 +327,10 @@
                                                                             <div
                                                                                 class="wpb_text_column wpb_content_element no-mobile">
                                                                                 <div class="wpb_wrapper">
-                                                                                    <p>Get 25% MORE cheques* when you order
-                                                                                        Personal Cheques. Pay less compared
-                                                                                        to what your bank charges. Plus
-                                                                                        receive AIR MILES reward miles on
-                                                                                        every order!<br>
-                                                                                        <em>*Compared to other cheque
-                                                                                            suppliers</em>
-                                                                                    </p>
+                                                                                    <p>Order <strong>Personal Cheques</strong> today and get <strong>25% MORE cheques</strong>—a better deal than other suppliers! Why pay bank prices when you can save big with us?
+                                                                                    </p><br>
+                                                                                    <p>Not only do you save money, but you also earn <strong>AIR MILES® Reward Miles</strong> with every purchase. It’s the smart choice for your personal banking needs!</p>
+                                                                                    <br><p>Our cheques combine quality, value, and rewards in every order. Make the switch today and enjoy premium cheques at a fraction of the cost. <strong>Order now and start saving while earning rewards!</strong></p>
                                                                                     <p><a class="btn btn-danger btn-lg"
                                                                                             href="{{ url('personal-cheque') }}">Order
                                                                                             Now</a></p>
