@@ -1,6 +1,6 @@
 <div class="navigation">
     <nav class="navbar navbar-custom" role="navigation">
-        <div class="navbar-main-collapse navbar-collapse d-flex justify-content-center">
+        <div class="navbar-main-collapse navbar-collapse justify-content-center">
             <div class="team">
                 <ul class="nav navbar-nav logoImg">
                     <li class="first-nav">
