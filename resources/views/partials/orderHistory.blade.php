@@ -61,14 +61,6 @@
                             <ul id="account-menu" class="list chayyiyan">
                                 <li class="account-history first-link active"> <a href="{{ url('/order-history') }}">Order
                                         History</a></li>
-                                <li class="contact-info "> <a href="">Contact Info</a>
-                                </li>
-                                <li class="address-book "> <a href="">Address Book</a>
-                                </li>
-                                <li class="communications "> <a href="">Communications</a>
-                                </li>
-                                <li class="change-password last-link "> <a href="">Change
-                                        Password</a></li>
                             </ul>
 
                             <div class="clearBoth"></div>
@@ -111,45 +103,45 @@
                                         </thead>
                                         <tbody>
                                             @if ($orders->isNotEmpty())
-                                            @foreach ($orders as $order)
-                                                <tr>
-                                                    <td class="order-date">{{ $order->created_at }}</td>
-                                                    <td class="order-number">{{ $order->id }}</td>
-                                                    <td class="shipping-to">{{ $order->company_info }}</td>
-                                                    <td class="shipping-to">
-                                                        {{ $chequeData->chequeName }}<br>{{ $chequeData->manual_cheque_id !=0 ? 'Manual Cheque': 'Laser Cheque' }}<br>{{ $chequeSubCategory }}
-                                                    </td>
-                                                    <td class="quantity">{{ $order->quantity }}</td>
-                                                    <td class="total">${{ $totalPrices[$order->id] }}</td>
-                                                    <td class="status">{{ $order->order_status }}</td>
-                                                    <td class="status">{{ $order->balance_status }}</td>
+                                                @foreach ($orders as $order)
+                                                    <tr>
+                                                        <td class="order-date">{{ $order->created_at }}</td>
+                                                        <td class="order-number">{{ $order->id }}</td>
+                                                        <td class="shipping-to">{{ $order->company_info }}</td>
+                                                        <td class="shipping-to">
+                                                            {{ $chequeData->chequeName }}<br>{{ $chequeData->manual_cheque_id != 0 ? 'Manual Cheque' : 'Laser Cheque' }}<br>{{ $chequeSubCategory }}
+                                                        </td>
+                                                        <td class="quantity">{{ $order->quantity }}</td>
+                                                        <td class="total">${{ $totalPrices[$order->id] }}</td>
+                                                        <td class="status">{{ $order->order_status }}</td>
+                                                        <td class="status">{{ $order->balance_status }}</td>
 
-                                                    <td class="status">
-                                                        <div class="item"><a class="fancybox-buttons"
-                                                                data-fancybox-group="button" id="mainProductImage"
-                                                                rel="productImages"
-                                                                href="/storage/{{ $order->company_logo }}"
-                                                                target="blank"><img
-                                                                    src="/storage/{{ $order->company_logo }}"
-                                                                    alt="null" title="null" width="80"
-                                                                    height="80"></a>
-                                                        </div>
-                                                    </td>
-                                                    <td class="status">
-                                                        <div class="item"><a class="fancybox-buttons"
-                                                                data-fancybox-group="button" id="mainProductImage"
-                                                                rel="productImages"
-                                                                href="/storage/{{ $order->voided_cheque_file }}"
-                                                                target="blank"><img
-                                                                    src="/storage/{{ $order->voided_cheque_file }}"
-                                                                    alt="null" title="null" width="80"
-                                                                    height="80"></a>
-                                                        </div>
-                                                    </td>
+                                                        <td class="status">
+                                                            <div class="item"><a class="fancybox-buttons"
+                                                                    data-fancybox-group="button" id="mainProductImage"
+                                                                    rel="productImages"
+                                                                    href="/storage/{{ $order->company_logo }}"
+                                                                    target="blank"><img
+                                                                        src="/storage/{{ $order->company_logo }}"
+                                                                        alt="null" title="null" width="80"
+                                                                        height="80"></a>
+                                                            </div>
+                                                        </td>
+                                                        <td class="status">
+                                                            <div class="item"><a class="fancybox-buttons"
+                                                                    data-fancybox-group="button" id="mainProductImage"
+                                                                    rel="productImages"
+                                                                    href="/storage/{{ $order->voided_cheque_file }}"
+                                                                    target="blank"><img
+                                                                        src="/storage/{{ $order->voided_cheque_file }}"
+                                                                        alt="null" title="null" width="80"
+                                                                        height="80"></a>
+                                                            </div>
+                                                        </td>
 
-                                                    <td class="reorder ">{{ $order->reorder }}</td>
-                                                </tr>
-                                            @endforeach
+                                                        <td class="reorder ">{{ $order->reorder }}</td>
+                                                    </tr>
+                                                @endforeach
                                             @endif
                                         </tbody>
                                     </table>

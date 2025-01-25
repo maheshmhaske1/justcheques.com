@@ -4359,7 +4359,7 @@ ul.wpb_thumbnails-fluid>li {
 }
 
 .vc_column_container {
-    padding-left: 0;
+    /* padding-left: 0; */
     padding-right: 0
 }
 
