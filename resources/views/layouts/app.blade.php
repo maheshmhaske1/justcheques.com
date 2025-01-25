@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Business Cheques Online - Beat the Bank | ChequesPlus</title>
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
     <link rel="icon" href="{{ asset('assets/front/img/favicon.ico') }}" type="image/x-icon" />
     <link rel="shortcut icon" href="{{ asset('assets/front/img/favicon.ico') }}" type="image/x-icon" />
     <link rel="apple-touch-icon" sizes="180x180"
@@ -19,7 +19,7 @@
 
     <link rel="stylesheet" href="{{ asset('assets/front/css/style-shipping.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/front/css/style_custom_footer.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/front/css/fonttrns/stylesheet.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/front/css/stylesheet.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/front/css/owl.carousel.min.css') }}" />
 
     <link rel="stylesheet" href="{{ asset('assets/front/css/font-style.css') }}" />
@@ -42,7 +42,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/front/css/style_responsive.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/front/css/stylesheet_ajax_cart.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/front/css/index_home.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/front/css/auto_loaders/ajaxcartslide.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/front/css/ajaxcartslide.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/front/css/jquery.fancybox.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/front/css/skin.css') }}" />
     <link rel="stylesheet" src="{{ asset('assets/front/css/jquery_bxslider.css') }}">
@@ -74,7 +74,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ asset('js/app.js') }}"></script>
+    {{-- <script src="{{ asset('js/app.js') }}"></script> --}}
     <script src="{{ asset('assets/front/js/jscript_jquery_1.12.4.js') }}"></script>
     <script src="{{ asset('assets/front/js/jscript_zbootstrap.min.js') }}"></script>
     <script data-cfasync="false" src="{{ asset('assets/front/js/email-decode.min.js') }}"></script>
