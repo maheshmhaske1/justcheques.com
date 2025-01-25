@@ -4940,7 +4940,13 @@ body .wpb_gallery_slides ul li {
 @media screen and (min-width:768px) and (max-width:991px) {
     .wpb_single_image.banner-img {
         margin-top: 60px;
-        margin-right: 20px
+        margin-right: 20px;
+    }
+}
+
+@media screen and (max-width:768px) {
+    .wpb_single_image.banner-img {
+       margin-left: -15px !important;
     }
 }
 
