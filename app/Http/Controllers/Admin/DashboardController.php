@@ -30,6 +30,16 @@ class DashboardController extends Controller
         return view('admin/partials/dashboard/dashboard', compact('totalUsers', 'totalOrder', 'totalVendor', 'totalCustomer', 'users', 'orders'));
     }
 
+    public function orders()
+    {
+        $totalOrder = Order::count();
+
+        // Paginate and orders
+        $orders = Order::paginate(10);
+
+        return view('admin/partials/dashboard/orders/index', compact('totalOrder', 'orders'));
+    }
+
 
 
     public function userStore(Request $request)
@@ -183,7 +193,7 @@ class DashboardController extends Controller
 
         $order->save();
 
-        return redirect()->route('admin')->with('success', 'Order created successfully!');
+        return redirect()->route('admin.orders')->with('success', 'Order created successfully!');
     }
 
     public function orderEdit($id)
@@ -199,7 +209,7 @@ class DashboardController extends Controller
         $users = User::paginate(10); // Adjust the number of items per page as needed
         $orders = Order::paginate(10);
 
-        return view('admin/partials/dashboard/dashboard', compact('totalUsers', 'totalOrder', 'totalVendor', 'totalCustomer', 'users', 'orders', 'orderData'));
+        return view('admin/partials/dashboard/orders/index', compact('totalUsers', 'totalOrder', 'totalVendor', 'totalCustomer', 'users', 'orders', 'orderData'));
     }
 
     public function orderUpdate(Request $request, $id)
@@ -272,7 +282,7 @@ class DashboardController extends Controller
 
         $order->update();
 
-        return redirect()->route('admin')->with('success', 'Order updated successfully!');
+        return redirect()->route('admin.orders')->with('success', 'Order updated successfully!');
     }
 
 
@@ -281,7 +291,7 @@ class DashboardController extends Controller
         $order = Order::findOrFail($id);
         $order->delete();
 
-        return redirect()->route('admin')->with('success', 'Order deleted successfully');
+        return redirect()->route('admin.orders')->with('success', 'Order deleted successfully');
     }
 
     //customer

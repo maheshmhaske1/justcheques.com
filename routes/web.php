@@ -62,6 +62,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Customer
     Route::get('/admin/customer', [DashboardController::class, 'customerIndex'])->name('admin.customer');
+    Route::get('/admin/orders', [DashboardController::class, 'orders'])->name('admin.orders');
     Route::post('/admin/customer/store', [DashboardController::class, 'customerStore'])->name('admin.customerStore');
     Route::get('admin/customer/{id}/edit', [DashboardController::class, 'customerEdit'])->name('admin.customer.edit');
     Route::put('admin/customer/{id}', [DashboardController::class, 'customerUpdate'])->name('admin.customer.update');

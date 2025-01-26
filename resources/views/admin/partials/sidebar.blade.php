@@ -51,6 +51,14 @@
             </ul>
         </li>
 
+         <!-- Orders -->
+        <li class="menu-item {{ Request::is('admin/orders') ? 'active' : '' }}">
+            <a href="{{ route('admin.orders') }}" class="menu-link">
+                <i class="menu-icon tf-icons mdi mdi-cart"></i>
+                <div data-i18n="Analytics">Orders</div>
+            </a>
+        </li>
+
         <!-- Customers -->
         <li class="menu-item {{ Request::is('admin/customer') ? 'active' : '' }}">
             <a href="{{ route('admin.customer') }}" class="menu-link">
