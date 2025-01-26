@@ -34,6 +34,7 @@
                             <th><strong>Country</strong></th>
                             <th><strong>Email</strong></th>
                             <th><strong>User Id</strong></th>
+                            <th><strong>User Name</strong></th>
                             <th><strong>Created Date</strong></th>
                             <th><strong>Actions</strong></th>
                         </tr>
@@ -54,7 +55,8 @@
                                 <td>{{ $customer->state }}</td>
                                 <td>{{ $customer->country }}</td>
                                 <td>{{ $customer->email }}</td>
-                                <td>{{ $customer->user_id }}</td>
+                                 <td>{{ $customer->user_id }}</td>
+                                <td>{{ \App\Models\User::find($customer->user_id)?->firstname }} {{ \App\Models\User::find($customer->user_id)?->lastname ?? 'N/A' }} ({{ \App\Models\User::find($customer->user_id)?->role }})</td>
                                 <td>{{ $customer->created_at }}</td>
                                 <td>
                                     <div class="dropdown">
