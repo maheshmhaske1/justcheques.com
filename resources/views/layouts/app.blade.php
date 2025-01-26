@@ -65,7 +65,6 @@
     <div class="content-wrapper">
         <div class="wrapper">
                 @include('partials.header')
-
             <div class="container">
                 @yield('content')
             </div>

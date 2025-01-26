@@ -64,13 +64,13 @@
                             </ul>
 
                             <div class="clearBoth"></div>
-                            <div class="serch-box ">
+                            {{-- <div class="serch-box ">
                                 <form name="search_history" action="" method="post"><input type="hidden"
                                         name="securityToken" value="4d403e79f94e446a4a20bed069fd54dd">
                                     <input type="text" name="find_history" value="" placeholder="Quick Search">
                                     <input type="submit" value="Search">
                                 </form>
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="history-filters history-filters-top">
 
