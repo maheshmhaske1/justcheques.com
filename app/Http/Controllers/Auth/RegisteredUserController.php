@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\UserCreated;
 
 class RegisteredUserController extends Controller
 {
@@ -68,7 +70,7 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
-
+        Mail::to($user->email)->send(new UserCreated($user));
         return redirect(route('dashboard', absolute: false))->with('success', "Account created successfully!");
     }
 }

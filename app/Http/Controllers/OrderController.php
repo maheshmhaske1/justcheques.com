@@ -9,6 +9,8 @@ use App\Models\ManualCheque;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderPlaced;
 
 class OrderController extends Controller
 {
@@ -192,6 +194,10 @@ class OrderController extends Controller
         // Save the order to the database
         $order->save();
 
+        //auth user using id
+        $user = Auth::user();
+        // Send email notification
+        Mail::to($user->email)->send(new OrderPlaced($order));
         // Redirect to the success view
         return view('layouts/success');
     }

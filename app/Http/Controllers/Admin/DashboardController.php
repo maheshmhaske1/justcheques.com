@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\UserCreated;
 
 class DashboardController extends Controller
 {
@@ -80,7 +82,6 @@ class DashboardController extends Controller
             'password' => Hash::make($request->password),
             'role' => $request->role,
         ]);
-
         return redirect()->back()->with('success', 'User created successfully.');
     }
 

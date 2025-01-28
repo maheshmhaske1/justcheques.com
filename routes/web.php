@@ -27,6 +27,8 @@ Route::get('/success', function () {
     return view('layouts.success');
 })->name('success');
 
+
+
 // Route::get('/', function () {
 //     return view('partials.home');
 // })->middleware(['auth', 'verified'])->name('dashboard');
