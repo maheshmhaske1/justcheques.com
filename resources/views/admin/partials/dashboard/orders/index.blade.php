@@ -136,5 +136,9 @@
             var editModal = new bootstrap.Modal(document.getElementById('modalOrder'));
             editModal.show();
         @endif
+
+        $('#resetOrder').click(function () {
+            window.location.href = "{{ route('admin.orders') }}";
+        });
     });
 </script>

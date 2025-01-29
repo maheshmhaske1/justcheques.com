@@ -107,5 +107,9 @@
             var editModal = new bootstrap.Modal(document.getElementById('modalChequeCategories'));
             editModal.show();
         @endif
+
+         $('#resetChequesCategories').click(function () {
+            window.location.href = "{{ route('admin.cheque_categories') }}";
+        });
     });
 </script>

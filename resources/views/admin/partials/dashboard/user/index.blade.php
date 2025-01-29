@@ -116,5 +116,9 @@
             var editModal = new bootstrap.Modal(document.getElementById('modalUser'));
             editModal.show();
         @endif
+
+        $('#resetUser').click(function () {
+            window.location.href = "{{ route('admin.users') }}";
+        });
     });
 </script>

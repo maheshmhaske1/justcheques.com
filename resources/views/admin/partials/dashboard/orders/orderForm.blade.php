@@ -9,6 +9,8 @@
                     @csrf
                     @if (isset($orderData))
                         @method('PUT')
+                    @else
+                        @method('POST')
                     @endif
                     <div class="modal-content">
                         <div class="modal-header">
@@ -57,7 +59,8 @@
                                 <!-- Institution Number -->
                                 <div class="mb-3">
                                     <label class="form-label" for="institution_number">Institution Number</label>
-                                    <input type="text" class="form-control" name="institution_number" id="institution_number"
+                                    <input type="text" class="form-control" name="institution_number"
+                                        id="institution_number"
                                         value="{{ old('institution_number', $orderData->institution_number ?? '') }}" />
                                 </div>
 
@@ -77,54 +80,65 @@
 
                                 <!-- Confirm Account Number -->
                                 <div class="mb-3">
-                                    <label class="form-label" for="confirm_account_number">Confirm Account Number</label>
-                                    <input type="text" class="form-control" name="confirm_account_number" id="confirm_account_number"
+                                    <label class="form-label" for="confirm_account_number">Confirm Account
+                                        Number</label>
+                                    <input type="text" class="form-control" name="confirm_account_number"
+                                        id="confirm_account_number"
                                         value="{{ old('confirm_account_number', $orderData->confirm_account_number ?? '') }}" />
                                 </div>
 
                                 <!-- Cheque Start Number -->
                                 <div class="mb-3">
                                     <label class="form-label" for="cheque_start_number">Cheque Start Number</label>
-                                    <input type="text" class="form-control" name="cheque_start_number" id="cheque_start_number"
+                                    <input type="text" class="form-control" name="cheque_start_number"
+                                        id="cheque_start_number"
                                         value="{{ old('cheque_start_number', $orderData->cheque_start_number ?? '') }}" />
                                 </div>
 
                                 <!-- Cheque End Number -->
                                 <div class="mb-3">
                                     <label class="form-label" for="cheque_end_number">Cheque End Number</label>
-                                    <input type="text" class="form-control" name="cheque_end_number" id="cheque_end_number"
+                                    <input type="text" class="form-control" name="cheque_end_number"
+                                        id="cheque_end_number"
                                         value="{{ old('cheque_end_number', $orderData->cheque_end_number ?? '') }}" />
                                 </div>
 
                                 <!-- Cart Quantity -->
                                 <div class="mb-3">
                                     <label class="form-label" for="cart_quantity">Cart Quantity</label>
-                                    <input type="number" class="form-control" name="cart_quantity" id="cart_quantity"
-                                        value="{{ old('cart_quantity', $orderData->cart_quantity ?? '') }}" required />
+                                    <input type="number" class="form-control" name="cart_quantity"
+                                        id="cart_quantity"
+                                        value="{{ old('cart_quantity', $orderData->cart_quantity ?? '') }}"
+                                        required />
                                 </div>
 
                                 <!-- Cheque Category ID -->
                                 <div class="mb-3">
                                     <label class="form-label" for="cheque_category_id">Cheque Category ID</label>
-                                    <input type="text" class="form-control" name="cheque_category_id" id="cheque_category_id"
+                                    <input type="text" class="form-control" name="cheque_category_id"
+                                        id="cheque_category_id"
                                         value="{{ old('cheque_category_id', $orderData->cheque_category_id ?? '') }}" />
                                 </div>
 
                                 <!-- Voided Cheque File -->
                                 <div class="mb-3">
                                     <label class="form-label" for="voided_cheque_file">Voided Cheque File</label>
-                                    <input type="file" class="form-control" name="voided_cheque_file" id="voided_cheque_file" />
-                                    @if(isset($orderData) && $orderData->voided_cheque_file)
-                                        <a href="{{ asset('assets/front/img/' . $orderData->voided_cheque_file) }}" target="_blank">View File</a>
+                                    <input type="file" class="form-control" name="voided_cheque_file"
+                                        id="voided_cheque_file" />
+                                    @if (isset($orderData) && $orderData->voided_cheque_file)
+                                        <a href="{{ asset('assets/front/img/' . $orderData->voided_cheque_file) }}"
+                                            target="_blank">View File</a>
                                     @endif
                                 </div>
 
                                 <!-- Company Logo -->
                                 <div class="mb-3">
                                     <label class="form-label" for="company_logo">Company Logo</label>
-                                    <input type="file" class="form-control" name="company_logo" id="company_logo" />
-                                    @if(isset($orderData) && $orderData->company_logo)
-                                        <a href="{{ asset('assets/front/img/' . $orderData->company_logo) }}" target="_blank">View Logo</a>
+                                    <input type="file" class="form-control" name="company_logo"
+                                        id="company_logo" />
+                                    @if (isset($orderData) && $orderData->company_logo)
+                                        <a href="{{ asset('assets/front/img/' . $orderData->company_logo) }}"
+                                            target="_blank">View Logo</a>
                                     @endif
                                 </div>
 
@@ -139,8 +153,9 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="cheque_img">Cheque Image</label>
                                     <input type="file" class="form-control" name="cheque_img" id="cheque_img" />
-                                    @if(isset($orderData) && $orderData->cheque_img)
-                                        <a href="{{ asset('assets/front/img/' . $orderData->cheque_img) }}" target="_blank">View Image</a>
+                                    @if (isset($orderData) && $orderData->cheque_img)
+                                        <a href="{{ asset('assets/front/img/' . $orderData->cheque_img) }}"
+                                            target="_blank">View Image</a>
                                     @endif
                                 </div>
 
@@ -154,7 +169,8 @@
                                 <!-- Balance Status -->
                                 <div class="mb-3">
                                     <label class="form-label" for="balance_status">Balance Status</label>
-                                    <input type="text" class="form-control" name="balance_status" id="balance_status"
+                                    <input type="text" class="form-control" name="balance_status"
+                                        id="balance_status"
                                         value="{{ old('balance_status', $orderData->balance_status ?? '') }}" />
                                 </div>
 
@@ -167,7 +183,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-secondary"
+                            <button type="button" id="resetOrder" class="btn btn-outline-secondary"
                                 data-bs-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Save</button>
                         </div>

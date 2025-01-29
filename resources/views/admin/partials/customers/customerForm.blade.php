@@ -9,13 +9,16 @@
                     @csrf
                     @if (isset($customerData))
                         @method('PUT')
+                    @else
+                        @method('POST')
                     @endif
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">
                                 {{ isset($customerData) ? 'Edit Customer' : 'Add Customer' }}
                             </h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="card-body">
@@ -51,7 +54,8 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="street_address">Street Address</label>
                                     <input type="text" class="form-control" name="street_address" id="street_address"
-                                        value="{{ old('street_address', $customerData->street_address ?? '') }}" required />
+                                        value="{{ old('street_address', $customerData->street_address ?? '') }}"
+                                        required />
                                 </div>
 
                                 <!-- Suburb -->
@@ -105,14 +109,15 @@
 
                                 <!-- User ID -->
                                 <div class="mb-3">
-                                    <label class="form-label" for="user_id">User ID</label>
-                                    <input type="text" class="form-control" name="user_id" id="user_id"
-                                        value="{{ old('user_id', $customerData->user_id ?? '') }}" required />
+                                    <input type="hidden" class="form-control" name="user_id" id="user_id"
+                                        value="{{ Auth::user()->id }}" required />
                                 </div>
+
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="reset" id="resetCustomer"  class="btn btn-outline-secondary"
+                                data-bs-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Save</button>
                         </div>
                     </div>

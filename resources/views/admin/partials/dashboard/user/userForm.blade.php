@@ -9,6 +9,8 @@
                     @csrf
                     @if (isset($userData))
                         @method('PUT')
+                    @else
+                        @method('POST')
                     @endif
                     <div class="modal-content">
                         <div class="modal-header">
@@ -188,7 +190,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-secondary"
+                            <button type="button" id="resetUser" class="btn btn-outline-secondary"
                                 data-bs-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Save</button>
                         </div>

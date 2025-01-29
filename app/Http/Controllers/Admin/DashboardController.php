@@ -108,7 +108,7 @@ class DashboardController extends Controller
         $users = User::paginate(10); // Adjust the number of items per page as needed
         $orders = Order::paginate(10);
 
-        return view('admin/partials/dashboard/dashboard', compact('totalUsers', 'totalOrder', 'totalVendor', 'totalCustomer', 'users', 'orders', 'userData'));
+        return view('admin/partials/dashboard/user/index', compact('totalUsers', 'totalOrder', 'totalVendor', 'totalCustomer', 'users', 'orders', 'userData'));
     }
 
     public function userUpdate(Request $request, $id)
@@ -317,7 +317,7 @@ class DashboardController extends Controller
         $validated = $request->validate([
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
-            'telephone' => 'required|string|max:15',
+            'telephone' => 'required|string|max:20',
             'company' => 'nullable|string|max:255',
             'street_address' => 'required|string|max:255',
             'suburb' => 'nullable|string|max:255',
@@ -326,12 +326,12 @@ class DashboardController extends Controller
             'postcode' => 'required|string|max:10',
             'state' => 'required|string|max:255',
             'country' => 'required|string|max:255',
-            'email' => 'required|email|unique:customers',
+            'email' => 'required|email|unique:customers,email',
             'user_id' => 'required|exists:users,id',
         ]);
         Customer::create($validated);
 
-        return redirect()->route('admin.customer')->with('success', 'Customer created successfully.');
+        return redirect()->route('admin.customer')->with('success', 'Customer added successfully.');
     }
 
     public function customerEdit($id)
