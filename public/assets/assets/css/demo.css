@@ -122,3 +122,9 @@
   text-align: center;
   margin-top: 1rem;
 }
+.heading-text{
+  flex: auto !important;
+}
+.search-box-css{
+  margin-right: 1em !important;
+}

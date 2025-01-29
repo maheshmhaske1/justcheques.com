@@ -59,6 +59,14 @@
             </a>
         </li>
 
+         <!-- User -->
+        <li class="menu-item {{ Request::is('admin/users') ? 'active' : '' }}">
+            <a href="{{ route('admin.users') }}" class="menu-link">
+                <i class="menu-icon tf-icons mdi mdi-account-multiple"></i>
+                <div data-i18n="Analytics">Users</div>
+            </a>
+        </li>
+
         <!-- Customers -->
         <li class="menu-item {{ Request::is('admin/customer') ? 'active' : '' }}">
             <a href="{{ route('admin.customer') }}" class="menu-link">

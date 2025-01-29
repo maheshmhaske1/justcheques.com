@@ -8,8 +8,12 @@
     @endif
  <div class="row px-2">
         <div class="card mt-2 mb-4">
-            <div class="d-flex justify-content-between align-items-center">
-                <h5 class="card-header"><strong>Customers</strong></h5>
+            <div class="d-flex align-items-center">
+                <h5 class="card-header heading-text"><strong>Customers</strong></h5>
+                <div class="search-box-css">
+                    <input type="text" id="customSearch" class="form-control w-auto" placeholder="Search users..."
+                        autocomplete="off">
+                </div>
                 <div>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCustomer">
                         Add Customer
@@ -17,7 +21,7 @@
                 </div>
             </div>
             <div class="table-responsive text-nowrap">
-                <table class="table">
+                <table class="table" id="userTable">
                     <thead>
                         <tr>
                             <th><strong>Sr No.</strong></th>
@@ -90,6 +94,27 @@
     </div>
 @endsection
 @include('admin.partials.customers.customerForm')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Initialize DataTable without the default search box
+        var table = $('#userTable').DataTable({
+            "paging": false,
+            "ordering": true,
+            "info": true,
+            "lengthChange": true,
+            "pageLength": 10,
+            "dom": "lrtip" // Remove default search box
+        });
+
+        // Custom Search Event Listener
+        $('#customSearch').on('keyup', function () {
+            table.search(this.value).draw();
+        });
+    });
+</script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         @if (isset($customerData))

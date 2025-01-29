@@ -42,6 +42,16 @@ class DashboardController extends Controller
         return view('admin/partials/dashboard/orders/index', compact('totalOrder', 'orders'));
     }
 
+    public function users()
+    {
+        $totalUsers = User::count();
+
+        // Paginate and orders
+        $users = User::paginate(10);
+
+        return view('admin/partials/dashboard/user/index', compact('totalUsers', 'users'));
+    }
+
 
 
     public function userStore(Request $request)
