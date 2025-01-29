@@ -24,7 +24,8 @@
                     <thead>
                         <tr>
                             <th><strong>Sr No.</strong></th>
-                            <th><strong>Customer Id</strong></th>
+                            <th><strong>Customer Name</strong></th>
+                            <th><strong>Vendor Name</strong></th>
                             <th><strong>Quantity</strong></th>
                             <th><strong>Color</strong></th>
                             <th><strong>Company Info</strong></th>
@@ -39,7 +40,6 @@
                             <th><strong>Cheque Category Id</strong></th>
                             <th><strong>Voided Cheque File</strong></th>
                             <th><strong>Company Logo</strong></th>
-                            <th><strong>Vendor Id</strong></th>
                             <th><strong>Cheque Img</strong></th>
                             <th><strong>Order Status</strong></th>
                             <th><strong>Balance Status</strong></th>
@@ -52,7 +52,8 @@
                         @foreach ($orders as $order)
                             <tr>
                                 <td><strong>{{ $loop->iteration + ($orders->currentPage() - 1) * $orders->perPage() }}</strong></td>
-                                <td>{{ $order->customer_id }}</td>
+                                <td>{{ \App\Models\Customer::find($order->customer_id)?->firstname }} {{ \App\Models\Customer::find($order->customer_id)?->lastname }}</td>
+                                <td>{{ \App\Models\User::find($order->vendor_id)?->firstname }} {{ \App\Models\User::find($order->vendor_id)?->lastname }}</td>
                                 <td>{{ $order->quantity }}</td>
                                 <td>{{ $order->color }}</td>
                                 <td>{{ $order->company_info }}</td>
@@ -69,7 +70,6 @@
                                         class="w-px-50 h-auto" /></td>
                                 <td><img src="{{ asset('assets/front/img/' . $order->company_logo) }}" alt
                                         class="w-px-50 h-auto" /></td>
-                                <td>{{ $order->vendor_id }}</td>
                                 <td><img src="{{ asset('assets/front/img/' . $order->cheque_img) }}" alt
                                         class="w-px-50 h-auto" /></td>
                                 <td>{{ $order->order_status }}</td>

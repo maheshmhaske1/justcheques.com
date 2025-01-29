@@ -65,13 +65,15 @@
                                             <a class="dropdown-item" href="{{ route('admin.users.edit', $user->id) }}"><i
                                                     class="bx bx-edit-alt me-1"></i>
                                                 Edit</a>
-                                            <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST"
-                                                onsubmit="return confirm('Are you sure you want to delete this user?');">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="dropdown-item mb-0"><i
-                                                        class="bx bx-trash"></i> Delete</button>
-                                            </form>
+                                            @if ($user->role != 'admin')
+                                                <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST"
+                                                    onsubmit="return confirm('Are you sure you want to delete this user?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="dropdown-item mb-0"><i
+                                                            class="bx bx-trash"></i> Delete</button>
+                                                </form>
+                                            @endif
                                         </div>
                                     </div>
                                 </td>
@@ -92,7 +94,7 @@
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         // Initialize DataTable without the default search box
         var table = $('#userTable').DataTable({
             "paging": false,
@@ -104,7 +106,7 @@
         });
 
         // Custom Search Event Listener
-        $('#customSearch').on('keyup', function () {
+        $('#customSearch').on('keyup', function() {
             table.search(this.value).draw();
         });
     });
@@ -117,7 +119,7 @@
             editModal.show();
         @endif
 
-        $('#resetUser').click(function () {
+        $('#resetUser').click(function() {
             window.location.href = "{{ route('admin.users') }}";
         });
     });
