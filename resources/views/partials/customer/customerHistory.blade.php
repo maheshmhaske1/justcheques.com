@@ -95,11 +95,12 @@
                                                 <tr>
                                                     <td class="order-date">{{ $customer->firstname }}</td>
                                                     <td class="order-number">{{ $customer->lastname }}</td>
-                                                    <td class="shipping-to">{{ $customer->company }}</td>
-                                                    <td class="quantity">{{ $customer->street_address }}</td>
-                                                    <td class="total">{{ $customer->telephone }}</td>
+                                                    <td class="shipping-to">{{ $customer->email }}</td>
+                                                    <td class="quantity">{{ $customer->company }}</td>
+                                                    <td class="total">{{ $customer->street_address }}</td>
+                                                    <td class="status">{{ $customer->telephone }}</td>
                                                     <td class="status">{{ $customer->city }}</td>
-                                                    <td class="status">{{ $customer->state }}</td>
+                                                    <td class="status ">{{ $customer->state }}</td>
                                                     <td class="status ">{{ $customer->country }}</td>
                                                 </tr>
                                             @endforeach
