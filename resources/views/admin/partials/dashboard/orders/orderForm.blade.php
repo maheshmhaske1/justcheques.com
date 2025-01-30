@@ -28,7 +28,7 @@
                                         <option value="">Select a Customer</option>
                                         @foreach (\App\Models\Customer::all() as $customer)
                                             <option value="{{ $customer->id }}"
-                                                {{ old('customer_id', $order->customer_id ?? '') == $customer->id ? 'selected' : '' }}>
+                                                {{ old('customer_id', $orderData->customer_id ?? '') == $customer->id ? 'selected' : '' }}>
                                                 {{ $customer->firstname }}
                                             </option>
                                         @endforeach
@@ -122,9 +122,16 @@
                                 <!-- Cheque Category ID -->
                                 <div class="mb-3">
                                     <label class="form-label" for="cheque_category_id">Cheque Category ID</label>
-                                    <input type="text" class="form-control" name="cheque_category_id"
-                                        id="cheque_category_id"
-                                        value="{{ old('cheque_category_id', $orderData->cheque_category_id ?? '') }}" />
+                                    <select class="form-control" name="cheque_category_id" id="cheque_category_id"
+                                        required>
+                                        <option value="">Select a Customer</option>
+                                        @foreach (\App\Models\ChequeCategories::all() as $chequeCategory)
+                                            <option value="{{ $chequeCategory->id }}"
+                                                {{ old('cheque_category_id', $orderData->cheque_category_id ?? '') == $chequeCategory->id ? 'selected' : '' }}>
+                                                {{ $chequeCategory->chequeName }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
 
                                 <!-- Voided Cheque File -->
@@ -132,10 +139,6 @@
                                     <label class="form-label" for="voided_cheque_file">Voided Cheque File</label>
                                     <input type="file" class="form-control" name="voided_cheque_file"
                                         id="voided_cheque_file" />
-                                    {{-- @if (isset($orderData) && $orderData->voided_cheque_file)
-                                        <a href="{{ asset('assets/front/img/' . $orderData->voided_cheque_file) }}"
-                                            target="_blank">View File</a>
-                                    @endif --}}
                                 </div>
 
                                 <!-- Company Logo -->
@@ -143,27 +146,28 @@
                                     <label class="form-label" for="company_logo">Company Logo</label>
                                     <input type="file" class="form-control" name="company_logo"
                                         id="company_logo" />
-                                    {{-- @if (isset($orderData) && $orderData->company_logo)
-                                        <a href="{{ asset('assets/front/img/' . $orderData->company_logo) }}"
-                                            target="_blank">View Logo</a>
-                                    @endif --}}
                                 </div>
 
                                 <!-- Vendor ID -->
                                 <div class="mb-3">
                                     <label class="form-label" for="vendor_id">Vendor ID</label>
-                                    <input type="text" class="form-control" name="vendor_id" id="vendor_id"
-                                        value="{{ old('vendor_id', $orderData->vendor_id ?? '') }}" required />
+                                    <select class="form-control" name="vendor_id" id="vendor_id" required>
+                                        <option value="">Select a Customer</option>
+                                        @foreach (\App\Models\User::all() as $user)
+                                            @if ($user->role === 'vendor')
+                                                <option value="{{ $user->id }}"
+                                                    {{ old('vendor_id', $orderData->vendor_id ?? '') == $user->id ? 'selected' : '' }}>
+                                                    {{ $user->firstname }}
+                                                </option>
+                                            @endif
+                                        @endforeach
+                                    </select>
                                 </div>
 
                                 <!-- Cheque Image -->
                                 <div class="mb-3">
                                     <label class="form-label" for="cheque_img">Cheque Image</label>
                                     <input type="file" class="form-control" name="cheque_img" id="cheque_img" />
-                                    {{-- @if (isset($orderData) && $orderData->cheque_img)
-                                        <a href="{{ asset('assets/front/img/' . $orderData->cheque_img) }}"
-                                            target="_blank">View Image</a>
-                                    @endif --}}
                                 </div>
 
                                 <!-- Order Status -->

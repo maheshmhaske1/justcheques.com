@@ -31,4 +31,24 @@ class Order extends Model
         'balance_status',
         'reorder',
     ];
+
+    protected $casts = [
+        'voided_cheque' => 'boolean',
+        'reorder' => 'boolean',
+    ];
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'customer_id');
+    }
+
+    public function vendor()
+    {
+        return $this->belongsTo(User::class, 'vendor_id');
+    }
+
+    public function chequeCategory()
+    {
+        return $this->belongsTo(ChequeCategories::class, 'cheque_category_id');
+    }
 }

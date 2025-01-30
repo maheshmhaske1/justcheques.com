@@ -8,12 +8,14 @@ use App\Models\Customer;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\UserCreated;
+use Illuminate\Support\Facades\Validator;
 
 class DashboardController extends Controller
 {
@@ -25,11 +27,15 @@ class DashboardController extends Controller
         $totalCustomer = Customer::count();
         $totalVendor = User::where('role', 'vendor')->count();
 
+        $totalPending = Order::where('order_status', 'pending')->count();
+        $totalCompleted = Order::where('order_status', 'completed')->count();
+        $totalProcessing = Order::where('order_status', 'processing')->count();
+
         // Paginate users and orders
         $users = User::paginate(10); // Adjust the number of items per page as needed
         $orders = Order::paginate(10);
 
-        return view('admin/partials/dashboard/dashboard', compact('totalUsers', 'totalOrder', 'totalVendor', 'totalCustomer', 'users', 'orders'));
+        return view('admin/partials/dashboard/dashboard', compact('totalUsers', 'totalOrder', 'totalVendor', 'totalCustomer', 'users', 'orders', 'totalPending', 'totalCompleted', 'totalProcessing'));
     }
 
     public function orders()
@@ -56,43 +62,50 @@ class DashboardController extends Controller
 
     public function userStore(Request $request)
     {
-        // Validate and store user data
-        $request->validate([
+        // Validate the incoming request
+        $validator = Validator::make($request->all(), [
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
             'telephone' => 'nullable|string|max:15',
             'company' => 'nullable|string|max:255',
-            'street_address' => 'required|string',
+            'street_address' => 'required|string|max:255',
             'suburb' => 'nullable|string|max:255',
-            'buzzer_code' => 'nullable|string|max:50',
-            'city' => 'nullable|string|max:255',
-            'postcode' => 'nullable|string|max:10',
-            'state' => 'required|string|max:50',
-            'country' => 'nullable|string|max:255',
-            'email' => 'required|email|max:255',
-            'email_verified_at' => 'nullable|string|',
-            'password' => 'required|max:16',
-            'role' => 'required|in:vendor,admin',
+            'buzzer_code' => 'nullable|string|max:10',
+            'city' => 'required|string|max:255',
+            'postcode' => 'required|string|max:10',
+            'state' => 'required|string|max:255',
+            'country' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'email_verified_at' => 'nullable|same:email',
+            'password' => 'required|string',
+            'role' => 'required|string|in:vendor,admin',
+        ], [
+            'email.unique' => 'The email address is already registered.',
         ]);
-        // Create user
-        $user = User::create([
-            'firstname' => $request->firstname,
-            'lastname' => $request->lastname,
-            'telephone' => $request->telephone,
-            'company' => $request->company,
-            'street_address' => $request->street_address,
-            'suburb' => $request->suburb,
-            'buzzer_code' => $request->buzzer_code,
-            'city' => $request->city,
-            'postcode' => $request->postcode,
-            'state' => $request->state,
-            'country' => $request->country,
-            'email' => $request->email,
-            'email_verified_at' => $request->email_verified_at,
-            'password' => Hash::make($request->password),
-            'role' => $request->role,
-        ]);
-        return redirect()->back()->with('success', 'User created successfully.');
+
+        if ($validator->fails()) {
+            return back()->with('error', 'The email address is already registered.!');
+        }
+
+        // Create a new user
+        $userData = new User();
+        $userData->firstname = $request->input('firstname');
+        $userData->lastname = $request->input('lastname');
+        $userData->telephone = $request->input('telephone');
+        $userData->company = $request->input('company');
+        $userData->street_address = $request->input('street_address');
+        $userData->suburb = $request->input('suburb');
+        $userData->buzzer_code = $request->input('buzzer_code');
+        $userData->city = $request->input('city');
+        $userData->postcode = $request->input('postcode');
+        $userData->state = $request->input('state');
+        $userData->country = $request->input('country');
+        $userData->email = $request->input('email');
+        $userData->role = $request->input('role');
+        $userData->password = Hash::make($request->input('password'));
+        $userData->save();
+
+        return redirect()->route('admin.users')->with('success', 'User created successfully!');
     }
 
     public function userEdit($id)
@@ -113,34 +126,44 @@ class DashboardController extends Controller
 
     public function userUpdate(Request $request, $id)
     {
-        $user = User::findOrFail($id);
-
-        // Validation
-        $request->validate([
+        // Validate the incoming request
+        $validator = Validator::make($request->all(), [
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
             'telephone' => 'nullable|string|max:15',
             'company' => 'nullable|string|max:255',
-            'street_address' => 'required|string',
+            'street_address' => 'required|string|max:255',
             'suburb' => 'nullable|string|max:255',
-            'buzzer_code' => 'nullable|string|max:50',
-            'city' => 'nullable|string|max:255',
-            'postcode' => 'nullable|string|max:10',
-            'state' => 'required|string|max:50',
-            'country' => 'nullable|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . $id,
-            'password' => 'nullable|string|min:8|max:16',
-            'role' => 'required|in:vendor,admin',
+            'buzzer_code' => 'nullable|string|max:10',
+            'city' => 'required|string|max:255',
+            'postcode' => 'required|string|max:10',
+            'state' => 'required|string|max:255',
+            'country' => 'required|string|max:255',
+            'email' => 'required|email',
+            'email_verified_at' => 'nullable|same:email',
+            'password' => 'required|string',
+            'role' => 'required|string|in:vendor,admin',
         ]);
 
-        $data = $request->except('password');
-        if ($request->filled('password')) {
-            $data['password'] = Hash::make($request->password);
-        }
+        // Create a new user
+        $userData = User::findOrFail($id);
+        $userData->firstname = $request->input('firstname');
+        $userData->lastname = $request->input('lastname');
+        $userData->telephone = $request->input('telephone');
+        $userData->company = $request->input('company');
+        $userData->street_address = $request->input('street_address');
+        $userData->suburb = $request->input('suburb');
+        $userData->buzzer_code = $request->input('buzzer_code');
+        $userData->city = $request->input('city');
+        $userData->postcode = $request->input('postcode');
+        $userData->state = $request->input('state');
+        $userData->country = $request->input('country');
+        $userData->email = $request->input('email');
+        $userData->role = $request->input('role');
+        $userData->password = Hash::make($request->input('password'));
+        $userData->update();
 
-        $user->update($data);
-
-        return redirect()->route('admin')->with('success', 'User updated successfully.');
+        return redirect()->route('admin.users')->with('success', 'User updated successfully!');
     }
 
     public function userDestroy($id)
@@ -155,55 +178,60 @@ class DashboardController extends Controller
 
     public function orderStore(Request $request)
     {
-        $request->validate([
-            'customer_id' => 'required|string',
+        $validated = $request->validate([
+            'customer_id' => 'required|',
             'quantity' => 'required|integer',
             'color' => 'nullable|string',
             'company_info' => 'nullable|string',
-            'voided_cheque' => 'nullable|string',
+            'voided_cheque' => 'nullable',
             'institution_number' => 'nullable|string',
             'transit_number' => 'nullable|string',
             'account_number' => 'nullable|string',
-            'confirm_account_number' => 'nullable|string',
+            'confirm_account_number' => 'nullable|string|same:account_number',
             'cheque_start_number' => 'nullable|string',
-            'cart_quantity' => 'required|integer',
-            'cheque_category_id' => 'nullable|string',
-            'voided_cheque_file' => 'nullable|file',
-            'company_logo' => 'nullable|file',
-            'vendor_id' => 'required|string',
-            'cheque_img' => 'nullable|file',
+            'cheque_end_number' => 'nullable|string',
+            'cart_quantity' => 'required|integer|min:1',
+            'cheque_category_id' => 'required',
+            'vendor_id' => 'required',
             'order_status' => 'nullable|string',
             'balance_status' => 'nullable|string',
             'reorder' => 'nullable|string',
+            'voided_cheque_file' => 'nullable',
+            'company_logo' => 'nullable',
+            'cheque_img' => 'nullable',
         ]);
-        $order = new Order($request->all());
 
+        $order = new Order($request->except(['voided_cheque_file', 'company_logo', 'cheque_img']));
+
+        // Handle file uploads - store hashed names only
         if ($request->hasFile('voided_cheque_file')) {
             $file = $request->file('voided_cheque_file');
-            $hash = md5(uniqid($file->getClientOriginalName(), true));
-            $filename = $hash . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('assets/front/img'), $filename);
-            $order->voided_cheque_file = $filename;
+            $filename = md5(uniqid()) . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('public/logos', $filename); // Store in storage
+            $order->voided_cheque_file = $filename; // Save only filename
         }
 
         if ($request->hasFile('company_logo')) {
             $file = $request->file('company_logo');
-            $hash = md5(uniqid($file->getClientOriginalName(), true));
-            $filename = $hash . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('assets/front/img'), $filename);
+            $filename = md5(uniqid()) . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('public/logos', $filename);
             $order->company_logo = $filename;
         }
 
         if ($request->hasFile('cheque_img')) {
             $file = $request->file('cheque_img');
-            $hash = md5(uniqid($file->getClientOriginalName(), true));
-            $filename = $hash . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('assets/front/img'), $filename);
+            $filename = md5(uniqid()) . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('public/logos', $filename);
             $order->cheque_img = $filename;
         }
 
-        $order->save();
+        // Set default values for order_status and balance_status
+        $order->order_status = 'pending';
+        $order->balance_status = 'pending';
+        $order->reorder = '1';
 
+        // Save the order to the database
+        $order->save();
         return redirect()->route('admin.orders')->with('success', 'Order created successfully!');
     }
 
@@ -225,69 +253,52 @@ class DashboardController extends Controller
 
     public function orderUpdate(Request $request, $id)
     {
-        $request->validate([
-            'customer_id' => 'required|string',
+        $validated = $request->validate([
+            'customer_id' => 'required|',
             'quantity' => 'required|integer',
             'color' => 'nullable|string',
             'company_info' => 'nullable|string',
-            'voided_cheque' => 'nullable|string',
+            'voided_cheque' => 'nullable',
             'institution_number' => 'nullable|string',
             'transit_number' => 'nullable|string',
             'account_number' => 'nullable|string',
-            'confirm_account_number' => 'nullable|string',
+            'confirm_account_number' => 'nullable|string|same:account_number',
             'cheque_start_number' => 'nullable|string',
-            'cart_quantity' => 'required|integer',
-            'cheque_category_id' => 'nullable|string',
-            'voided_cheque_file' => 'nullable|file',
-            'company_logo' => 'nullable|file',
-            'vendor_id' => 'required|string',
-            'cheque_img' => 'nullable|file',
+            'cheque_end_number' => 'nullable|string',
+            'cart_quantity' => 'required|integer|min:1',
+            'cheque_category_id' => 'required',
+            'vendor_id' => 'required',
             'order_status' => 'nullable|string',
             'balance_status' => 'nullable|string',
             'reorder' => 'nullable|string',
+            'voided_cheque_file' => 'nullable',
+            'company_logo' => 'nullable',
+            'cheque_img' => 'nullable',
         ]);
 
         // Find the order by ID
         $order = Order::findOrFail($id);
         $order->fill($request->all()); // Update fields with the request data
 
-        // Handle file uploads
+        // Handle file uploads - store hashed names only
         if ($request->hasFile('voided_cheque_file')) {
-            // Delete old file if exists
-            if ($order->voided_cheque_file) {
-                File::delete(public_path('assets/front/img/' . $order->voided_cheque_file));
-            }
-
             $file = $request->file('voided_cheque_file');
-            $hash = md5(uniqid($file->getClientOriginalName(), true));
-            $filename = $hash . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('assets/front/img'), $filename);
-            $order->voided_cheque_file = $filename;
+            $filename = md5(uniqid()) . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('public/logos', $filename); // Store in storage
+            $order->voided_cheque_file = $filename; // Save only filename
         }
 
         if ($request->hasFile('company_logo')) {
-            // Delete old file if exists
-            if ($order->company_logo) {
-                File::delete(public_path('assets/front/img/' . $order->company_logo));
-            }
-
             $file = $request->file('company_logo');
-            $hash = md5(uniqid($file->getClientOriginalName(), true));
-            $filename = $hash . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('assets/front/img'), $filename);
+            $filename = md5(uniqid()) . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('public/logos', $filename);
             $order->company_logo = $filename;
         }
 
         if ($request->hasFile('cheque_img')) {
-            // Delete old file if exists
-            if ($order->cheque_img) {
-                File::delete(public_path('assets/front/img/' . $order->cheque_img));
-            }
-
             $file = $request->file('cheque_img');
-            $hash = md5(uniqid($file->getClientOriginalName(), true));
-            $filename = $hash . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('assets/front/img'), $filename);
+            $filename = md5(uniqid()) . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('public/logos', $filename);
             $order->cheque_img = $filename;
         }
 
@@ -314,22 +325,29 @@ class DashboardController extends Controller
 
     public function customerStore(Request $request)
     {
-        $validated = $request->validate([
+        $validator = Validator::make($request->all(), [
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
-            'telephone' => 'required|string|max:20',
+            'telephone' => 'nullable|string|max:15',
             'company' => 'nullable|string|max:255',
             'street_address' => 'required|string|max:255',
             'suburb' => 'nullable|string|max:255',
-            'buzzer_code' => 'nullable|string|max:255',
+            'buzzer_code' => 'nullable|string|max:10',
             'city' => 'required|string|max:255',
             'postcode' => 'required|string|max:10',
             'state' => 'required|string|max:255',
             'country' => 'required|string|max:255',
             'email' => 'required|email|unique:customers,email',
-            'user_id' => 'required|exists:users,id',
+            'user_id' => 'required|',
+        ], [
+            'email.unique' => 'The email address is already registered.',
         ]);
-        Customer::create($validated);
+
+        if ($validator->fails()) {
+            return back()->with('error', 'The email address is already registered.!');
+        }
+        // Create a new customer
+        $customer = Customer::create($request->all());
 
         return redirect()->route('admin.customer')->with('success', 'Customer added successfully.');
     }
@@ -345,24 +363,25 @@ class DashboardController extends Controller
     {
         $customer = Customer::findOrFail($id);
 
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
-            'telephone' => 'required|string|max:15',
+            'telephone' => 'nullable|string|max:15',
             'company' => 'nullable|string|max:255',
             'street_address' => 'required|string|max:255',
             'suburb' => 'nullable|string|max:255',
-            'buzzer_code' => 'nullable|string|max:255',
+            'buzzer_code' => 'nullable|string|max:10',
             'city' => 'required|string|max:255',
             'postcode' => 'required|string|max:10',
             'state' => 'required|string|max:255',
             'country' => 'required|string|max:255',
             'email' => 'required|email',
-            'user_id' => 'required|exists:users,id',
+            'user_id' => 'required|',
         ]);
+        // Create a new customer
         $customer->update($request->all());
 
-        return redirect()->route('admin.customer')->with('success', 'Customer Updated successfully.');
+        return redirect()->route('admin.customer')->with('success', 'Customer updated successfully.');
     }
 
     public function customerDestroy($id)

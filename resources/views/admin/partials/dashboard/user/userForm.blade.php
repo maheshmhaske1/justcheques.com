@@ -16,7 +16,7 @@
                         <div class="modal-header">
                             <h5 class="modal-title" id="modalCenterTitle">
                                 {{ isset($userData) ? 'Edit User' : 'Add User' }}</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            <button type="button" id="resetUser" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -125,7 +125,7 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="country">Country</label>
                                     <select class="form-control" id="country" name="country">
-                                        <option value="{{ old('country', $userData->country ?? '') }}">Canada</option>
+                                        <option value="{{ old('country', $userData->country ?? 'canada') }}">Canada</option>
                                     </select>
                                 </div>
 

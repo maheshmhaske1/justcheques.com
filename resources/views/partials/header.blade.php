@@ -5,7 +5,8 @@
                 <ul class="nav navbar-nav logoImg">
                     <li class="first-nav">
                         <a href="/">
-                            <img src="{{ asset('assets/front/img/logo/logo.webp') }}" class="img-fluid w-80 h-80 rounded" alt="Second slide" width="130px" height="40px">
+                            <img src="{{ asset('assets/front/img/logo/logo.webp') }}" class="img-fluid w-80 h-80 rounded"
+                                alt="Second slide" width="130px" height="40px">
 
                         </a>
                     </li>
@@ -46,29 +47,29 @@
                         <div class="dropdown-menu py-0" aria-labelledby="dropdownMenuButton">
                             <ul>
                                 @guest
-                                <li><a class="dropdown-item" href="/login">Login</a></li>
+                                    <li><a class="dropdown-item" href="/login">Login</a></li>
                                 @endguest
                                 @if (Auth::check() && in_array(Auth::user()->role, ['vendor', 'admin']))
-                                <li>
-                                    <a class="dropdown-item" href="{{ url('/customer-history') }}">Customers</a>
-                                </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ url('/customer-history') }}">Customers</a>
+                                    </li>
                                 @endif
                                 @if (Auth::check() && in_array(Auth::user()->role, ['vendor', 'admin']))
-                                <li>
-                                    <a class="dropdown-item" href="{{ url('/order-history') }}">Orders</a>
-                                </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ url('/order-history') }}">Orders</a>
+                                    </li>
                                 @endif
                                 @auth
-                                <li>
-                                    <a class="category-top text-decoration-none dropdown-item" href="#"
-                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                        Logout
-                                    </a>
-                                    <form id="logout-form" method="POST" action="{{ route('logout') }}"
-                                        style="display: none;">
-                                        @csrf
-                                    </form>
-                                </li>
+                                    <li>
+                                        <a class="category-top text-decoration-none dropdown-item" href="#"
+                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                            Logout
+                                        </a>
+                                        <form id="logout-form" method="POST" action="{{ route('logout') }}"
+                                            style="display: none;">
+                                            @csrf
+                                        </form>
+                                    </li>
                                 @endauth
                             </ul>
                         </div>
@@ -77,6 +78,17 @@
             </div>
         </div>
     </nav>
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @elseif(session('error'))
+        <div class="alert alert-danger alert-dismissible show" role="alert">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
 </div>
 
 <script>

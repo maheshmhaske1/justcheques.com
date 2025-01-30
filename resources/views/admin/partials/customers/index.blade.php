@@ -1,12 +1,17 @@
 @extends('admin.admin')
 @section('content')
- @if (session('success'))
+    @if (session('success'))
         <div class="alert alert-success alert-dismissible show" role="alert">
             {{ session('success') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
+    @elseif(session('error'))
+        <div class="alert alert-danger alert-dismissible show" role="alert">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     @endif
- <div class="row px-2">
+    <div class="row px-2">
         <div class="card mt-2 mb-4">
             <div class="d-flex align-items-center">
                 <h5 class="card-header heading-text"><strong>Customers</strong></h5>
@@ -58,7 +63,9 @@
                                 <td>{{ $customer->state }}</td>
                                 <td>{{ $customer->country }}</td>
                                 <td>{{ $customer->email }}</td>
-                                <td>{{ \App\Models\User::find($customer->user_id)?->firstname }} {{ \App\Models\User::find($customer->user_id)?->lastname ?? 'N/A' }} ({{ \App\Models\User::find($customer->user_id)?->role }})</td>
+                                <td>{{ \App\Models\User::find($customer->user_id)?->firstname }}
+                                    {{ \App\Models\User::find($customer->user_id)?->lastname ?? 'N/A' }}
+                                    ({{ \App\Models\User::find($customer->user_id)?->role }})</td>
                                 <td>{{ $customer->created_at }}</td>
                                 <td>
                                     <div class="dropdown">
@@ -67,10 +74,12 @@
                                             <i class="bx bx-dots-vertical-rounded"></i>
                                         </button>
                                         <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="{{ route('admin.customer.edit', $customer->id) }}"><i
+                                            <a class="dropdown-item"
+                                                href="{{ route('admin.customer.edit', $customer->id) }}"><i
                                                     class="bx bx-edit-alt me-1"></i>
                                                 Edit</a>
-                                            <form action="{{ route('admin.customer.destroy', $customer->id) }}" method="POST"
+                                            <form action="{{ route('admin.customer.destroy', $customer->id) }}"
+                                                method="POST"
                                                 onsubmit="return confirm('Are you sure you want to delete this Customer?');">
                                                 @csrf
                                                 @method('DELETE')
@@ -96,7 +105,7 @@
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         // Initialize DataTable without the default search box
         var table = $('#userTable').DataTable({
             "paging": false,
@@ -108,7 +117,7 @@
         });
 
         // Custom Search Event Listener
-        $('#customSearch').on('keyup', function () {
+        $('#customSearch').on('keyup', function() {
             table.search(this.value).draw();
         });
     });
@@ -122,7 +131,7 @@
 
 
         //on click button redirect to the index page
-        $('#resetCustomer').click(function () {
+        $('#resetCustomer').click(function() {
             window.location.href = "{{ route('admin.customer') }}";
         });
     });

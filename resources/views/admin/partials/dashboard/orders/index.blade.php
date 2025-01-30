@@ -70,7 +70,7 @@
                                         class="w-px-50 h-auto" /></td>
                                 <td><img src="{{ asset('storage/logos/' . $order->company_logo) }}" alt
                                         class="w-px-50 h-auto" /></td>
-                                <td><img src="{{ asset('assets/front/img/' . $order->cheque_img) }}" alt
+                                <td><img src="{{ asset('storage/logos/' . $order->cheque_img) }}" alt
                                         class="w-px-50 h-auto" /></td>
                                 <td>{{ $order->order_status }}</td>
                                 <td>{{ $order->balance_status }}</td>
