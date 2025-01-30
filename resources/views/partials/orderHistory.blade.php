@@ -88,8 +88,8 @@
                                     <table class="table order-history-table test">
                                         <thead>
                                             <tr>
+                                                <th class="order-number">Order Id</th>
                                                 <th class="order-date">Order Date</th>
-                                                <th class="order-number">Order Number</th>
                                                 <th class="shipping-to">Company Deatils</th>
                                                 <th class="shipping-to">Product Deatils</th>
                                                 <th class="total">Order Quantity</th>
@@ -105,8 +105,8 @@
                                             @if ($orders->isNotEmpty())
                                                 @foreach ($orders as $order)
                                                     <tr>
-                                                        <td class="order-date">{{ $order->created_at }}</td>
                                                         <td class="order-number">{{ $order->id }}</td>
+                                                        <td class="order-date">{{ $order->created_at }}</td>
                                                         <td class="shipping-to">{{ $order->company_info }}</td>
                                                         <td class="shipping-to">
                                                             {{ $chequeData->chequeName }}<br>{{ $chequeData->manual_cheque_id != 0 ? 'Manual Cheque' : 'Laser Cheque' }}<br>{{ $chequeSubCategory }}
@@ -120,9 +120,9 @@
                                                             <div class="item"><a class="fancybox-buttons"
                                                                     data-fancybox-group="button" id="mainProductImage"
                                                                     rel="productImages"
-                                                                    href="/storage/{{ $order->company_logo }}"
+                                                                    href="/storage/logos/{{ $order->company_logo }}"
                                                                     target="blank"><img
-                                                                        src="/storage/{{ $order->company_logo }}"
+                                                                        src="{{ asset('storage/logos/' . $order->company_logo) }}"
                                                                         alt="null" title="null" width="80"
                                                                         height="80"></a>
                                                             </div>
@@ -131,9 +131,9 @@
                                                             <div class="item"><a class="fancybox-buttons"
                                                                     data-fancybox-group="button" id="mainProductImage"
                                                                     rel="productImages"
-                                                                    href="/storage/{{ $order->voided_cheque_file }}"
+                                                                    href="/storage/logos/{{ $order->voided_cheque_file }}"
                                                                     target="blank"><img
-                                                                        src="/storage/{{ $order->voided_cheque_file }}"
+                                                                        src="{{ asset('storage/logos/' . $order->voided_cheque_file) }}"
                                                                         alt="null" title="null" width="80"
                                                                         height="80"></a>
                                                             </div>

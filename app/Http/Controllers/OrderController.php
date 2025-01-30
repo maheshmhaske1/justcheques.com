@@ -169,35 +169,43 @@ class OrderController extends Controller
             'cheque_img' => 'nullable',
             'reorder' => 'nullable'
         ]);
+        // Create a new Order object
+        $order = new Order($request->except(['voided_cheque_file', 'company_logo', 'cheque_img']));
 
-        // Create a new Order object with validated data
-        $order = new Order($request->all());
-
-        // Handle file uploads for 'voided_cheque_file', 'company_logo', and 'cheque_img'
+        // Handle file uploads - store hashed names only
         if ($request->hasFile('voided_cheque_file')) {
-            $order->voided_cheque_file = $request->file('voided_cheque_file')->store('public/uploads');
+            $file = $request->file('voided_cheque_file');
+            $filename = md5(uniqid()) . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('public/logos', $filename); // Store in storage
+            $order->voided_cheque_file = $filename; // Save only filename
         }
 
         if ($request->hasFile('company_logo')) {
-            $order->company_logo = $request->file('company_logo')->store('public/logos');
+            $file = $request->file('company_logo');
+            $filename = md5(uniqid()) . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('public/logos', $filename);
+            $order->company_logo = $filename;
         }
 
         if ($request->hasFile('cheque_img')) {
-            $order->cheque_img = $request->file('cheque_img')->store('public/uploads');
+            $file = $request->file('cheque_img');
+            $filename = md5(uniqid()) . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('public/logos', $filename);
+            $order->cheque_img = $filename;
         }
 
         // Set default values for order_status and balance_status
-        $order->order_status = 'pending'; // Default order status
-        $order->balance_status = 'pending'; // Default balance status
+        $order->order_status = 'pending';
+        $order->balance_status = 'pending';
         $order->reorder = '1';
 
         // Save the order to the database
         $order->save();
 
-        //auth user using id
+        // Send email notification to the authenticated user
         $user = Auth::user();
-        // Send email notification
         Mail::to($user->email)->send(new OrderPlaced($order));
+
         // Redirect to the success view
         return view('layouts/success');
     }
