@@ -124,8 +124,9 @@
                                 <!-- Country -->
                                 <div class="mb-3">
                                     <label class="form-label" for="country">Country</label>
-                                    <input type="text" class="form-control" name="country" id="country"
-                                        placeholder="Canada" value="{{ old('country', $userData->country ?? '') }}" />
+                                    <select class="form-control" id="country" name="country">
+                                        <option value="{{ old('country', $userData->country ?? '') }}">Canada</option>
+                                    </select>
                                 </div>
 
                                 <!-- Email -->
