@@ -66,9 +66,9 @@
                                 <td>{{ $order->cheque_end_number }}</td>
                                 <td>{{ $order->cart_quantity }}</td>
                                 <td>{{ $order->cheque_category_id }}</td>
-                                <td><img src="{{ asset('assets/front/img/' . $order->voided_cheque_file) }}" alt
+                                <td><img src="{{ asset('storage/logos/' . $order->voided_cheque_file) }}" alt
                                         class="w-px-50 h-auto" /></td>
-                                <td><img src="{{ asset('assets/front/img/' . $order->company_logo) }}" alt
+                                <td><img src="{{ asset('storage/logos/' . $order->company_logo) }}" alt
                                         class="w-px-50 h-auto" /></td>
                                 <td><img src="{{ asset('assets/front/img/' . $order->cheque_img) }}" alt
                                         class="w-px-50 h-auto" /></td>

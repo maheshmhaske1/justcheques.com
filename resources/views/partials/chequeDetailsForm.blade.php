@@ -50,13 +50,17 @@
                                                             <select name="customer_id" id="customer_id"
                                                                 onchange="updateFormAction()"
                                                                 class="form-control selectCustomer">
-                                                                <option selected>Choose Customer</option>
+                                                                <option value="" selected>Choose Customer</option>
                                                                 @foreach ($customers as $customer)
-                                                                    <option value="{{ $customer->id }}">
-                                                                        {{ $customer->company }}
-                                                                    </option>
+                                                                    @if (Auth::user()->id == $customer->user_id)
+                                                                        <option value="{{ $customer->id }}"
+                                                                            {{ old('customer_id') == $customer->id ? 'selected' : '' }}>
+                                                                            {{ $customer->company }}
+                                                                        </option>
+                                                                    @endif
                                                                 @endforeach
                                                             </select>
+
                                                             @if (Auth::check() && Auth::user()->role === 'vendor')
                                                                 <a href="{{ url('customer') }}">
                                                                     <input class="btn btn-default add_customer"

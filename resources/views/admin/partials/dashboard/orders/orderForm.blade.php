@@ -16,16 +16,23 @@
                         <div class="modal-header">
                             <h5 class="modal-title" id="modalCenterTitle">
                                 {{ isset($orderData) ? 'Edit Order' : 'Add Order' }}</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            <button type="button" class="btn-close" id="resetOrder" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="card-body">
                                 <!-- Customer ID -->
                                 <div class="mb-3">
-                                    <label class="form-label" for="customer_id">Customer ID</label>
-                                    <input type="text" class="form-control" name="customer_id" id="customer_id"
-                                        value="{{ old('customer_id', $orderData->customer_id ?? '') }}" required />
+                                    <label class="form-label" for="customer_id">Customer Name</label>
+                                    <select class="form-control" name="customer_id" id="customer_id" required>
+                                        <option value="">Select a Customer</option>
+                                        @foreach (\App\Models\Customer::all() as $customer)
+                                            <option value="{{ $customer->id }}"
+                                                {{ old('customer_id', $order->customer_id ?? '') == $customer->id ? 'selected' : '' }}>
+                                                {{ $customer->firstname }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
 
                                 <!-- Quantity -->
@@ -125,10 +132,10 @@
                                     <label class="form-label" for="voided_cheque_file">Voided Cheque File</label>
                                     <input type="file" class="form-control" name="voided_cheque_file"
                                         id="voided_cheque_file" />
-                                    @if (isset($orderData) && $orderData->voided_cheque_file)
+                                    {{-- @if (isset($orderData) && $orderData->voided_cheque_file)
                                         <a href="{{ asset('assets/front/img/' . $orderData->voided_cheque_file) }}"
                                             target="_blank">View File</a>
-                                    @endif
+                                    @endif --}}
                                 </div>
 
                                 <!-- Company Logo -->
@@ -136,10 +143,10 @@
                                     <label class="form-label" for="company_logo">Company Logo</label>
                                     <input type="file" class="form-control" name="company_logo"
                                         id="company_logo" />
-                                    @if (isset($orderData) && $orderData->company_logo)
+                                    {{-- @if (isset($orderData) && $orderData->company_logo)
                                         <a href="{{ asset('assets/front/img/' . $orderData->company_logo) }}"
                                             target="_blank">View Logo</a>
-                                    @endif
+                                    @endif --}}
                                 </div>
 
                                 <!-- Vendor ID -->
@@ -153,25 +160,44 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="cheque_img">Cheque Image</label>
                                     <input type="file" class="form-control" name="cheque_img" id="cheque_img" />
-                                    @if (isset($orderData) && $orderData->cheque_img)
+                                    {{-- @if (isset($orderData) && $orderData->cheque_img)
                                         <a href="{{ asset('assets/front/img/' . $orderData->cheque_img) }}"
                                             target="_blank">View Image</a>
-                                    @endif
+                                    @endif --}}
                                 </div>
 
                                 <!-- Order Status -->
                                 <div class="mb-3">
                                     <label class="form-label" for="order_status">Order Status</label>
-                                    <input type="text" class="form-control" name="order_status" id="order_status"
-                                        value="{{ old('order_status', $orderData->order_status ?? '') }}" />
+                                    @php
+                                        $orderStatus = ['complated', 'pending', 'processing'];
+                                    @endphp
+                                    <select class="form-control" name="order_status" id="order_status">
+                                        <option value="">Select Status</option>
+                                        @foreach ($orderStatus as $status)
+                                            <option value="{{ $status }}"
+                                                {{ old('state', $orderData->order_status ?? '') == $status ? 'selected' : '' }}>
+                                                {{ $status }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
 
                                 <!-- Balance Status -->
                                 <div class="mb-3">
                                     <label class="form-label" for="balance_status">Balance Status</label>
-                                    <input type="text" class="form-control" name="balance_status"
-                                        id="balance_status"
-                                        value="{{ old('balance_status', $orderData->balance_status ?? '') }}" />
+                                    @php
+                                        $orderStatus = ['complated', 'pending', 'processing'];
+                                    @endphp
+                                    <select class="form-control" name="balance_status" id="balance_status">
+                                        <option value="">Select Status</option>
+                                        @foreach ($orderStatus as $status)
+                                            <option value="{{ $status }}"
+                                                {{ old('state', $orderData->balance_status ?? '') == $status ? 'selected' : '' }}>
+                                                {{ $status }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
 
                                 <!-- Reorder -->
