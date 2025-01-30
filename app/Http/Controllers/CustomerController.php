@@ -28,24 +28,39 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        $users = new Customer;
+       $request->validate([
+            'firstname' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'telephone' => 'required|string|max:20',
+            'company' => 'nullable|string|max:255',
+            'street_address' => 'required|string|max:255',
+            'suburb' => 'nullable|string|max:255',
+            'buzzer' => 'nullable|string|max:255',
+            'city' => 'required|string|max:255',
+            'postcode' => 'required|string|max:10',
+            'zone_id' => 'required|string|max:255',
+            'zone_country_id' => 'required|string|max:255',
+            'email' => 'required|email|',
+            'user_id' => 'required',
+        ]);
+        $customer = new Customer();
+        $customer->firstname = $request->firstname;
+        $customer->lastname = $request->lastname;
+        $customer->telephone = $request->telephone;
+        $customer->company = $request->company;
+        $customer->street_address = $request->street_address;
+        $customer->suburb = $request->suburb;
+        $customer->buzzer_code = $request->buzzer; // Matches field name in DB
+        $customer->city = $request->city;
+        $customer->postcode = $request->postcode;
+        $customer->state = $request->zone_id; // Mapping zone_id to state
+        $customer->country = $request->zone_country_id; // Mapping zone_country_id to country
+        $customer->email = $request->email;
+        $customer->user_id = $request->user_id;
 
-        $users->firstname = $request->get('firstname');
-        $users->lastname = $request->get('lastname');
-        $users->telephone = $request->get('telephone');
-        $users->company = $request->get('company');
-        $users->street_address = $request->get('street_address');
-        $users->suburb = $request->get('suburb');
-        $users->buzzer_code = $request->get('buzzer');
-        $users->city = $request->get('city');
-        $users->postcode = $request->get('postcode');
-        $users->state = $request->get('zone_id');
-        $users->country = $request->get('zone_country_id');
-        $users->email = $request->get('email');
-        $users->user_id = $request->get('user_id');
-        $users->save();
+        $customer->save();
 
-        return view('partials.customer.customerForm')->with('success', 'User created successfully.');
+        return redirect()->route('customer')->with('success', 'Customer added successfully.');
     }
 
     /**
