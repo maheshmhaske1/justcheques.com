@@ -83,9 +83,9 @@
                 </a>
             </div>
         </div>
-    </div>
-    <!-- Doughnut Chart -->
-    <div class="col-lg-6 col-12 mb-6">
+    
+    <!-- Orders Status Doughnut Chart -->
+    <div class="col-lg-6 col-6 mb-6 mt-5">
         <div class="card">
             <h5 class="card-header">Orders Status</h5>
             <div class="card-body">
@@ -113,7 +113,43 @@
             </div>
         </div>
     </div>
-
+    <!-- /Doughnut Chart -->
+     <!-- Doughnut Chart -->
+    <div class="col-lg-6 col-12 mb-6 mt-5">
+        <div class="card">
+            <h5 class="card-header">Analytical Graph</h5>
+            <div class="card-body">
+                <canvas id="totalDataChart" class="chartjs mb-6"></canvas>
+                <ul class="doughnut-legend d-flex justify-content-around ps-0 mb-2 pt-1">
+                    <li class="ct-series-0 d-flex flex-column">
+                        <h5 class="mb-0 mr-5">Users</h5>
+                        <span class="badge badge-dot my-2 cursor-pointer rounded-pill"
+                            style="background-color: rgb(102, 110, 232); width:35px; height:6px;"></span>
+                        <div class="text-body-secondary">{{ number_format($totalUsers, 2) }}%</div>
+                    </li>
+                    <li class="ct-series-1 d-flex flex-column">
+                        <h5 class="mb-0 mr-2">Orders</h5>
+                        <span class="badge badge-dot my-2 cursor-pointer rounded-pill"
+                            style="background-color: rgb(40, 208, 148); width:35px; height:6px;"></span>
+                        <div class="text-body-secondary">{{ number_format($totalOrder, 2) }}%</div>
+                    </li>
+                    <li class="ct-series-2 d-flex flex-column">
+                        <h5 class="mb-0">Customers</h5>
+                        <span class="badge badge-dot my-2 cursor-pointer rounded-pill"
+                            style="background-color: rgb(253, 172, 52); width:35px; height:6px;"></span>
+                        <div class="text-body-secondary">{{ number_format($totalCustomer, 2) }}%</div>
+                    </li>
+                     <li class="ct-series-2 d-flex flex-column">
+                        <h5 class="mb-0">Vendors</h5>
+                        <span class="badge badge-dot my-2 cursor-pointer rounded-pill"
+                            style="background-color: rgb(253, 172, 52); width:35px; height:6px;"></span>
+                        <div class="text-body-secondary">{{ number_format($totalVendor, 2) }}%</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    </div>
     <!-- /Doughnut Chart -->
 @endsection
 <script src="{{ asset('assets/js/chartjs.js') }}"></script>
@@ -142,6 +178,34 @@
                 datasets: [{
                     data: [{{$totalProcessing}}, {{$totalCompleted}}, {{$totalPending}}],
                     backgroundColor: ["#666ee8", "#28d094", "#fdac34"],
+                    borderColor: "transparent",
+                }],
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    legend: {
+                        display: false,
+                    },
+                    tooltips: {
+                        enabled: true,
+                    },
+                    hover: {
+                        mode: "index",
+                    },
+                },
+            },
+        });
+
+    //total all data
+    var ctx = document.getElementById("totalDataChart").getContext("2d");
+
+        new Chart(ctx, {
+            type: "pie",
+            data: {
+                labels: ["Users", "Orders", "Customers", "Vendors"],
+                datasets: [{
+                    data: [{{$totalUsers}}, {{$totalOrder}}, {{$totalCustomer}}, {{$totalVendor}}],
+                    backgroundColor: ["rgb(113 221 55)","#666ee8", "#c569ff", "#fdac34"],
                     borderColor: "transparent",
                 }],
                 options: {
