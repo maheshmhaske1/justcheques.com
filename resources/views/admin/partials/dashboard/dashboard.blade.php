@@ -84,7 +84,41 @@
             </div>
         </div>
     </div>
+    <!-- Doughnut Chart -->
+    <div class="col-lg-6 col-12 mb-6">
+        <div class="card">
+            <h5 class="card-header">Orders Status</h5>
+            <div class="card-body">
+                <canvas id="doughnutChart" class="chartjs mb-6"></canvas>
+                <ul class="doughnut-legend d-flex justify-content-around ps-0 mb-2 pt-1">
+                    <li class="ct-series-0 d-flex flex-column">
+                        <h5 class="mb-0 mr-5">Processing</h5>
+                        <span class="badge badge-dot my-2 cursor-pointer rounded-pill"
+                            style="background-color: rgb(102, 110, 232); width:35px; height:6px;"></span>
+                        <div class="text-body-secondary">{{ number_format($totalProcessing, 2) }}%</div>
+                    </li>
+                    <li class="ct-series-1 d-flex flex-column">
+                        <h5 class="mb-0 mr-2">Completed</h5>
+                        <span class="badge badge-dot my-2 cursor-pointer rounded-pill"
+                            style="background-color: rgb(40, 208, 148); width:35px; height:6px;"></span>
+                        <div class="text-body-secondary">{{ number_format($totalCompleted, 2) }}%</div>
+                    </li>
+                    <li class="ct-series-2 d-flex flex-column">
+                        <h5 class="mb-0">Pending</h5>
+                        <span class="badge badge-dot my-2 cursor-pointer rounded-pill"
+                            style="background-color: rgb(253, 172, 52); width:35px; height:6px;"></span>
+                        <div class="text-body-secondary">{{ number_format($totalPending, 2) }}%</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- /Doughnut Chart -->
 @endsection
+<script src="{{ asset('assets/js/chartjs.js') }}"></script>
+
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         @if (isset($userData))
@@ -96,5 +130,34 @@
             var editModal = new bootstrap.Modal(document.getElementById('modalOrder'));
             editModal.show();
         @endif
+
+
+
+        var ctx = document.getElementById("doughnutChart").getContext("2d");
+
+        new Chart(ctx, {
+            type: "pie",
+            data: {
+                labels: ["Processing", "Complated", "Pending"],
+                datasets: [{
+                    data: [{{$totalProcessing}}, {{$totalCompleted}}, {{$totalPending}}],
+                    backgroundColor: ["#666ee8", "#28d094", "#fdac34"],
+                    borderColor: "transparent",
+                }],
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    legend: {
+                        display: false,
+                    },
+                    tooltips: {
+                        enabled: true,
+                    },
+                    hover: {
+                        mode: "index",
+                    },
+                },
+            },
+        });
     });
 </script>
