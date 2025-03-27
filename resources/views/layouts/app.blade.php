@@ -46,6 +46,8 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/front/css/jquery.fancybox.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/front/css/skin.css') }}" />
     <link rel="stylesheet" src="{{ asset('assets/front/css/jquery_bxslider.css') }}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
 
     <link rel="preload" data-rocket-preload as="font"
         href="https://use.fontawesome.com/releases/v4.7.0/fonts/fontawesome-webfont.woff2" crossorigin>
@@ -84,6 +86,7 @@
     <script src="{{ asset('assets/front/js/bootstrap-filestyle.min.js') }}"></script>
     <script src="{{ asset('assets/front/js/jquery-ui.min.js') }}"></script>
     <script src="{{ asset('assets/front/js/jquery.fancybox.js?v=2.1.5') }}"></script>
+    <link href='https://unpkg.com/boxicons@2.1.4/dist/boxicons.js' rel='stylesheet'>
     <!--scripts for mobile menu-->
     <link rel="stylesheet" href="{{ asset('assets/front/css/demo.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/front/css/pushy.css') }}">

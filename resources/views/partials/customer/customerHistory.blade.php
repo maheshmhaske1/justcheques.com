@@ -88,6 +88,7 @@
                                                 <th class="status">City</th>
                                                 <th class="status">State</th>
                                                 <th class="status ">Country</th>
+                                                <th class="status ">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -102,6 +103,24 @@
                                                     <td class="status">{{ $customer->city }}</td>
                                                     <td class="status ">{{ $customer->state }}</td>
                                                     <td class="status ">{{ $customer->country }}</td>
+                                                    <td class="actions">
+                                                        <!-- Edit Button -->
+                                                        <a href="{{ route('customer.edit', $customer->id) }}"
+                                                            class="btn btn-lg">
+                                                            <i class="bx bx-edit"></i>
+                                                        </a>
+
+                                                        <!-- Delete Button -->
+                                                        <form action="{{ route('customer.destroy', $customer->id) }}"
+                                                            method="POST" style="display:inline;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-lg"
+                                                                onclick="return confirm('Are you sure you want to delete this customer?')">
+                                                                <i class="bx bx-trash"></i>
+                                                            </button>
+                                                        </form>
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -109,8 +128,8 @@
                                 </div>
                             </div>
                             @if ($customers->isEmpty())
-                            <div class="centerColumn" id="noAcctHistoryDefault">
-                                You have not yet created Customer.</div>
+                                <div class="centerColumn" id="noAcctHistoryDefault">
+                                    You have not yet created Customer.</div>
                             @endif
                         </div>
                     </div><!-- top-inr-part -->

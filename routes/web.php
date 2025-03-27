@@ -138,6 +138,7 @@ Route::get('personal-cheque-list/{id}', [PersonalChequeController::class, 'show'
 
 Route::get('about-us', [AboutusController::class, 'index'])->name('about-us');
 
+Route::resource('customer', CustomerController::class)->middleware('auth');
 
 
 require __DIR__.'/auth.php';

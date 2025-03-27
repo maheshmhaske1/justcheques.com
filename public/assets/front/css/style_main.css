@@ -381,7 +381,7 @@ span {
 
 .navigation .nav.navbar-nav a {
     background: transparent none repeat scroll 0 0;
-    color:  rgb(0, 0, 0);
+    color: rgb(0, 0, 0);
     font-family: 'Montserrat', arial, sans-serif;
     font-size: 16px;
     padding: 12px 10px 15px;
@@ -465,7 +465,7 @@ span {
     float: left;
     margin-right: 1%;
     padding-right: 0;
-    width: 49%
+    width: 100%
 }
 
 .left-section,
@@ -1274,7 +1274,15 @@ body {
 
 #billing-address-wrapper .container,
 .login-details-wrapper .container {
-    width: 100%
+    width: 50%
+}
+
+.login-details-wrapper {
+    width: 100%;
+}
+.login-details-wrapper .submit-btn {
+    width: 100% !important;
+    text-align: center;
 }
 
 #billing-address-wrapper .alert,
@@ -11421,7 +11429,7 @@ label.gendr_txt {
 }
 
 .form-group.cust_formgrop {
-    width: 32% !important
+    /* width: 32% !important */
 }
 
 .form-group.cust_formgrop#is_residential_check {

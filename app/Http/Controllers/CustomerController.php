@@ -20,7 +20,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        //
+       //
     }
 
     /**
@@ -60,7 +60,7 @@ class CustomerController extends Controller
 
         $customer->save();
 
-        return redirect()->route('customer')->with('success', 'Customer added successfully.');
+        return redirect()->route('customer.history')->with('success', 'Customer added successfully.');
     }
 
     /**
@@ -68,7 +68,7 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
-        //
+        return view('customers.show', compact('customer'));
     }
 
     /**
@@ -76,7 +76,7 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
-        //
+        return view('partials/customer/editCustomerForm', compact('customer'));
     }
 
     /**
@@ -84,14 +84,35 @@ class CustomerController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
-        //
-    }
 
+        $validated = $request->validate([
+            'firstname' => 'nullable|string|max:255',
+            'lastname' => 'nullable|string|max:255',
+            'email' => 'nullable|email',
+            'telephone' => 'nullable|string|max:20',
+            'company' => 'nullable|string|max:255',
+            'street_address' => 'nullable|string|max:255',
+            'suburb' => 'nullable|string|max:255',
+            'buzzer_code' => 'nullable|string|max:255',  // Changed from 'buzzer'
+            'city' => 'nullable|string|max:255',
+            'postcode' => 'nullable|string|max:10',
+            'state' => 'nullable|string|max:2',         // Changed from 'zone_id'
+            'country' => 'nullable|string|max:255',     // Changed from 'zone_country_id'
+        ]);
+
+        $customer->update($validated);
+
+        return redirect()->route('customer.history')
+            ->with('success', 'Customer updated successfully.');
+    }
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Customer $customer)
     {
-        //
+        $customer->delete();
+
+        return redirect()->route('customer.history')
+            ->with('success', 'Customer deleted successfully.');
     }
 }
