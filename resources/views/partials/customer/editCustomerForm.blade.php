@@ -101,7 +101,7 @@
 
                                             <!-- Street Address -->
                                             <div class="form-group cust_formgrop">
-                                                <label for="street-address" class="form-label">Street Address *</label>
+                                                <label for="street-address" class="form-label">Street Address</label>
                                                 <input type="text" name="street_address" size="33" maxlength="32"
                                                     autocomplete="off" id="street-address" placeholder="Street Address"
                                                     value="{{ old('street_address', $customer->street_address) }}" required>

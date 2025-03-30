@@ -95,7 +95,7 @@
 
                                             <!-- Street Address -->
                                             <div class="form-group cust_formgrop">
-                                                <label for="street-address" class="form-label">Street Address *</label>
+                                                <label for="street-address" class="form-label">Street Address</label>
                                                 <input type="text" name="street_address" size="33" maxlength="32"
                                                     autocomplete="off" id="street-address" placeholder="Street Address"
                                                     required>
@@ -120,7 +120,7 @@
 
                                             <!-- City -->
                                             <div class="form-group cust_formgrop">
-                                                <label for="city" class="form-label">City *</label>
+                                                <label for="city" class="form-label">City</label>
                                                 <input type="text" name="city" size="33" maxlength="32"
                                                     id="city" placeholder="City" required>
                                                 <div class="alert alert-info city" style="display:none">
@@ -130,7 +130,7 @@
 
                                             <!-- Postal Code -->
                                             <div class="form-group cust_formgrop">
-                                                <label for="postcode" class="form-label">Postal Code *</label>
+                                                <label for="postcode" class="form-label">Postal Code</label>
                                                 <input type="text" name="postcode" size="11" maxlength="10"
                                                     id="postcode" placeholder="Postal Code" autocomplete="off"
                                                     required>

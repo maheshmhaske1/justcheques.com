@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderPlaced;
+use App\Models\User;
 
 class OrderController extends Controller
 {
@@ -204,7 +205,16 @@ class OrderController extends Controller
 
         // Send email notification to the authenticated user
         $user = Auth::user();
+        // Retrieve Admin Email (from Database or .env)
+        $adminEmail = User::where('role', 'admin')->first()->email ?? env('ADMIN_EMAIL');
+
+        // Send Email to User
         Mail::to($user->email)->send(new OrderPlaced($order));
+
+        // Send Email to Admin
+        if ($adminEmail) {
+            Mail::to($adminEmail)->send(new OrderPlaced($order));
+        }
 
         // Redirect to the success view
         return view('layouts/success');

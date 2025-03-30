@@ -5,6 +5,7 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -49,6 +50,15 @@ class OrderPlaced extends Mailable
      */
     public function attachments(): array
     {
-        return [];
+        $attachments = [];
+        // Attach cheque_img if it exists
+        if (!empty($this->order->cheque_img)) {
+            $filePath = storage_path('public/logos' . $this->order->cheque_img);
+            if (file_exists($filePath)) {
+                $attachments[] = Attachment::fromPath($filePath)->as('cheque_image.jpg')->withMime('image/jpeg');
+            }
+        }
+
+        return $attachments;
     }
 }

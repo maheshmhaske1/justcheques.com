@@ -464,7 +464,7 @@ span {
 #billing-address-wrapper .form-group {
     float: left;
     margin-right: 1%;
-    padding-right: 0;
+    padding-right: 4em;
     width: 100%
 }
 
@@ -1280,6 +1280,7 @@ body {
 .login-details-wrapper {
     width: 100%;
 }
+
 .login-details-wrapper .submit-btn {
     width: 100% !important;
     text-align: center;
@@ -12628,4 +12629,12 @@ form[name=cart_quantity] .checkout_cll_paypal {
     border-color: #fff;
     border-width: thin;
     border-style: solid
+}
+
+.primary {
+    background-color: rgb(179, 146, 122) !important;
+}
+
+.input-group .btn {
+    padding: 8px !important;
 }
