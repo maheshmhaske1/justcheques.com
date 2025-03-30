@@ -33,6 +33,18 @@
         .order-table th {
             background-color: #f2f2f2;
         }
+
+        .status-pending {
+            color: orange;
+        }
+
+        .status-processing {
+            color: yellow;
+        }
+
+        .status-submitted {
+            color: lightgreen;
+        }
     </style>
 </head>
 
@@ -103,18 +115,6 @@
 
     <p>We appreciate your business!</p>
 
-    <style>
-    .status-pending {
-        background-color: orange;
-    }
-    .status-processing {
-        background-color: yellow;
-    }
-    .status-submitted {
-        background-color: lightgreen;
-    }
-    /* ... your other styles ... */
-</style>
 </body>
 
 </html>

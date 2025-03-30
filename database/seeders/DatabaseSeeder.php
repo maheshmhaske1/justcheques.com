@@ -41,6 +41,25 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('admin'),
         ]);
 
+        User::factory()->create([
+            'firstname' => 'Vendor',
+            'lastname' => 'User',
+            'telephone' => '9876543210',
+            'company' => 'VendorCompany',
+            'suburb' => 'VendorSuburb',
+            'buzzer_code' => 'VendorCode',
+            'email' => 'vendor@gmail.com',
+            'street_address' => 'VendorAddress',
+            'email_verified_at' => Carbon::today(),
+            'role' => 'vendor',
+            'city' => 'VendorCity',
+            'postcode' => 'VendorPostcode',
+            'state' => 'VendorState',
+            'country' => 'VendorCountry',
+            'password' => Hash::make('vendor'),
+        ]);
+
+        
         PersonalCheque::factory()->createMany([
             [
                 'categoriesName' => 'Cheque On Top',
