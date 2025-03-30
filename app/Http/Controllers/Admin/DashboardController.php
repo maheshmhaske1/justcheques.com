@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\OrderPlaced;
 use App\Models\ChequeCategories;
 use App\Models\Customer;
 use App\Models\Order;
@@ -45,6 +46,7 @@ class DashboardController extends Controller
         // Paginate and orders
         $orders = Order::paginate(10);
 
+        // dd($orders);
         return view('admin/partials/dashboard/orders/index', compact('totalOrder', 'orders'));
     }
 
@@ -225,6 +227,7 @@ class DashboardController extends Controller
             $order->cheque_img = $filename;
         }
 
+     
         // Set default values for order_status and balance_status
         $order->order_status = 'pending';
         $order->balance_status = 'pending';
@@ -278,6 +281,15 @@ class DashboardController extends Controller
 
         // Find the order by ID
         $order = Order::findOrFail($id);
+        $customers = Customer::findOrFail($request->customer_id);
+
+        if ($order->order_status !== $request->order_status) {
+            try {
+                Mail::to($customers->email)->send(new OrderPlaced($order));
+            } catch (\Exception $e) {
+                \Log::error('Error sending order update email: ' . $e->getMessage());
+            }
+        }
         $order->fill($request->all()); // Update fields with the request data
 
         // Handle file uploads - store hashed names only
@@ -295,12 +307,16 @@ class DashboardController extends Controller
             $order->company_logo = $filename;
         }
 
+        // dd($customers);
         if ($request->hasFile('cheque_img')) {
             $file = $request->file('cheque_img');
             $filename = md5(uniqid()) . '.' . $file->getClientOriginalExtension();
             $file->storeAs('public/logos', $filename);
             $order->cheque_img = $filename;
         }
+
+
+       
 
         $order->update();
 

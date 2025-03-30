@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AdminOrder;
 use App\Models\ChequeCategories;
 use App\Models\Customer;
 use App\Models\LaserCheque;
@@ -22,6 +23,14 @@ class OrderController extends Controller
         if (Auth::check()) {
             // Retrieve all orders made by the logged-in user
             $orders = Order::where('vendor_id', Auth::user()->id)->latest()->get();
+
+            foreach ($orders as $order) {
+                // Retrieve customer details for each order
+                $customerDetails = Customer::find($order->customer_id);
+    
+                // Add customer details to the order object
+                $order->customerDetails = $customerDetails;
+            }
             // Initialize an empty array to store total prices
             $totalPrices = [];
 
@@ -29,6 +38,7 @@ class OrderController extends Controller
                 foreach ($orders as $order) {
                     // Retrieve the cheque category data
                     $chequeData = ChequeCategories::find($order->cheque_category_id);
+
 
                     if ($chequeData) {
                         // Retrieve the price from the cheque category
@@ -172,7 +182,6 @@ class OrderController extends Controller
         ]);
         // Create a new Order object
         $order = new Order($request->except(['voided_cheque_file', 'company_logo', 'cheque_img']));
-
         // Handle file uploads - store hashed names only
         if ($request->hasFile('voided_cheque_file')) {
             $file = $request->file('voided_cheque_file');
@@ -188,12 +197,15 @@ class OrderController extends Controller
             $order->company_logo = $filename;
         }
 
-        if ($request->hasFile('cheque_img')) {
-            $file = $request->file('cheque_img');
-            $filename = md5(uniqid()) . '.' . $file->getClientOriginalExtension();
-            $file->storeAs('public/logos', $filename);
-            $order->cheque_img = $filename;
+        if ($request->cheque_img) {
+        
+            $order->cheque_img = $request->cheque_img;
         }
+
+
+
+        // dd( $order);
+        $customers = Customer::findOrFail($request->customer_id);
 
         // Set default values for order_status and balance_status
         $order->order_status = 'pending';
@@ -203,18 +215,27 @@ class OrderController extends Controller
         // Save the order to the database
         $order->save();
 
+        // dd($request->all(),$order);
+
         // Send email notification to the authenticated user
         $user = Auth::user();
         // Retrieve Admin Email (from Database or .env)
-        $adminEmail = User::where('role', 'admin')->first()->email ?? env('ADMIN_EMAIL');
+        // $vendorEmail = User::where('role', 'vendor')->first()->email ?? env('VENDOR_EMAIL');
 
         // Send Email to User
-        Mail::to($user->email)->send(new OrderPlaced($order));
+       
+        Mail::to($customers->email)->send(new OrderPlaced($order));
+
+
+        // $adminEmail = User::where('role', 'admin')->first()->email ?? env('ADMIN_EMAIL');
+        // dd($adminEmail);
+        // Send Email to User
+        Mail::to($user->email)->send(new AdminOrder($order));
 
         // Send Email to Admin
-        if ($adminEmail) {
-            Mail::to($adminEmail)->send(new OrderPlaced($order));
-        }
+        // if ($adminEmail) {
+        //     Mail::to($adminEmail)->send(new AdminOrder($order));
+        // }
 
         // Redirect to the success view
         return view('layouts/success');
