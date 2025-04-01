@@ -6,7 +6,7 @@
                     <li class="first-nav">
                         <a href="/">
                             <img src="{{ asset('assets/front/img/logo/logo.webp') }}" class="img-fluid w-80 h-80 rounded"
-                                alt="Second slide" width="130px" height="40px">
+                                alt="Second slide" width="100px" height="40px">
 
                         </a>
                     </li>
@@ -16,8 +16,8 @@
                 </button>
 
             </div>
-            <div class="navbar-collapse navbar-main-collapse">
-                <ul class="nav navbar-nav navbar-right navbar-navs align-items-end">
+            <div class="navbar-collapse navbar-main-collapse navbar-main-collapse1">
+                <ul class="nav navbar-nav navbar-right navbar-right1 navbar-navs align-items-end">
                     <li class="topmenu first-nav">
                         <a href="/">
                             <i class="fa fa-home"></i>
@@ -44,8 +44,8 @@
                             id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-user fa-2x"></i>
                         </a>
-                        <div class="dropdown-menu py-0" aria-labelledby="dropdownMenuButton">
-                            <ul>
+                        <div class="dropdown-menu py-0" aria-labelledby="dropdownMenuButton" style="background-color: tan;">
+                            <ul class="">
                                 @guest
                                     <li><a class="dropdown-item" href="/login">Login</a></li>
                                 @endguest
@@ -96,3 +96,21 @@
         }
     }
 </script>
+
+<style>
+    @media screen and (max-width: 767px) {
+        .bg-change-color{
+            background-color:tan;
+        }
+
+        .navbar-main-collapse1{
+            display: flex;
+            justify-content: center;
+            text-align: center;
+        }
+        .navbar-right1{
+            padding-left: 73px;
+        }
+
+    }
+</style>

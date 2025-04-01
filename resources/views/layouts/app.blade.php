@@ -7,6 +7,7 @@
     <title>Order Business Cheques Online - Beat the Bank | ChequesPlus</title>
     {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
     <link rel="icon" href="{{ asset('assets/front/img/favicon.ico') }}" type="image/x-icon" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="shortcut icon" href="{{ asset('assets/front/img/favicon.ico') }}" type="image/x-icon" />
     <link rel="apple-touch-icon" sizes="180x180"
         href="{{ asset('assets/front/img/apple-touch-icon.png?v=1636052792') }}">
