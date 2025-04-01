@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderPlaced;
+use App\Mail\Reorder;
 use App\Models\User;
 
 class OrderController extends Controller
@@ -111,6 +112,9 @@ class OrderController extends Controller
         // Get the current authenticated user's ID (assuming they are the vendor)
         $vendorId = Auth::user()->id;
 
+        // dd($vendorId);
+        // return response()->json(['success' => true, 'message' => 'Reorder placed successfully!']);
+
         // Find the most recent order for this customer where the vendor_id matches the current user's ID
         $latestOrder = Order::where('customer_id', $customerId)
             ->where('vendor_id', $vendorId)
@@ -137,12 +141,16 @@ class OrderController extends Controller
         $reorder->cheque_start_number = $validatedData['cheque_start_number'];
         $reorder->cheque_end_number = $validatedData['cheque_end_number'];
         $reorder->reorder = '1';
-
+        $reorder->chequeCategory; 
         // Save the new order
         $reorder->save();
 
+        $customers = Customer::findOrFail($customerId);
+        Mail::to($customers->email)->send(new Reorder($reorder));
         // Return a JSON response or redirect to success page
-        return response()->json(['message' => 'Reorder placed successfully!', 'order' => $reorder], 200);
+        // return response()->json(['message' => 'Reorder placed successfully!', ], 200);
+        return response()->json(['success' => true, 'message' => 'Reorder placed successfully!','reorder' => $reorder]);
+
     }
 
 
@@ -203,7 +211,7 @@ class OrderController extends Controller
         }
 
 
-
+        $order->chequeCategory; 
         // dd( $order);
         $customers = Customer::findOrFail($request->customer_id);
 
@@ -211,6 +219,7 @@ class OrderController extends Controller
         $order->order_status = 'pending';
         $order->balance_status = 'pending';
         $order->reorder = '1';
+
 
         // Save the order to the database
         $order->save();

@@ -5,12 +5,12 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Attachment;
+use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class AdminOrder extends Mailable
+class Reorder extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -21,7 +21,6 @@ class AdminOrder extends Mailable
     public function __construct($order)
     {
         $this->order = $order;
-
         // dd($this->order);
     }
 
@@ -31,7 +30,7 @@ class AdminOrder extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Order Placed Successfully',
+            subject: 'Re-Order Placed Successfully',
         );
     }
 
@@ -41,7 +40,7 @@ class AdminOrder extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.adminplace',
+            view: 'emails.reorder',
         );
     }
 
@@ -63,6 +62,7 @@ class AdminOrder extends Mailable
                 \Log::error('Attachment company_logo not found or not readable: ' . $filePath);
             }
         }
+
 
         if (!empty($this->order->voided_cheque_file)) {
             $filePath = storage_path('app/public/logos/' . $this->order->voided_cheque_file);

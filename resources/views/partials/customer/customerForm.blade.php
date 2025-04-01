@@ -72,7 +72,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-6" style="margin-top: 39px;">
                                     <div class="mb-3">
                                         <label for="city" class="form-label">City *</label>
                                         <input type="text" name="city" id="city" class="form-control" required>

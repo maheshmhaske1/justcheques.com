@@ -138,12 +138,12 @@
                                 </div>
 
                                 <!-- Email Verified At -->
-                                <div class="mb-3">
+                                <!-- <div class="mb-3">
                                     <label class="form-label" for="email_verified_at">Email Verified At</label>
                                     <input type="text" class="form-control" name="email_verified_at"
                                         id="email_verified_at" placeholder="e.g., 2023-01-01"
                                         value="{{ old('email_verified_at', $userData->email_verified_at ?? '') }}" />
-                                </div>
+                                </div> -->
 
                                 <!-- Password -->
                                 <div class="mb-3">
