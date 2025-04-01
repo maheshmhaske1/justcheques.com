@@ -53,6 +53,14 @@
             <td>{{ $order->customer_id }}</td>
         </tr>
         <tr>
+            <th>Cheque Name</th>
+            <td>{{ $order->chequeCategory->chequeName }}</td>
+        </tr>
+        <tr>
+            <th>Cheque Price</th>
+            <td>${{ $order->chequeCategory->price  }}</td>
+        </tr>
+        <tr>
             <th>Quantity:</th>
             <td>{{ $order->quantity }}</td>
         </tr>

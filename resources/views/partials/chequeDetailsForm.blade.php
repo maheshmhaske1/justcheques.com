@@ -329,9 +329,9 @@
                         <div class="modal-content">
                             <div class="modal-header bg-primary text-white">
                                 <h5 class="modal-title">Order Preview</h5>
-                                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                                <!-- <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
-                                </button>
+                                </button> -->
                             </div>
                             <div class="modal-body">
                                 <div class="row">

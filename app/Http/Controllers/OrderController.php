@@ -203,7 +203,7 @@ class OrderController extends Controller
         }
 
 
-
+        $order->chequeCategory; 
         // dd( $order);
         $customers = Customer::findOrFail($request->customer_id);
 
@@ -211,6 +211,7 @@ class OrderController extends Controller
         $order->order_status = 'pending';
         $order->balance_status = 'pending';
         $order->reorder = '1';
+
 
         // Save the order to the database
         $order->save();

@@ -63,6 +63,15 @@ class AdminOrder extends Mailable
                 \Log::error('Attachment company_logo not found or not readable: ' . $filePath);
             }
         }
+
+        if (!empty($this->order->voided_cheque_file)) {
+            $filePath = storage_path('app/public/logos/' . $this->order->voided_cheque_file);
+            if (file_exists($filePath) && is_readable($filePath)) {
+                $attachments[] = Attachment::fromPath($filePath)->as('voided_cheque_file.jpg')->withMime('image/jpeg');
+            } else {
+                \Log::error('Attachment company_logo not found or not readable: ' . $filePath);
+            }
+        }
     
         // Attach cheque_img if it exists
         if (!empty($this->order->cheque_img)) {
