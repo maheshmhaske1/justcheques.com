@@ -17,6 +17,9 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\UserCreated;
 use Illuminate\Support\Facades\Validator;
+use App\Mail\VendorAccountCreatedMail;
+use App\Mail\NotifyAdminOfNewVendorMail;
+
 
 class DashboardController extends Controller
 {
@@ -78,6 +81,7 @@ class DashboardController extends Controller
             'state' => 'required|string|max:255',
             'country' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
+            'status' => 'nullable|in:pending,approved',
             'email_verified_at' => 'nullable|same:email',
             'password' => 'required|string',
             'role' => 'required|string|in:vendor,admin',
@@ -103,9 +107,21 @@ class DashboardController extends Controller
         $userData->state = $request->input('state');
         $userData->country = $request->input('country');
         $userData->email = $request->input('email');
+        $userData->status = 'pending';
         $userData->role = $request->input('role');
         $userData->password = Hash::make($request->input('password'));
         $userData->save();
+
+        if ($userData->role === 'vendor') {
+            // Send email to vendor
+            Mail::to($userData->email)->send(new VendorAccountCreatedMail($userData));
+
+            $adminUser = User::where('role', 'admin')->first();
+
+            if ($adminUser) {
+                Mail::to($adminUser->email)->send(new NotifyAdminOfNewVendorMail($userData));
+            }
+        }
 
         return redirect()->route('admin.users')->with('success', 'User created successfully!');
     }
@@ -142,6 +158,7 @@ class DashboardController extends Controller
             'state' => 'required|string|max:255',
             'country' => 'required|string|max:255',
             'email' => 'required|email',
+            'status' => 'nullable|in:pending,approved',
             'email_verified_at' => 'nullable|same:email',
             'password' => 'required|string',
             'role' => 'required|string|in:vendor,admin',
@@ -161,6 +178,7 @@ class DashboardController extends Controller
         $userData->state = $request->input('state');
         $userData->country = $request->input('country');
         $userData->email = $request->input('email');
+        $userData->status = $request->input('status');
         $userData->role = $request->input('role');
         $userData->password = Hash::make($request->input('password'));
         $userData->update();
@@ -227,7 +245,7 @@ class DashboardController extends Controller
             $order->cheque_img = $filename;
         }
 
-     
+
         // Set default values for order_status and balance_status
         $order->order_status = 'pending';
         $order->balance_status = 'pending';
@@ -316,7 +334,7 @@ class DashboardController extends Controller
         }
 
 
-       
+
 
         $order->update();
 

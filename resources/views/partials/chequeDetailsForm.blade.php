@@ -312,10 +312,10 @@
                                     data-toggle="modal" data-target="#previewModal">
                                     <i class="fas fa-eye"></i> Preview Order
                                 </button>
-                                <button type="submit" class="btn btn-primary"
+                                {{-- <button type="submit" class="btn btn-primary"
                                     onclick="return checkAccountNumber();">
                                     <i class="fas fa-check-circle"></i> Place Order
-                                </button>
+                                </button> --}}
                             </div>
                         </div>
                     </div>
@@ -458,8 +458,8 @@
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">
                             <i class="fas fa-edit mr-1"></i> Edit Order
                         </button>
-                        <button type="button" class="btn btn-primary"
-                            onclick="document.getElementById('chequeOrderForm').submit()">
+                        <button type="submit" class="btn btn-primary"
+                            onclick="document.getElementById('chequeOrderForm').submit()" onclick="return checkAccountNumber();">
                             <i class="fas fa-check mr-1"></i> Confirm Order
                         </button>
                     </div>

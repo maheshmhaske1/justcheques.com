@@ -26,23 +26,27 @@ class AuthenticatedSessionController extends Controller
     {
         $result = $request->authenticate();
 
-        if ($result == "We couldn't find an account with that email and password. Please try again") {
-            return back()->with('error', "We couldn't find an account with that email and password. Please try again");
-        } else {
-            $request->session()->regenerate();
-
-            // Check user role after authentication
-            $user = Auth::user();
-            if ($user->role === 'admin') {
-                return redirect()->route('admin')->with('success', "You've been successfully logged in as Admin");
-            } elseif ($user->role === 'vendor') {
-                return redirect()->route('dashboard')->with('success', "You've been successfully logged in as Vendor");
-            }
-
-            // Default fallback route if role is not matched
-            return redirect()->intended('/')->with('success', "You've been successfully logged in");
+        if ($result === "We couldn't find an account with that email and password. Please try again") {
+            return back()->with('error', $result);
         }
+
+        $request->session()->regenerate();
+
+        $user = Auth::user();
+
+        if ($user->role === 'admin') {
+            return redirect()->route('admin')->with('success', "You've been successfully logged in as Admin");
+        }
+
+        if ($user->role === 'vendor' && $user->status === 'approved') {
+            return redirect()->route('dashboard')->with('success', "You've been successfully logged in as Vendor");
+        }
+
+        // If user is not approved vendor or role is unknown
+        Auth::logout(); // recommended to force logout in such cases
+        return redirect()->route('login')->with('error', "You don't have permission to access the system.");
     }
+
 
     /**
      * Destroy an authenticated session.
@@ -55,6 +59,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/')->with('success', "You've been successfully logout in");;
+        return redirect('/')->with('success', "You've been successfully logout in");
+        ;
     }
 }

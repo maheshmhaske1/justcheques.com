@@ -125,7 +125,8 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="country">Country</label>
                                     <select class="form-control" id="country" name="country">
-                                        <option value="{{ old('country', $userData->country ?? 'canada') }}">Canada</option>
+                                        <option value="{{ old('country', $userData->country ?? 'canada') }}">Canada
+                                        </option>
                                     </select>
                                 </div>
 
@@ -136,6 +137,20 @@
                                         placeholder="john@example.com"
                                         value="{{ old('email', $userData->email ?? '') }}" required />
                                 </div>
+
+                                {{-- status field pending and approved --}}
+                                <div class="mb-3">
+                                    <label class="form-label" for="status">Status</label>
+                                    <select class="form-control" id="status" name="status">
+                                        <option value="pending"
+                                            {{ old('status', $userData->status ?? 'pending') == 'pending' ? 'selected' : '' }}>
+                                            Pending</option>
+                                        <option value="approved"
+                                            {{ old('status', $userData->status ?? 'approved') == 'approved' ? 'selected' : '' }}>
+                                            Approved</option>
+                                    </select>
+                                </div>
+
 
                                 <!-- Email Verified At -->
                                 <!-- <div class="mb-3">
