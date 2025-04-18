@@ -31,25 +31,6 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-
-        // $request->validate([
-        //     'firstname' => ['required', 'string', 'max:255'],
-        //     'lastname' => ['required', 'string', 'max:255'],
-        //     'telephone' => ['required', 'string', 'max:255'],
-        //     'company' => ['required', 'string', 'max:255'],
-        //     'street_address' => ['required', 'string', 'max:255'],
-        //     'suburb' => ['required', 'string', 'max:255'],
-        //     'buzzer_code' => ['required', 'string', 'max:255'],
-        //     'city' => ['required', 'string', 'max:255'],
-        //     'postcode' => ['required', 'string', 'max:255'],
-        //     'state' => ['required', 'string', 'max:255'],
-        //     'country' => ['required', 'string', 'max:255'],
-        //     'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-        //     'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        //     'role' => ['required', 'in:vendor,admin'],
-        // ]);
-        
-        // dd($request->all());
         $user = User::create([
             'firstname' => $request->firstname,
             'lastname' => $request->lastname,
@@ -63,14 +44,20 @@ class RegisteredUserController extends Controller
             'state' => $request->zone_id,
             'country' => $request->zone_country_id,
             'email' => $request->email_address,
+            'status' => 'pending',
             'password' => Hash::make($request->password),
             'role' => $request->role,
         ]);
 
         event(new Registered($user));
+        Mail::to($user->email)->send(new UserCreated($user));
+
+        if ($user->role === 'vendor') {
+            return redirect()->route('login')->with('success', 'Vendor account created. Please login.');
+        }
 
         Auth::login($user);
-        Mail::to($user->email)->send(new UserCreated($user));
-        return redirect(route('dashboard', absolute: false))->with('success', "Account created successfully!");
+        return redirect(route('dashboard'))->with('success', 'Account created successfully!');
     }
+
 }

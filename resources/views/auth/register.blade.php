@@ -133,11 +133,10 @@
                                         </div>
 
                                         <!-- Country Selection -->
-                                        <div class="form-group country-custom cust_formgrop">
+                                        <div class="form-group cust_formgroplgn">
                                             <select name="zone_country_id" id="country" required>
                                                 <option value="">Please Choose Your Country</option>
-                                                <option value="38" selected="selected">Canada</option>
-                                                <option value="246">United States</option>
+                                                <option value="canada" selected="selected">Canada</option>
                                             </select>
                                         </div>
                                     </div>
@@ -157,11 +156,6 @@
                                         </div>
                                     </div>
 
-                                    <!-- Email CC -->
-                                    <div class="form-group cust_formgroplgn">
-                                        <input type="email" name="email_cc" size="41" maxlength="96" id="email-address-cc" placeholder="Email CC example@example.com">
-                                    </div>
-
                                     <!-- Password -->
                                     <div class="form-group cust_formgroplgn">
                                         <input type="password" name="password" size="41" maxlength="40" id="password-new" placeholder="Password*" required>
@@ -178,7 +172,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group country-custom cust_formgrop">
+                                    <div class="form-group cust_formgroplgn">
                                             <select name="role" id="role" required>
                                                 <option value="">Please Choose Role</option>
                                                 {{-- <option value="admin" selected="selected">Admin</option> --}}
