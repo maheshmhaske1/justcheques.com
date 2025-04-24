@@ -103,7 +103,7 @@
                                                 id="quantity-plus">
                                                 <i class="fas fa-plus"></i>
                                             </button>
-                                            <span class="ml-3">cheques</span>
+                                            <span class="mx-3">cheques</span>
                                         </div>
                                         <input type="hidden" name="quantity_option" id="quantity_option" value="21">
                                     </div>
@@ -309,8 +309,8 @@
                             <div class="modal-header bg-primary text-white">
                                 <h5 class="modal-title">Order Preview</h5>
                                 <!-- <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button> -->
+                                                                                        <span aria-hidden="true">&times;</span>
+                                                                                    </button> -->
                             </div>
                             <div class="modal-body">
                                 <div class="row">
@@ -386,7 +386,8 @@
                                                                     selected</span></p>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <p><strong>Price:</strong> ${{ $chequeList->price }}</p>
+                                                            <p><strong>Price:</strong> <span
+                                                                    id="previewPrice">${{ $chequeList->price }}</span></p>
                                                             <p><strong>Color:</strong> <span id="previewColorText">Not
                                                                     selected</span></p>
                                                         </div>
@@ -434,12 +435,10 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                {{-- <button type="button" class="btn btn-secondary" id="editOrderBtn" data-dismiss="modal">
                                     <i class="fas fa-edit mr-1"></i> Edit Order
-                                </button>
-                                <button type="submit" class="btn btn-primary"
-                                    onclick="document.getElementById('chequeOrderForm').submit()"
-                                    onclick="return checkAccountNumber();">
+                                </button> --}}
+                                <button type="button" class="btn btn-primary" id="confirmOrderBtn">
                                     <i class="fas fa-check mr-1"></i> Confirm Order
                                 </button>
                             </div>
@@ -455,46 +454,31 @@
                             <div class="modal-header bg-info text-white">
                                 <h5 class="modal-title" id="reorderModalLabel">Reorder Cheques</h5>
                                 <!-- <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button> -->
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                            </button> -->
                             </div>
                             <div class="modal-body">
                                 <form id="reorderForm" action="{{ url('reorder') }}" method="POST">
                                     @csrf
                                     <div class="form-group">
-                                        <label for="reorderQuantity">Quantity</label>
-                                        <select name="quantity" id="reorderQuantity" class="form-control" required>
-                                            <option value="65" data-quantity="0" selected>Please Select Quantity
-                                            </option>
-                                            <option value="21" data-quantity="50" data-price="69">50 ( +$69.00 )
-                                            </option>
-                                            <option value="22" data-quantity="100" data-price="79">100 ( +$79.00 )
-                                            </option>
-                                            <option value="23" data-quantity="250" data-price="139">250 ( +$139.00 )
-                                            </option>
-                                            <option value="175" data-quantity="500" data-price="169">250 + 250 Cheque
-                                                Envelopes ★ Sale ★ ( +$169.00 )</option>
-                                            <option value="24" data-quantity="500" data-price="219">500 ( +$219.00 )
-                                            </option>
-                                            <option value="25" data-quantity="1000" data-price="319">1000 ★ BEST
-                                                SELLER ★ ( +$319.00 )</option>
-                                            <option value="276" data-quantity="2000" data-price="429">1000 + 1000
-                                                Cheque Envelopes ★ Sale ★ ( +$429.00 )</option>
-                                            <option value="26" data-quantity="2000" data-price="479">2000 ( +$479.00
-                                                )</option>
-                                            <option value="27" data-quantity="2500" data-price="539">2500 ( +$539.00
-                                                )</option>
-                                            <option value="28" data-quantity="3000" data-price="599">3000 ( +$599.00
-                                                )</option>
-                                            <option value="29" data-quantity="4000" data-price="759">4000 ( +$759.00
-                                                )</option>
-                                            <option value="30" data-quantity="5000" data-price="929">5000 ( +$929.00
-                                                )</option>
-                                            <option value="64" data-quantity="10000" data-price="1499">10,000 (
-                                                +$1,499.00 )</option>
-                                            <option value="244" data-quantity="15000" data-price="1799">15000 (
-                                                +$1,799.00 )</option>
-                                        </select>
+                                        <label class="font-weight-bold">Quantity <span
+                                                class="text-danger">*</span></label>
+                                        <div class="d-flex align-items-center">
+                                            <button type="button" class="btn btn-outline-secondary quantity-btn"
+                                                id="quantity-minus">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                            <input type="number" name="quantity" id="quantity"
+                                                class="form-control text-center mx-2" value="50" min="50"
+                                                step="50" required style="max-width: 80px;">
+                                            <button type="button" class="btn btn-outline-secondary quantity-btn"
+                                                id="quantity-plus">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                            <span class="mx-3">cheques</span>
+                                        </div>
+                                        <input type="hidden" name="quantity_option" id="quantity_option"
+                                            value="21">
                                     </div>
 
                                     <div class="row">
@@ -1187,5 +1171,200 @@
             }
         });
     </script>
+
+    <script>
+        // ... (keep your existing quantity/price JavaScript code) ...
+
+        // Preview functionality
+        document.getElementById('previewButton').addEventListener('click', function(e) {
+            e.preventDefault();
+            updatePreviewData();
+        });
+
+        // Confirm order button in preview modal
+        document.getElementById('confirmOrderBtn').addEventListener('click', function() {
+            if (validateForm()) {
+                document.getElementById('chequeOrderForm').submit();
+            }
+        });
+
+        function validateForm() {
+            // Add any additional form validation here
+            return true; // Return false if validation fails
+        }
+
+        function updatePreviewData() {
+            // Customer Information
+            const customerSelect = document.getElementById('customer_id');
+            document.getElementById('previewCustomer').textContent =
+                customerSelect.selectedIndex > 0 ? customerSelect.options[customerSelect.selectedIndex].text :
+                "Not selected";
+
+            // Quantity and Price
+            const quantity = document.getElementById('quantity').value;
+            const priceDisplay = document.getElementById('dynamic-price').textContent;
+            document.getElementById('previewQuantity').textContent = quantity + ' cheques';
+            document.getElementById('previewPrice').textContent = priceDisplay;
+
+            // Color Selection
+            const selectedColor = document.querySelector('input[name="color"]:checked');
+            if (selectedColor) {
+                const colorLabel = selectedColor.closest('.color-option').querySelector('span').textContent.trim();
+                document.getElementById('previewColor').textContent = colorLabel;
+                document.getElementById('previewColorText').textContent = colorLabel;
+
+                // Update color preview dot
+                const colorDot = document.querySelector('.color-preview');
+                colorDot.style.backgroundColor = getColorHex(selectedColor.value);
+
+                // Update cheque image preview
+                updateChequeImagePreview(selectedColor.value);
+            }
+
+            // Company Info
+            document.getElementById('previewCompanyInfo').textContent =
+                document.getElementById('company_info').value.trim() || "Not provided";
+
+            // Void Cheque Option
+            const voidOption = document.getElementById('voided_cheque');
+            document.getElementById('previewVoidOption').textContent =
+                voidOption.options[voidOption.selectedIndex].text || "Not selected";
+
+            // Bank Information
+            const showBankInfo = voidOption.value === 'notVoidCheck';
+            document.getElementById('previewInstitutionNumber').textContent =
+                showBankInfo ? (document.getElementById('institution_number').value || "Not provided") : "N/A";
+            document.getElementById('previewTransitNumber').textContent =
+                showBankInfo ? (document.getElementById('transit_number').value || "Not provided") : "N/A";
+
+            // Account Number (masked)
+            const accountNumber = document.getElementById('account_number').value;
+            document.getElementById('previewAccountNumber').textContent =
+                showBankInfo ? (accountNumber ? '•'.repeat(accountNumber.length) : "Not provided") : "N/A";
+
+            // Cheque Numbers
+            const startNum = document.getElementById('cheque_start_number').value;
+            const endNum = document.getElementById('cheque_end_number').value;
+            document.getElementById('previewChequeStartNumber').textContent = startNum || "Not provided";
+            document.getElementById('previewChequeEndNumber').textContent = endNum || "Not provided";
+            document.getElementById('previewChequeRange').textContent =
+                (startNum && endNum) ? `${startNum} to ${endNum}` : "Not provided";
+
+            // File uploads preview
+            previewFile(document.getElementById('voided_cheque_file'), 'voidedChequeFilePreview', 'voidedChequeText');
+            previewFile(document.getElementById('company_logo'), 'companyLogoPreview', 'companyLogoText');
+
+            // Show the modal after updating all data
+            $('#previewModal').modal('show');
+        }
+
+        function updateChequeImagePreview(colorValue) {
+            const colorImages = {
+                'Burgundy': 'Burgundy.jpg',
+                'Blue': 'Blue.jpg',
+                'Green': 'green.jpg',
+                'Tan': 'tan.jpg',
+                'Grey': 'grey.jpg',
+                'Purple': 'purple.jpg',
+                'Orange': 'orange.jpg'
+            };
+
+            if (colorImages[colorValue]) {
+                const imgPath = "{{ asset('assets/front/img/') }}/" + colorImages[colorValue];
+                document.getElementById('chequeImgPreview').src = imgPath;
+            }
+        }
+
+        function previewFile(inputElement, imgId, textId) {
+            const previewImg = document.getElementById(imgId);
+            const previewText = document.getElementById(textId);
+
+            if (inputElement.files && inputElement.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    previewImg.style.display = 'block';
+                    previewText.textContent = inputElement.files[0].name;
+                };
+                reader.readAsDataURL(inputElement.files[0]);
+            } else {
+                previewImg.style.display = 'none';
+                previewText.textContent = inputElement.value ? 'File selected (not shown)' : 'No file uploaded';
+            }
+        }
+
+        function getColorHex(colorName) {
+            const colorMap = {
+                'Burgundy': '#800020',
+                'Blue': '#0000FF',
+                'Green': '#008000',
+                'Tan': '#D2B48C',
+                'Grey': '#808080',
+                'Purple': '#800080',
+                'Orange': '#FFA500'
+            };
+            return colorMap[colorName] || '#800080';
+        }
+    </script>
+    <style>
+        /* Preview modal styles */
+        #previewModal .modal-body {
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .preview-image {
+            max-height: 200px;
+            object-fit: contain;
+        }
+
+        /* Color preview dot */
+        .color-preview {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 1px solid #ddd;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            #previewModal .modal-dialog {
+                margin: 10px auto;
+                max-width: 95%;
+            }
+
+            #previewModal .modal-body {
+                max-height: 65vh;
+            }
+        }
+    </style>
+    <style>
+        .quantity-btn {
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50% !important;
+        }
+
+        #quantity {
+            -moz-appearance: textfield;
+        }
+
+        #quantity::-webkit-outer-spin-button,
+        #quantity::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .product-price-box {
+            border-left: 4px solid #007bff;
+            max-width: 200px;
+            margin: 0 auto;
+        }
+    </style>
 
 @endsection
