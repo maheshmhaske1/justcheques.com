@@ -58,7 +58,7 @@
         </tr>
         <tr>
             <th>Cheque Price</th>
-            <td>${{ $order->chequeCategory->price  }}</td>
+            <td>${{ $order->chequeCategory->price }}</td>
         </tr>
         <tr>
             <th>Quantity:</th>
@@ -81,6 +81,18 @@
             <td>{{ $order->cheque_end_number ?? 'N/A' }}</td>
         </tr>
         <tr>
+            <th>Institution Number:</th>
+            <td>{{ $order->institution_number ?? 'N/A' }}</td>
+        </tr>
+        <tr>
+            <th>Transit Number:</th>
+            <td>{{ $order->transit_number ?? 'N/A' }}</td>
+        </tr>
+        <tr>
+            <th>Account Number:</th>
+            <td>{{ $order->account_number ?? 'N/A' }}</td>
+        </tr>
+        <tr>
             <th>Cart Quantity:</th>
             <td>{{ $order->cart_quantity }}</td>
         </tr>
@@ -90,11 +102,11 @@
         </tr>
         <tr>
             <th>Order Status:</th>
-            <td class="
-                    @if($order->order_status === 'pending') status-pending
+            <td
+                class="
+                    @if ($order->order_status === 'pending') status-pending
                     @elseif($order->order_status === 'processing') status-processing
-                    @elseif($order->order_status === 'submitted') status-submitted
-                    @endif
+                    @elseif($order->order_status === 'submitted') status-submitted @endif
                 ">
                 {{ $order->order_status }}
             </td>
@@ -112,17 +124,20 @@
     <p>We appreciate your business!</p>
 
     <style>
-    .status-pending {
-        background-color: orange;
-    }
-    .status-processing {
-        background-color: yellow;
-    }
-    .status-submitted {
-        background-color: lightgreen;
-    }
-    /* ... your other styles ... */
-</style>
+        .status-pending {
+            background-color: orange;
+        }
+
+        .status-processing {
+            background-color: yellow;
+        }
+
+        .status-submitted {
+            background-color: lightgreen;
+        }
+
+        /* ... your other styles ... */
+    </style>
 </body>
 
 </html>

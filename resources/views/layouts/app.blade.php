@@ -6,17 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Business Cheques Online - Beat the Bank | ChequesPlus</title>
     {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
-    <link rel="icon" href="{{ asset('assets/front/img/favicon.ico') }}" type="image/x-icon" />
+    <link rel="icon" href="{{ asset('assets/front/img/favicon.webp') }}" type="image/x-icon" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="shortcut icon" href="{{ asset('assets/front/img/favicon.ico') }}" type="image/x-icon" />
+    <link rel="shortcut icon" href="{{ asset('assets/front/img/favicon.webp') }}" type="image/x-icon" />
     <link rel="apple-touch-icon" sizes="180x180"
-        href="{{ asset('assets/front/img/apple-touch-icon.png?v=1636052792') }}">
+        href="{{ asset('assets/front/img/favicon.webp') }}">
     <link rel="icon" type="image/png" sizes="32x32"
-        href="{{ asset('assets/front/img/favicon-32x32.png?v=1636052792') }}">
+        href="{{ asset('assets/front/img/favicon.webp') }}">
     <link rel="icon" type="image/png" sizes="16x16"
-        href="{{ asset('assets/front/img/favicon-16x16.png?v=1636052792') }}">
-    <link rel="mask-icon" href="{{ asset('assets/front/img/safari-pinned-tab.svg?v=1636052792') }}" color="#5bbad5">
-    <link rel="shortcut icon" href="{{ asset('assets/front/img/favicon.ico?v=1636052792') }}">
+        href="{{ asset('assets/front/img/favicon.webp') }}">
+    <link rel="mask-icon" href="{{ asset('assets/front/img/favicon.webp') }}" color="#5bbad5">
+    <link rel="shortcut icon" href="{{ asset('assets/front/img/favicon.webp') }}">
 
     <link rel="stylesheet" href="{{ asset('assets/front/css/style-shipping.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/front/css/style_custom_footer.css') }}">

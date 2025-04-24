@@ -82,7 +82,8 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="account_number">Account Number</label>
                                     <input type="text" class="form-control" name="account_number" id="account_number"
-                                        value="{{ old('account_number', $orderData->account_number ?? '') }}" />
+                                        value="{{ old('account_number', $orderData->account_number ?? '') }}"
+                                        required />
                                 </div>
 
                                 <!-- Confirm Account Number -->
@@ -92,6 +93,9 @@
                                     <input type="text" class="form-control" name="confirm_account_number"
                                         id="confirm_account_number"
                                         value="{{ old('confirm_account_number', $orderData->confirm_account_number ?? '') }}" />
+                                    <div id="accountNumberError" class="text-danger" style="display: none;">
+                                        Account numbers do not match!
+                                    </div>
                                 </div>
 
                                 <!-- Cheque Start Number -->
@@ -223,3 +227,34 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        // Real-time validation for account numbers
+        $('#account_number, #confirm_account_number').on('keyup', function() {
+            validateAccountNumbers();
+        });
+
+        // Form submission validation
+        $('#orderForm').on('submit', function(e) {
+            if (!validateAccountNumbers()) {
+                e.preventDefault();
+                $('#accountNumberError').show();
+            }
+        });
+
+        function validateAccountNumbers() {
+            const accountNumber = $('#account_number').val();
+            const confirmAccountNumber = $('#confirm_account_number').val();
+
+            if (accountNumber && confirmAccountNumber && accountNumber !== confirmAccountNumber) {
+                $('#accountNumberError').show();
+                $('#submitBtn').prop('disabled', true);
+                return false;
+            } else {
+                $('#accountNumberError').hide();
+                $('#submitBtn').prop('disabled', false);
+                return true;
+            }
+        }
+    });
+</script>
