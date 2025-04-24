@@ -309,8 +309,8 @@
                             <div class="modal-header bg-primary text-white">
                                 <h5 class="modal-title">Order Preview</h5>
                                 <!-- <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                                                                                        <span aria-hidden="true">&times;</span>
-                                                                                    </button> -->
+                                                                                            <span aria-hidden="true">&times;</span>
+                                                                                        </button> -->
                             </div>
                             <div class="modal-body">
                                 <div class="row">
@@ -454,58 +454,61 @@
                             <div class="modal-header bg-info text-white">
                                 <h5 class="modal-title" id="reorderModalLabel">Reorder Cheques</h5>
                                 <!-- <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                                                                                <span aria-hidden="true">&times;</span>
-                                                                            </button> -->
+                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                </button> -->
                             </div>
                             <div class="modal-body">
-                                <form id="reorderForm" action="{{ url('reorder') }}" method="POST">
-                                    @csrf
-                                    <div class="form-group">
-                                        <label class="font-weight-bold">Quantity <span
-                                                class="text-danger">*</span></label>
-                                        <div class="d-flex align-items-center">
-                                            <button type="button" class="btn btn-outline-secondary quantity-btn"
-                                                id="quantity-minus">
-                                                <i class="fas fa-minus"></i>
-                                            </button>
-                                            <input type="number" name="quantity" id="quantity"
-                                                class="form-control text-center mx-2" value="50" min="50"
-                                                step="50" required style="max-width: 80px;">
-                                            <button type="button" class="btn btn-outline-secondary quantity-btn"
-                                                id="quantity-plus">
-                                                <i class="fas fa-plus"></i>
-                                            </button>
-                                            <span class="mx-3">cheques</span>
+                                <form id="reorderForm">
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Quantity <span
+                                                    class="text-danger">*</span></label>
+                                            <div class="d-flex align-items-center">
+                                                <button type="button" class="btn btn-outline-secondary quantity-btn"
+                                                    id="reorder-quantity-minus">
+                                                    <i class="fas fa-minus"></i>
+                                                </button>
+                                                <input type="number" name="quantity" id="reorder-quantity"
+                                                    class="form-control text-center mx-2" value="50" min="50"
+                                                    step="50" required style="max-width: 80px;">
+                                                <button type="button" class="btn btn-outline-secondary quantity-btn"
+                                                    id="reorder-quantity-plus">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                                <span class="mx-3">cheques</span>
+                                            </div>
                                         </div>
-                                        <input type="hidden" name="quantity_option" id="quantity_option"
-                                            value="21">
-                                    </div>
 
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="reorderChequeStartNumber">Cheque Start Number</label>
-                                                <input type="text" class="form-control" id="reorderChequeStartNumber"
-                                                    name="cheque_start_number" placeholder="Start number" required>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="reorderChequeStartNumber">Cheque Start Number <span
+                                                            class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control"
+                                                        id="reorderChequeStartNumber" name="cheque_start_number"
+                                                        placeholder="Start number" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="reorderChequeEndNumber">Cheque End Number <span
+                                                            class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control"
+                                                        id="reorderChequeEndNumber" name="cheque_end_number"
+                                                        placeholder="End number" required>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="reorderChequeEndNumber">Cheque End Number</label>
-                                                <input type="text" class="form-control" id="reorderChequeEndNumber"
-                                                    name="cheque_end_number" placeholder="End number" required>
-                                            </div>
-                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                            <i class="fas fa-times"></i> Cancel
+                                        </button>
+                                        <button type="submit" class="btn btn-info">
+                                            <i class="fas fa-check"></i> Place Reorder
+                                        </button>
                                     </div>
                                 </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                                    <i class="fas fa-times"></i> Cancel
-                                </button>
-                                <button type="button" class="btn btn-info" id="submitReorderForm">
-                                    <i class="fas fa-check"></i> Place Reorder
-                                </button>
                             </div>
                         </div>
                     </div>
@@ -781,6 +784,86 @@
             }
         }
     </style>
+
+    <script>
+        $(document).ready(function() {
+            // Reorder quantity controls
+            $('#reorder-quantity-plus').click(function() {
+                let currentVal = parseInt($('#reorder-quantity').val());
+                let newVal = currentVal + 50;
+                $('#reorder-quantity').val(newVal);
+            });
+
+            $('#reorder-quantity-minus').click(function() {
+                let currentVal = parseInt($('#reorder-quantity').val());
+                if (currentVal > 50) {
+                    $('#reorder-quantity').val(currentVal - 50);
+                }
+            });
+
+            // Handle reorder form submission
+            $('#reorderForm').submit(function(e) {
+                e.preventDefault();
+
+                const customerId = $('#reorder-button').data('customer-id');
+                const formData = $(this).serialize();
+
+                // Show loading state
+                const submitBtn = $(this).find('[type="submit"]');
+                submitBtn.prop('disabled', true).html(
+                    '<i class="fas fa-spinner fa-spin"></i> Processing...');
+
+                $.ajax({
+                    url: `/reorder/${customerId}`,
+                    type: 'POST',
+                    data: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            $('#reorder').modal('hide');
+                            // Show success message
+                            alert('Reorder placed successfully!');
+                            // Optional: redirect or refresh
+                            window.location.href = "{{ route('success') }}";
+                        } else {
+                            alert('Error: ' + (response.message || 'Unknown error occurred'));
+                        }
+                    },
+                    error: function(xhr) {
+                        let errorMsg = 'Failed to place reorder. Please try again.';
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            errorMsg = xhr.responseJSON.message;
+                        } else if (xhr.responseJSON && xhr.responseJSON.errors) {
+                            errorMsg = Object.values(xhr.responseJSON.errors).join('\n');
+                        }
+                        alert(errorMsg);
+                    },
+                    complete: function() {
+                        submitBtn.prop('disabled', false).html(
+                            '<i class="fas fa-check"></i> Place Reorder');
+                    }
+                });
+            });
+
+            // When customer changes, check for reorder eligibility
+            $('#customer_id').change(function() {
+                const customerId = $(this).val();
+                if (customerId) {
+                    $.get(`/check-orders/${customerId}`, function(data) {
+                        if (data.hasOrders) {
+                            $('#reorder-button').show().data('customer-id', customerId);
+                        } else {
+                            $('#reorder-button').hide();
+                        }
+                    });
+                } else {
+                    $('#reorder-button').hide();
+                }
+            });
+        });
+    </script>
 
     <script>
         // JavaScript functions would go here

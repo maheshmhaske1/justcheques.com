@@ -109,48 +109,56 @@ class OrderController extends Controller
 
     public function reorder(Request $request, $customerId)
     {
-        // Get the current authenticated user's ID (assuming they are the vendor)
-        $vendorId = Auth::user()->id;
+        try {
+            // Validate the request
+            $validatedData = $request->validate([
+                'cheque_start_number' => 'required|integer',
+                'cheque_end_number' => 'required|integer|gte:cheque_start_number',
+                'quantity' => 'required|integer|min:50'
+            ]);
 
-        // dd($vendorId);
-        // return response()->json(['success' => true, 'message' => 'Reorder placed successfully!']);
+            // Get the current authenticated user
+            $vendorId = Auth::id();
 
-        // Find the most recent order for this customer where the vendor_id matches the current user's ID
-        $latestOrder = Order::where('customer_id', $customerId)
-            ->where('vendor_id', $vendorId)
-            ->latest()
-            ->first();
+            // Find the most recent order for this customer and vendor
+            $latestOrder = Order::where('customer_id', $customerId)
+                ->where('vendor_id', $vendorId)
+                ->latest()
+                ->firstOrFail();
 
-        // Check if an order was found
-        if (!$latestOrder) {
-            return response()->json(['error' => 'No matching order found for this customer and vendor'], 404);
+            // Create a new order by replicating the latest one
+            $reorder = $latestOrder->replicate();
+            $reorder->fill([
+                'quantity' => $validatedData['quantity'],
+                'cheque_start_number' => $validatedData['cheque_start_number'],
+                'cheque_end_number' => $validatedData['cheque_end_number'],
+                'reorder' => true,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+            $reorder->save();
+
+            // Send email notification
+            $customer = Customer::findOrFail($customerId);
+            Mail::to($customer->email)->send(new Reorder($reorder));
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Reorder placed successfully!',
+                'order' => $reorder
+            ]);
+
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No previous order found for this customer'
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to process reorder: ' . $e->getMessage()
+            ], 500);
         }
-
-        // Validate the request input except for quantity (it can be optional)
-        $validatedData = $request->validate([
-            'cheque_start_number' => 'required|integer',
-            'cheque_end_number' => 'required|integer',
-        ]);
-
-        // If quantity is provided, use it; otherwise, fallback to the last order's quantity
-        $quantity = $request->input('quantity', $latestOrder->quantity);
-
-        // Create a new order by replicating the latest one and updating fields
-        $reorder = $latestOrder->replicate(); // Replicate the latest order to create a new one
-        $reorder->quantity = $quantity; // Use the provided or last quantity
-        $reorder->cheque_start_number = $validatedData['cheque_start_number'];
-        $reorder->cheque_end_number = $validatedData['cheque_end_number'];
-        $reorder->reorder = '1';
-        $reorder->chequeCategory; 
-        // Save the new order
-        $reorder->save();
-
-        $customers = Customer::findOrFail($customerId);
-        Mail::to($customers->email)->send(new Reorder($reorder));
-        // Return a JSON response or redirect to success page
-        // return response()->json(['message' => 'Reorder placed successfully!', ], 200);
-        return response()->json(['success' => true, 'message' => 'Reorder placed successfully!','reorder' => $reorder]);
-
     }
 
 
