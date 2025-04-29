@@ -1231,3 +1231,6 @@ body {
   border: 1px solid #e3e3e3;
     font-size: 14px;
  }
+.bg-primary {
+  background-color: rgb(179, 146, 122) !important;
+}

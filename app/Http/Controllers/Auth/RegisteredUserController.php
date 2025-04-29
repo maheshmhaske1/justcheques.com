@@ -53,7 +53,7 @@ class RegisteredUserController extends Controller
         Mail::to($user->email)->send(new UserCreated($user));
 
         if ($user->role === 'vendor') {
-            return redirect()->route('login')->with('success', 'Vendor account created. Please login.');
+            return redirect()->route('login')->with('success', 'Vendor account created. Please wait for approval or contact the admin.');
         }
 
         Auth::login($user);

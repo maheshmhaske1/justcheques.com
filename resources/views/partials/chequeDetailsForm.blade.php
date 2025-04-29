@@ -94,14 +94,14 @@
                                         <div class="d-flex align-items-center">
                                             <button type="button" class="btn btn-outline-secondary quantity-btn"
                                                 id="quantity-minus">
-                                                <i class="fas fa-minus"></i>
+                                                <i class="bx bx-minus"></i>
                                             </button>
                                             <input type="number" name="quantity" id="quantity"
                                                 class="form-control text-center mx-2" value="50" min="50"
                                                 step="50" required style="max-width: 80px;">
                                             <button type="button" class="btn btn-outline-secondary quantity-btn"
                                                 id="quantity-plus">
-                                                <i class="fas fa-plus"></i>
+                                                <i class="bx bx-plus"></i>
                                             </button>
                                             <span class="mx-3">cheques</span>
                                         </div>
@@ -254,14 +254,14 @@
                                                     class="form-control" placeholder="Start number">
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        {{-- <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="cheque_end_number" class="font-weight-bold">Cheque End Number
                                                     <span class="text-danger">*</span></label>
                                                 <input type="text" name="cheque_end_number" id="cheque_end_number"
                                                     class="form-control" placeholder="End number">
                                             </div>
-                                        </div>
+                                        </div> --}}
                                     </div>
 
                                     <!-- Logo Upload -->
@@ -466,14 +466,14 @@
                                             <div class="d-flex align-items-center">
                                                 <button type="button" class="btn btn-outline-secondary quantity-btn"
                                                     id="reorder-quantity-minus">
-                                                    <i class="fas fa-minus"></i>
+                                                    <i class="bx bx-minus"></i>
                                                 </button>
                                                 <input type="number" name="quantity" id="reorder-quantity"
                                                     class="form-control text-center mx-2" value="50" min="50"
                                                     step="50" required style="max-width: 80px;">
                                                 <button type="button" class="btn btn-outline-secondary quantity-btn"
                                                     id="reorder-quantity-plus">
-                                                    <i class="fas fa-plus"></i>
+                                                    <i class="bx bx-plus"></i>
                                                 </button>
                                                 <span class="mx-3">cheques</span>
                                             </div>
@@ -489,7 +489,7 @@
                                                         placeholder="Start number" required>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
+                                            {{-- <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="reorderChequeEndNumber">Cheque End Number <span
                                                             class="text-danger">*</span></label>
@@ -497,7 +497,7 @@
                                                         id="reorderChequeEndNumber" name="cheque_end_number"
                                                         placeholder="End number" required>
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -1170,7 +1170,6 @@
             function increaseQuantity() {
                 let currentQty = parseInt(quantityInput.value);
                 const quantities = Object.keys(priceTiers).map(Number).sort((a, b) => a - b);
-
                 // Find next higher tier
                 for (let i = 0; i < quantities.length; i++) {
                     if (quantities[i] > currentQty) {

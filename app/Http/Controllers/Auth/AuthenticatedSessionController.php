@@ -44,7 +44,7 @@ class AuthenticatedSessionController extends Controller
 
         // If user is not approved vendor or role is unknown
         Auth::logout(); // recommended to force logout in such cases
-        return redirect()->route('login')->with('error', "You don't have permission to access the system.");
+        return redirect()->route('login')->with('error', "We are verifying your account. Your account will be activated soon.");
     }
 
 

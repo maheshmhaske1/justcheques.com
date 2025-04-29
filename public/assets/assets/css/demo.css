@@ -128,3 +128,7 @@
 .search-box-css{
   margin-right: 1em !important;
 }
+
+.bg-primary {
+  background-color: rgb(179, 146, 122) none repeat scroll 0 0 !important;
+}

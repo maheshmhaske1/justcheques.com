@@ -32,8 +32,8 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="lastname" class="form-label">Last Name *</label>
-                                        <input type="text" name="lastname" id="lastname" class="form-control" required>
+                                        <label for="lastname" class="form-label">Last Name</label>
+                                        <input type="text" name="lastname" id="lastname" class="form-control">
                                         <div class="alert alert-info mt-2 lastname" style="display:none"></div>
                                     </div>
 
@@ -50,18 +50,18 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="company" class="form-label">Company Name</label>
+                                        <label for="company" class="form-label">Company Name *</label>
                                         <input type="text" name="company" id="company" class="form-control">
                                         <div class="alert alert-info mt-2 company" style="display:none"></div>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="street-address" class="form-label">Street Address *</label>
-                                        <input type="text" name="street_address" id="street-address" class="form-control" required>
+                                        <label for="street-address" class="form-label">Street Address</label>
+                                        <input type="text" name="street_address" id="street-address" class="form-control">
                                         <div class="alert alert-info mt-2 street-address" style="display:none"></div>
                                     </div>
 
-                                    <div class="mb-3">
+                                    {{-- <div class="mb-3">
                                         <label for="suburb" class="form-label">Apt/Suite/Unit</label>
                                         <input type="text" name="suburb" id="suburb" class="form-control">
                                     </div>
@@ -69,7 +69,7 @@
                                     <div class="mb-3">
                                         <label for="buzzerCode" class="form-label">Buzzer Code</label>
                                         <input type="text" name="buzzer" id="buzzerCode" class="form-control">
-                                    </div>
+                                    </div> --}}
                                 </div>
 
                                 <div class="col-md-6" style="margin-top: 39px;">
@@ -87,7 +87,7 @@
 
                                     <div class="mb-3">
                                         <label for="stateZone" class="form-label">Province/Territory *</label>
-                                        <select name="zone_id" id="stateZone" class="form-select" required>
+                                        <select name="zone_id" id="stateZone" class="form-select form-control" required>
                                             <option value="">Please select ...</option>
                                             <option value="AB">Alberta (AB)</option>
                                             <option value="BC">British Columbia (BC)</option>
@@ -108,7 +108,7 @@
 
                                     <div class="mb-3">
                                         <label for="country" class="form-label">Country *</label>
-                                        <select name="zone_country_id" id="country" class="form-select" required>
+                                        <select name="zone_country_id" id="country" class="form-select form-control" required>
                                             <option value="">Please Choose Your Country</option>
                                             <option value="Canada">Canada</option>
                                         </select>

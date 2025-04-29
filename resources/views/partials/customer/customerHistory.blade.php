@@ -61,6 +61,9 @@
                                 <a href="{{ url('customer') }}">
                                     <input class="btn btn-default add_customer" value="Add Customer">
                                 </a>
+                                 <a href="{{ url('manual-cheque-list/1') }}">
+                                    <input class="btn btn-default add_customer mx-1" value="Order Cheque">
+                                </a>
                             </div>
                         </div>
                         <div class="history-filters history-filters-top">
