@@ -82,30 +82,30 @@
                                     <table class="table order-history-table test">
                                         <thead>
                                             <tr>
-                                                <th class="order-date">First Name</th>
+                                                <!-- <th class="order-date">First Name</th>
                                                 <th class="order-number">Last Name</th>
-                                                <th class="Email-id">Email ID</th>
+                                                <th class="Email-id">Email ID</th> -->
                                                 <th class="shipping-to">Company Info</th>
                                                 <th class="total">Address</th>
                                                 <th class="total">Telephone</th>
                                                 <th class="status">City</th>
                                                 <th class="status">State</th>
-                                                <th class="status ">Country</th>
+                                                <!-- <th class="status ">Country</th> -->
                                                 <th class="status ">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($customers as $customer)
                                                 <tr>
-                                                    <td class="order-date">{{ $customer->firstname }}</td>
+                                                    <!-- <td class="order-date">{{ $customer->firstname }}</td>
                                                     <td class="order-number">{{ $customer->lastname }}</td>
-                                                    <td class="shipping-to">{{ $customer->email }}</td>
+                                                    <td class="shipping-to">{{ $customer->email }}</td> -->
                                                     <td class="quantity">{{ $customer->company }}</td>
                                                     <td class="total">{{ $customer->street_address }}</td>
                                                     <td class="status">{{ $customer->telephone }}</td>
                                                     <td class="status">{{ $customer->city }}</td>
                                                     <td class="status ">{{ $customer->state }}</td>
-                                                    <td class="status ">{{ $customer->country }}</td>
+                                                    <!-- <td class="status ">{{ $customer->country }}</td> -->
                                                     <td class="actions">
                                                         <!-- Edit Button -->
                                                         <a href="{{ route('customer.edit', $customer->id) }}"

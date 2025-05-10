@@ -1,7 +1,7 @@
 @extends('admin.admin')
 @section('content')
 @if (session('success'))
-<div class="alert alert-success alert-dismissible show" role="alert">
+<div class="alert alert-success alert-dismissible show" role="alert" style="font-size: 1.9em;">
     {{ session('success') }}
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>

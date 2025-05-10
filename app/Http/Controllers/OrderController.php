@@ -109,6 +109,7 @@ class OrderController extends Controller
 
     public function reorder(Request $request, $customerId)
     {
+        return $request->all();
         try {
             // Validate the request
             $validatedData = $request->validate([
