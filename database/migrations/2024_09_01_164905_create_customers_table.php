@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('state')->nullable();
             $table->string('country')->nullable();
             // $table->string('email')->unique();
-            $table->string('email')->unique()->nullable();
+            // $table->string('email')->unique()->nullable();
             $table->string('user_id')->nullable();
             $table->timestamps();
         });
