@@ -29,8 +29,8 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
        $request->validate([
-            'firstname' => 'required|string|max:255',
-            'lastname' => 'required|string|max:255',
+            // 'firstname' => 'required|string|max:255',
+            // 'lastname' => 'required|string|max:255',
             'telephone' => 'required|string|max:20',
             'company' => 'nullable|string|max:255',
             'street_address' => 'required|string|max:255',
@@ -39,13 +39,13 @@ class CustomerController extends Controller
             'city' => 'required|string|max:255',
             'postcode' => 'required|string|max:10',
             'zone_id' => 'required|string|max:255',
-            'zone_country_id' => 'required|string|max:255',
-            'email' => 'required|email|',
+            // 'zone_country_id' => 'required|string|max:255',
+            // 'email' => 'required|email|',
             'user_id' => 'required',
         ]);
         $customer = new Customer();
-        $customer->firstname = $request->firstname;
-        $customer->lastname = $request->lastname;
+        // $customer->firstname = $request->firstname;
+        // $customer->lastname = $request->lastname;
         $customer->telephone = $request->telephone;
         $customer->company = $request->company;
         $customer->street_address = $request->street_address;
@@ -54,8 +54,8 @@ class CustomerController extends Controller
         $customer->city = $request->city;
         $customer->postcode = $request->postcode;
         $customer->state = $request->zone_id; // Mapping zone_id to state
-        $customer->country = $request->zone_country_id; // Mapping zone_country_id to country
-        $customer->email = $request->email;
+        // $customer->country = $request->zone_country_id; // Mapping zone_country_id to country
+        // $customer->email = $request->email;
         $customer->user_id = $request->user_id;
 
         $customer->save();

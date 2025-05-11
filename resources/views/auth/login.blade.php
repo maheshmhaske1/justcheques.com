@@ -5,12 +5,12 @@
 
     <div class="container">
         @if (session('error'))
-        <div class="alert alert-danger alert-dismissible show" role="alert">
+        <div class="alert alert-danger alert-dismissible show" role="alert" style="font-size: 1.9em;">
             {{ session('error') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         @elseif (session('success'))
-        <div class="alert alert-success alert-dismissible show" role="alert">
+        <div class="alert alert-success alert-dismissible show" role="alert" style="font-size: 1.9em;">
             {{ session('success') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
