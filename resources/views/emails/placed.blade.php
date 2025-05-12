@@ -49,8 +49,8 @@
             </th>
         </tr>
         <tr>
-            <th>Customer ID:</th>
-            <td>{{ $order->customer_id }}</td>
+            <th>Company Name:</th>
+            <td>{{ $order->company }}</td>
         </tr>
         <tr>
             <th>Cheque Name</th>

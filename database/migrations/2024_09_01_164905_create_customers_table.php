@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('postcode')->nullable();
             $table->string('state')->nullable();
             $table->string('country')->nullable();
-            $table->string('email')->default('test@example.com');
+            $table->string('email')->default('test@example.com')->nullable();
             $table->string('user_id')->nullable();
             $table->timestamps();
         });

@@ -232,6 +232,8 @@ class OrderController extends Controller
 
         // Save the order to the database
         $order->save();
+        // add company name to order
+        $order->company = $customers->company;
 
         // dd($request->all(),$order);
 
@@ -241,14 +243,17 @@ class OrderController extends Controller
         // $vendorEmail = User::where('role', 'vendor')->first()->email ?? env('VENDOR_EMAIL');
 
         // Send Email to User
-       
-        Mail::to($customers->email)->send(new OrderPlaced($order));
+        if ($user->role == 'vendor') {
+            Mail::to($user->email)->send(new OrderPlaced($order));
+        }
 
 
         // $adminEmail = User::where('role', 'admin')->first()->email ?? env('ADMIN_EMAIL');
         // dd($adminEmail);
         // Send Email to User
-        Mail::to($user->email)->send(new AdminOrder($order));
+        if ($user->role == 'admin') {
+            Mail::to($user->email)->send(new AdminOrder($order));
+        }
 
         // Send Email to Admin
         // if ($adminEmail) {

@@ -28,37 +28,39 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-       $request->validate([
-            // 'firstname' => 'required|string|max:255',
-            // 'lastname' => 'required|string|max:255',
-            'telephone' => 'required|string|max:20',
-            'company' => 'nullable|string|max:255',
-            'street_address' => 'required|string|max:255',
+        $request->validate([
+            'company' => 'required|string|max:255',
+            'firstname' => 'nullable|string|max:255',
+            'lastname' => 'nullable|string|max:255',
+            'telephone' => 'nullable|string|max:20',
+            'street_address' => 'nullable|string|max:255',
             'suburb' => 'nullable|string|max:255',
-            'buzzer' => 'nullable|string|max:255',
-            'city' => 'required|string|max:255',
-            'postcode' => 'required|string|max:10',
-            'zone_id' => 'required|string|max:255',
-            // 'zone_country_id' => 'required|string|max:255',
-            // 'email' => 'required|email|',
-            'user_id' => 'required',
+            'buzzer' => 'nullable|string|max:50',
+            'city' => 'nullable|string|max:100',
+            'postcode' => 'nullable|string|max:20',
+            'zone_id' => 'nullable|string|max:100',
+            'zone_country_id' => 'nullable|string|max:100',
+            'email' => 'nullable|email|max:255',
+            'user_id' => 'nullable|integer|exists:users,id',
         ]);
+
+
         $customer = new Customer();
-        // $customer->firstname = $request->firstname;
-        // $customer->lastname = $request->lastname;
+        $customer->firstname = $request->firstname;
+        $customer->lastname = $request->lastname;
         $customer->telephone = $request->telephone;
         $customer->company = $request->company;
         $customer->street_address = $request->street_address;
         $customer->suburb = $request->suburb;
-        $customer->buzzer_code = $request->buzzer; // Matches field name in DB
+        $customer->buzzer_code = $request->buzzer;
         $customer->city = $request->city;
         $customer->postcode = $request->postcode;
-        $customer->state = $request->zone_id; // Mapping zone_id to state
-        // $customer->country = $request->zone_country_id; // Mapping zone_country_id to country
-        // $customer->email = $request->email;
+        $customer->state = $request->zone_id;
+        $customer->country = $request->zone_country_id;
+        $customer->email = $request->email;
         $customer->user_id = $request->user_id;
-
         $customer->save();
+
 
         return redirect()->route('customer.history')->with('success', 'Customer added successfully.');
     }
