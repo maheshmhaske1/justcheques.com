@@ -29,7 +29,7 @@
                                         @foreach (\App\Models\Customer::all() as $customer)
                                             <option value="{{ $customer->id }}"
                                                 {{ old('customer_id', $orderData->customer_id ?? '') == $customer->id ? 'selected' : '' }}>
-                                                {{ $customer->firstname }}
+                                                {{ $customer->company }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -83,7 +83,7 @@
                                     <label class="form-label" for="account_number">Account Number</label>
                                     <input type="text" class="form-control" name="account_number" id="account_number"
                                         value="{{ old('account_number', $orderData->account_number ?? '') }}"
-                                        required />
+                                         />
                                 </div>
 
                                 <!-- Confirm Account Number -->
@@ -154,7 +154,7 @@
 
                                 <!-- Vendor ID -->
                                 <div class="mb-3">
-                                    <label class="form-label" for="vendor_id">Vendor ID</label>
+                                    <label class="form-label" for="vendor_id">Vendor Name</label>
                                     <select class="form-control" name="vendor_id" id="vendor_id" required>
                                         <option value="">Select a Customer</option>
                                         @foreach (\App\Models\User::all() as $user)
@@ -178,7 +178,7 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="order_status">Order Status</label>
                                     @php
-                                        $orderStatus = ['complated', 'pending', 'processing'];
+                                        $orderStatus = ['Completed', 'Pending', 'Processing', 'Cancelled'];
                                     @endphp
                                     <select class="form-control" name="order_status" id="order_status">
                                         <option value="">Select Status</option>
@@ -195,7 +195,7 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="balance_status">Balance Status</label>
                                     @php
-                                        $orderStatus = ['complated', 'pending', 'processing'];
+                                        $orderStatus = ['Completed', 'Pending', 'Processing', 'Cancelled'];
                                     @endphp
                                     <select class="form-control" name="balance_status" id="balance_status">
                                         <option value="">Select Status</option>

@@ -52,7 +52,7 @@
                     @foreach ($orders as $order)
                     <tr>
                         <td><strong>{{ $loop->iteration + ($orders->currentPage() - 1) * $orders->perPage() }}</strong></td>
-                        <td>{{ \App\Models\Customer::find($order->customer_id)?->firstname }} {{ \App\Models\Customer::find($order->customer_id)?->lastname }}</td>
+                        <td>{{ \App\Models\Customer::find($order->customer_id)?->company }} {{ \App\Models\Customer::find($order->customer_id)?->lastname }}</td>
                         <td>{{ \App\Models\User::find($order->vendor_id)?->firstname }} {{ \App\Models\User::find($order->vendor_id)?->lastname }}</td>
                         <td>{{ $order->quantity }}</td>
                         <td>{{ $order->color }}</td>
