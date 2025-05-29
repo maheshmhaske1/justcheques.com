@@ -1,116 +1,238 @@
-<div class="navigation">
-    <nav class="navbar navbar-custom" role="navigation">
-        <div class="navbar-main-collapse navbar-collapse justify-content-center">
-            <div class="team">
-                <ul class="nav navbar-nav logoImg">
-                    <li class="first-nav">
-                        <a href="/">
-                            <img src="{{ asset('assets/front/img/logo/logo.webp') }}" class="img-fluid w-80 h-80 rounded"
-                                alt="Second slide" width="100px" height="40px">
+<!DOCTYPE html>
+<html lang="en">
 
-                        </a>
-                    </li>
-                </ul>
-                <button type="button" class="navbar-menu responsive-menu" onclick="team()">
-                    <i class="fa fa-bars" aria-hidden="true"></i>
-                </button>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Better Navbar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-            </div>
-            <div class="navbar-collapse navbar-main-collapse navbar-main-collapse1">
-                <ul class="nav navbar-nav navbar-right navbar-right1 navbar-navs align-items-end">
-                    <li class="topmenu first-nav">
-                        <a href="/">
-                            <i class="fa fa-home"></i>
-                        </a>
-                    </li>
-                    <!-- Category Navigation -->
-                    <li class="topmenu hasSub no-js extrimg"
-                        data-main="includes/templates/chequesplus/images/nav-images/quickbooks-cheques.png">
-                        <a class="category-top" href="{{ url('manual-cheque-list/' . 1) }}">Manual Cheques</a>
-                    </li>
-                    <li class="topmenu hasSub no-js extrimg"
-                        data-main="includes/templates/chequesplus/images/nav-images/quickbooks-cheques.png">
-                        <a class="category-top" href="{{ url('laser-cheque') }}">Laser Cheques</a>
-                    </li>
-                    <li class="topmenu extrimg" data-main="">
-                        <a class="category-top" href="{{ url('personal-cheque') }}">Personal Cheques</a>
-                    </li>
-                    <li class="topmenu hasSub no-js extrimg"
-                        data-main="includes/templates/chequesplus/images/nav-images/quickbooks-cheques.png">
-                        <a class="category-top" href="{{ url('about-us') }}">About Us</a>
-                    </li>
-                    <li class="topmenu hasSub no-js extrimg dropdown" data-main="">
-                        <a href="login" class="my-auto category-top dropdown-toggle" type="button"
-                            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-user fa-2x"></i>
-                        </a>
-                        <div class="dropdown-menu py-0" aria-labelledby="dropdownMenuButton" style="background-color: tan;">
-                            <ul class="">
-                                @guest
-                                    <li><a class="dropdown-item" href="/login">Login</a></li>
-                                @endguest
-                                @if (Auth::check() && in_array(Auth::user()->role, ['vendor', 'admin']))
-                                    <li>
-                                        <a class="dropdown-item" href="{{ url('/customer-history') }}">Customers</a>
-                                    </li>
-                                @endif
-                                @if (Auth::check() && in_array(Auth::user()->role, ['vendor', 'admin']))
-                                    <li>
-                                        <a class="dropdown-item" href="{{ url('/order-history') }}">Orders</a>
-                                    </li>
-                                @endif
-                                @auth
-                                    <li>
-                                        <a class="category-top text-decoration-none dropdown-item" href="#"
-                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                            Logout
-                                        </a>
-                                        <form id="logout-form" method="POST" action="{{ route('logout') }}"
-                                            style="display: none;">
-                                            @csrf
-                                        </form>
-                                    </li>
-                                @endauth
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-</div>
+        body {
+            font-family: Arial, sans-serif;
+        }
 
-<script>
-    function team() {
-        const navbarCollapse = document.querySelector('.navbar-collapse');
+        nav {
+            background-color: tan;
+            padding: 10px 20px;
+            position: relative;
+            z-index: 10;
+        }
 
-        if (navbarCollapse) {
-            // If navbar-collapse exists, remove it
-            navbarCollapse.classList.toggle('navbar-collapse');
-        } else {
-            // If navbar-collapse doesn't exist, add it to the first element with the class "navbar-collapse"
-            const navbar = document.querySelector('.navbar-main-collapse');
-            if (navbar) {
-                navbar.classList.add('navbar-collapse');
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo img {
+            width: 120px;
+            height: auto;
+        }
+
+        .menu {
+            display: flex;
+            list-style: none;
+            justify-content: flex-end;
+        }
+
+        .menu li a {
+            text-decoration: none;
+            color: #333;
+            font-size: 18px;
+            padding: 8px 12px;
+            display: block;
+        }
+
+        .menu li a:hover {
+            color: #000;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        /* Mobile styles */
+        @media (max-width: 767px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .menu {
+                flex-direction: column;
+                width: 100%;
+                display: none;
+                margin-top: 10px;
+            }
+
+            .menu.active {
+                display: flex;
+            }
+
+            .menu li {
+                text-align: center;
+                padding: 12px 0;
+                border-top: 1px solid #ddd;
+            }
+
+            .menu li:first-child {
+                border-top: none;
             }
         }
-    }
-</script>
 
-<style>
-    @media screen and (max-width: 767px) {
-        .bg-change-color{
-            background-color:tan;
+        /* Example page content styling */
+        .page-content {
+            padding: 20px;
         }
 
-        .navbar-main-collapse1{
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            color: #333;
+            font-size: 24px;
+            text-decoration: none;
+            padding: 8px;
             display: flex;
-            justify-content: center;
-            text-align: center;
-        }
-        .navbar-right1{
-            padding-left: 73px;
+            align-items: center;
+            cursor: pointer;
         }
 
-    }
-</style>
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            /* align right by default */
+            background-color: tan;
+            min-width: 180px;
+            /* increased from 160px to fit text */
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            border: 1px solid #ddd;
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+
+        .dropdown-menu li {
+            border-bottom: 1px solid #ddd;
+        }
+
+        .dropdown-menu li:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-menu li a {
+            display: block;
+            padding: 10px 15px;
+            color: #333;
+            text-decoration: none;
+            white-space: nowrap;
+            /* prevent text wrapping */
+        }
+
+        .dropdown-menu li a:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* Responsive fix for small screens */
+        @media screen and (max-width: 400px) {
+            .dropdown-menu {
+                right: auto;
+                left: 0;
+                /* switch to left alignment if no space on right */
+            }
+        }
+
+        @media screen and (min-width: 768px) {
+            .user-login-toggle {
+                left: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <a href="/">
+                    <img src="{{ asset('assets/front/img/logo/logo.webp') }}" alt="Logo">
+                </a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+        <ul class="menu" id="menu">
+            <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
+            <li><a href="{{ url('manual-cheque-list/' . 1) }}">Manual Cheques</a></li>
+            <li><a href="{{ url('laser-cheque') }}">Laser Cheques</a></li>
+            <li><a href="{{ url('personal-cheque') }}">Personal Cheques</a></li>
+            <li><a href="{{ url('about-us') }}">About Us</a></li>
+            <li class="dropdown">
+                <a href="javascript:void(0)" class="dropdown-toggle" id="user-toggle">
+                    <i class="fa fa-user"></i>
+                </a>
+                <ul class="dropdown-menu user-login-toggle" id="user-dropdown">
+                    @guest
+                        <li><a href="/login">Login</a></li>
+                    @endguest
+                    @if (Auth::check() && in_array(Auth::user()->role, ['vendor', 'admin']))
+                        <li><a href="{{ url('/customer-history') }}">Customers</a></li>
+                        <li><a href="{{ url('/order-history') }}">Orders</a></li>
+                    @endif
+                    @auth
+                        <li>
+                            <a href="#"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                Logout
+                            </a>
+                            <form id="logout-form" method="POST" action="{{ route('logout') }}" style="display: none;">
+                                @csrf
+                            </form>
+                        </li>
+                    @endauth
+                </ul>
+            </li>
+
+        </ul>
+    </nav>
+
+    <script>
+        const menuToggle = document.getElementById('menu-toggle');
+        const menu = document.getElementById('menu');
+
+        menuToggle.addEventListener('click', () => {
+            menu.classList.toggle('active');
+        });
+
+        const userToggle = document.getElementById('user-toggle');
+        const userDropdown = document.getElementById('user-dropdown');
+
+        userToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            userDropdown.style.display = (userDropdown.style.display === 'block') ? 'none' : 'block';
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!userDropdown.contains(e.target) && e.target !== userToggle) {
+                userDropdown.style.display = 'none';
+            }
+        });
+    </script>
+
+</body>
+
+</html>
