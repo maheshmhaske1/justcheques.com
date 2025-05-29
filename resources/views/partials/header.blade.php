@@ -39,6 +39,8 @@
             display: flex;
             list-style: none;
             justify-content: flex-end;
+            position: relative;
+            align-items: center;
         }
 
         .menu li a {
@@ -163,7 +165,7 @@
 
 <body>
 
-    <nav>
+    <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
                 <a href="/">
