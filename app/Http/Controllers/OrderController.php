@@ -159,7 +159,6 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
         // Validate the request data
         $request->validate([
             'customer_id' => 'required|integer',
