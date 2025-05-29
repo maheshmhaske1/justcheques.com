@@ -17,11 +17,12 @@
             font-family: Arial, sans-serif;
         }
 
-        nav {
+        .navbar {
             background-color: tan;
             padding: 10px 20px;
             position: relative;
             z-index: 10;
+            display: flex !important;
         }
 
         .nav-container {
@@ -62,7 +63,10 @@
         }
 
         /* Mobile styles */
-        @media (max-width: 767px) {
+        @media (max-width: 896px) {
+            .navbar{
+                display: block !important;
+            }
             .menu-toggle {
                 display: block;
             }
