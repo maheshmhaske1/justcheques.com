@@ -263,6 +263,29 @@
                                             </div>
                                         </div> --}}
                                     </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <select name="signature_line" id="signature_line" class="form-control">
+                                                    <option value="" selected disabled>Signature Line</option>
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <select name="logo_alignment" id="logo_alignment" class="form-control">
+                                                    <option value="" selected disabled>Cheque Logo Alignment</option>
+                                                    <option value="center">Center</option>
+                                                    <option value="left">Left</option>
+                                                    <option value="right">Right</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
 
                                     <!-- Logo Upload -->
                                     <div class="form-group">
@@ -309,8 +332,8 @@
                             <div class="modal-header bg-primary text-white">
                                 <h5 class="modal-title">Order Preview</h5>
                                 <!-- <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                                                                                            <span aria-hidden="true">&times;</span>
-                                                                                        </button> -->
+                                                                                                                            <span aria-hidden="true">&times;</span>
+                                                                                                                        </button> -->
                             </div>
                             <div class="modal-body">
                                 <div class="row">
@@ -454,8 +477,8 @@
                             <div class="modal-header bg-info text-white">
                                 <h5 class="modal-title" id="reorderModalLabel">Reorder Cheques</h5>
                                 <!-- <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                                                                                    <span aria-hidden="true">&times;</span>
-                                                                                </button> -->
+                                                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                                                </button> -->
                             </div>
                             <div class="modal-body">
                                 <form id="reorderForm">
@@ -489,22 +512,13 @@
                                                         placeholder="Start number" required>
                                                 </div>
                                             </div>
-                                            {{-- <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="reorderChequeEndNumber">Cheque End Number <span
-                                                            class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control"
-                                                        id="reorderChequeEndNumber" name="cheque_end_number"
-                                                        placeholder="End number" required>
-                                                </div>
-                                            </div> --}}
                                         </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">
                                             <i class="fas fa-times"></i> Cancel
                                         </button>
-                                        <button type="submit" class="btn btn-info">
+                                        <button type="button" class="btn btn-info" id="reorder-form-button">
                                             <i class="fas fa-check"></i> Place Reorder
                                         </button>
                                     </div>
@@ -784,29 +798,98 @@
             }
         }
     </style>
+    <style>
+        /* Preview modal styles */
+        #previewModal .modal-body {
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .preview-image {
+            max-height: 200px;
+            object-fit: contain;
+        }
+
+        /* Color preview dot */
+        .color-preview {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 1px solid #ddd;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            #previewModal .modal-dialog {
+                margin: 10px auto;
+                max-width: 95%;
+            }
+
+            #previewModal .modal-body {
+                max-height: 65vh;
+            }
+        }
+    </style>
+    <style>
+        .quantity-btn {
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50% !important;
+        }
+
+        #quantity {
+            -moz-appearance: textfield;
+        }
+
+        #quantity::-webkit-outer-spin-button,
+        #quantity::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .product-price-box {
+            border-left: 4px solid #007bff;
+            max-width: 200px;
+            margin: 0 auto;
+        }
+    </style>
 
     <script>
-        $(document).ready(function() {
+        document.addEventListener('DOMContentLoaded', function() {
             // Reorder quantity controls
-            $('#reorder-quantity-plus').click(function() {
-                let currentVal = parseInt($('#reorder-quantity').val());
-                let newVal = currentVal + 50;
-                $('#reorder-quantity').val(newVal);
-            });
-
-            $('#reorder-quantity-minus').click(function() {
-                let currentVal = parseInt($('#reorder-quantity').val());
-                if (currentVal > 50) {
-                    $('#reorder-quantity').val(currentVal - 50);
+            document.getElementById('reorder-quantity-minus').addEventListener('click', function() {
+                let qtyInput = document.getElementById('reorder-quantity');
+                let value = parseInt(qtyInput.value);
+                if (value > 50) {
+                    qtyInput.value = value - 50;
                 }
             });
 
+            document.getElementById('reorder-quantity-plus').addEventListener('click', function() {
+                let qtyInput = document.getElementById('reorder-quantity');
+                let value = parseInt(qtyInput.value);
+                qtyInput.value = value + 50;
+            });
+
+
+
             // Handle reorder form submission
-            $('#reorderForm').submit(function(e) {
+            $('#reorder-form-button').click(function(e) {
+            // $('#reorderForm').submit(function(e) {
                 e.preventDefault();
 
                 const customerId = $('#reorder-button').data('customer-id');
-                const formData = $(this).serialize();
+                const formData = {
+                    customer_id: customerId,
+                    quantity: $('#reorder-quantity').val(),
+                    cheque_start_number: $('#reorderChequeStartNumber').val()
+                }
+
 
                 // Show loading state
                 const submitBtn = $(this).find('[type="submit"]');
@@ -814,22 +897,14 @@
                     '<i class="fas fa-spinner fa-spin"></i> Processing...');
 
                 $.ajax({
-                    url: `/reorder/${customerId}`,
+                    url: `/order/reorder`,
                     type: 'POST',
                     data: formData,
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
-                        if (response.success) {
-                            $('#reorder').modal('hide');
-                            // Show success message
-                            alert('Reorder placed successfully!');
-                            // Optional: redirect or refresh
                             window.location.href = "{{ route('success') }}";
-                        } else {
-                            alert('Error: ' + (response.message || 'Unknown error occurred'));
-                        }
                     },
                     error: function(xhr) {
                         let errorMsg = 'Failed to place reorder. Please try again.';
@@ -1388,65 +1463,5 @@
             return colorMap[colorName] || '#800080';
         }
     </script>
-    <style>
-        /* Preview modal styles */
-        #previewModal .modal-body {
-            max-height: 70vh;
-            overflow-y: auto;
-        }
-
-        .preview-image {
-            max-height: 200px;
-            object-fit: contain;
-        }
-
-        /* Color preview dot */
-        .color-preview {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            border: 1px solid #ddd;
-            display: inline-block;
-            vertical-align: middle;
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            #previewModal .modal-dialog {
-                margin: 10px auto;
-                max-width: 95%;
-            }
-
-            #previewModal .modal-body {
-                max-height: 65vh;
-            }
-        }
-    </style>
-    <style>
-        .quantity-btn {
-            width: 38px;
-            height: 38px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50% !important;
-        }
-
-        #quantity {
-            -moz-appearance: textfield;
-        }
-
-        #quantity::-webkit-outer-spin-button,
-        #quantity::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-
-        .product-price-box {
-            border-left: 4px solid #007bff;
-            max-width: 200px;
-            margin: 0 auto;
-        }
-    </style>
 
 @endsection

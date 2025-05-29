@@ -125,7 +125,9 @@ Route::post('order', [OrderController::class, 'store'])->name('order.store');
 
 Route::get('/check-orders/{customerId}', [OrderController::class, 'checkOrders']);
 
-Route::post('/reorder/{customer}', [OrderController::class, 'reorder'])->name('reorder');
+// Route::post('/reorder/{customer}', [OrderController::class, 'reorder'])->name('reorder');
+Route::post('/order/reorder', [OrderController::class, 'reorder'])->name('order.reorder');
+
 
 
 Route::get('customer', [CustomerController::class, 'index'])->name('customer');

@@ -30,6 +30,8 @@ class Order extends Model
         'order_status',
         'balance_status',
         'reorder',
+        'signature_line',
+        'logo_alignment',
     ];
 
     protected $casts = [

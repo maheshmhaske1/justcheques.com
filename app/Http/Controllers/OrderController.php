@@ -107,60 +107,41 @@ class OrderController extends Controller
     }
 
 
-    public function reorder(Request $request, $customerId)
+    public function reorder(Request $request)
     {
-        return $request->all();
-        try {
-            // Validate the request
-            $validatedData = $request->validate([
-                'cheque_start_number' => 'required|integer',
-                'cheque_end_number' => 'required|integer|gte:cheque_start_number',
-                'quantity' => 'required|integer|min:50'
-            ]);
+        $validatedData = $request->validate([
+            'customer_id' => 'required|integer|exists:orders,customer_id',
+            'cheque_start_number' => 'required|integer',
+            // 'cheque_end_number' => 'required|integer|gte:cheque_start_number',
+            'quantity' => 'required|integer|min:50',
+        ]);
 
-            // Get the current authenticated user
-            $vendorId = Auth::id();
+        // Get the latest (or first) order for that customer
+        $originalOrder = Order::where('customer_id', $validatedData['customer_id'])->latest()->first();
 
-            // Find the most recent order for this customer and vendor
-            $latestOrder = Order::where('customer_id', $customerId)
-                ->where('vendor_id', $vendorId)
-                ->latest()
-                ->firstOrFail();
-
-            // Create a new order by replicating the latest one
-            $reorder = $latestOrder->replicate();
-            $reorder->fill([
-                'quantity' => $validatedData['quantity'],
-                'cheque_start_number' => $validatedData['cheque_start_number'],
-                'cheque_end_number' => $validatedData['cheque_end_number'],
-                'reorder' => true,
-                'created_at' => now(),
-                'updated_at' => now()
-            ]);
-            $reorder->save();
-
-            // Send email notification
-            $customer = Customer::findOrFail($customerId);
-            Mail::to($customer->email)->send(new Reorder($reorder));
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Reorder placed successfully!',
-                'order' => $reorder
-            ]);
-
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'No previous order found for this customer'
-            ], 404);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to process reorder: ' . $e->getMessage()
-            ], 500);
+        if (!$originalOrder) {
+            return back()->with('error', 'No previous order found for this customer.');
         }
+
+        // Duplicate the order
+        $newOrder = $originalOrder->replicate();
+
+        // Apply the updated fields
+        $newOrder->cheque_start_number = $validatedData['cheque_start_number'];
+        // $newOrder->cheque_end_number = $validatedData['cheque_end_number'];
+        $newOrder->quantity = $validatedData['quantity'];
+        $newOrder->reorder = 'reordered';  // mark it as reorder
+
+        $newOrder->order_status = 'pending';
+        $newOrder->balance_status = 'pending';
+
+        $newOrder->save();
+
+        return redirect()->back()->with('success', 'Reorder placed successfully!');
     }
+
+
+
 
 
 
@@ -178,6 +159,7 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->all());
         // Validate the request data
         $request->validate([
             'customer_id' => 'required|integer',
@@ -195,7 +177,9 @@ class OrderController extends Controller
             'cheque_category_id' => 'required|integer',
             'company_logo' => 'nullable',
             'cheque_img' => 'nullable',
-            'reorder' => 'nullable'
+            'reorder' => 'nullable',
+            'signature_line' => 'nullable',
+            'logo_alignment' => 'nullable',
         ]);
         // Create a new Order object
         $order = new Order($request->except(['voided_cheque_file', 'company_logo', 'cheque_img']));
@@ -227,7 +211,7 @@ class OrderController extends Controller
         // Set default values for order_status and balance_status
         $order->order_status = 'pending';
         $order->balance_status = 'pending';
-        $order->reorder = '1';
+        $order->reorder = '-';
 
 
         // Save the order to the database

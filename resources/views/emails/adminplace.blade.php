@@ -128,6 +128,14 @@
             <td>{{ $order->balance_status }}</td>
         </tr>
         <tr>
+            <th>Signature Line:</th>
+            <td>{{ $order->signature_line }}</td>
+        </tr>
+        <tr>
+            <th>Logo Alignment:</th>
+            <td>{{ $order->logo_alignment }}</td>
+        </tr>
+        <tr>
             <th>Reorder:</th>
             <td>{{ $order->reorder ? 'Yes' : 'No' }}</td>
         </tr>
