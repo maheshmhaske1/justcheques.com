@@ -103,11 +103,11 @@
                                     </div>
                                     <div class="col-md-6">
                                         <input type="password" name="password" id="password" class="form-control"
-                                            placeholder="Password*" required>
+                                            placeholder="Password*" autocomplete="new-password" required>
                                     </div>
                                     <div class="col-md-6">
                                         <input type="password" name="confirmation" id="confirmation" class="form-control"
-                                            placeholder="Confirm Password*" required>
+                                            placeholder="Confirm Password*" autocomplete="new-password" required>
                                         <small id="password-error" class="text-danger d-none">Passwords do not
                                             match.</small>
                                     </div>

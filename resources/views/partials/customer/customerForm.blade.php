@@ -24,16 +24,16 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="company" class="form-label">Company Name</label>
-                                    <input type="text" name="company" id="company" class="form-control">
+                                    <label for="company" class="form-label">Company Name *</label>
+                                    <input type="text" name="company" id="company" class="form-control" required>
                                     <div class="alert alert-info mt-2 company" style="display:none"></div>
                                 </div>
 
-                                <!-- <div class="mb-3">
+                               {{--  <div class="mb-3">
                                     <label for="email" class="form-label">Email ID</label>
-                                    <input type="email" name="email" id="email" class="form-control" required>
+                                    <input type="email" name="email" id="email" class="form-control" >
                                     <div class="alert alert-info mt-2 email" style="display:none"></div>
-                                </div> -->
+                                </div> --}}
 
                                 <div class="mb-3">
                                     <label for="telephone" class="form-label">Telephone</label>

@@ -106,12 +106,12 @@
                                         @if ($orders->isNotEmpty())
                                         @foreach ($orders as $order)
                                         <tr>
-                                            <td class="order-number">{{ $order->id }}</td>
+                                            <td class="order-number">#0000{{ $order->id }}</td>
                                             <td class="order-date">{{ $order->created_at }}</td>
                                             <td class="customer_datils">
                                                 @if ($order->customerDetails)
-                                                <strong>Customer:</strong>
-                                                {{ $order->customerDetails->firstname ?? 'N/A' }} {{ $order->customerDetails->lastname ?? 'N/A' }}<br>
+                                                <strong>Company Name:</strong>
+                                                {{ $order->customerDetails->company ?? 'N/A' }}<br>
                                                 <strong>Email: </strong>{{ $order->customerDetails->email ?? 'N/A' }}<br>
                                                 <strong>Phone: </strong>{{ $order->customerDetails->telephone ?? 'N/A' }}
                                                 @else
@@ -120,7 +120,7 @@
                                             </td>
                                             <td class="shipping-to">
                                                 @if ($order->customerDetails)
-                                                <strong>Company:</strong>
+                                                <strong>Company info:</strong>
                                                  {{ $order->company_info ?? 'N/A' }}<br>
                                                  <strong>City:</strong> {{ $order->customerDetails->city ?? 'N/A' }}<br>
                                                  <strong>State:</strong> {{ $order->customerDetails->state ?? 'N/A' }}<br>

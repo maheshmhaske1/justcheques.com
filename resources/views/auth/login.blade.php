@@ -67,7 +67,7 @@
                                     </p>
                                     <p>
                                         <label class="inputLabel" for="login-password">Password:</label>
-                                        <input type="password" name="password" size="18" id="password">
+                                        <input type="password" name="password" size="18" id="password" autocomplete="off">
                                     </p>
 
                                     <div class="buttonRow back"><input

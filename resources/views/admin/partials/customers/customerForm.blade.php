@@ -22,33 +22,36 @@
                         </div>
                         <div class="modal-body">
                             <div class="card-body">
-                                <!-- Firstname -->
+                                <!-- Firstname 
                                 <div class="mb-3">
                                     <label class="form-label" for="firstname">First Name</label>
                                     <input type="text" class="form-control" name="firstname" id="firstname"
-                                        value="{{ old('firstname', $customerData->firstname ?? '') }}" required />
-                                </div>
+                                        value="{{ old('firstname', $customerData->firstname ?? '') }}"  />
+                                </div> -->
 
-                                <!-- Lastname -->
+                                <!-- Lastname 
                                 <div class="mb-3">
                                     <label class="form-label" for="lastname">Last Name</label>
                                     <input type="text" class="form-control" name="lastname" id="lastname"
-                                        value="{{ old('lastname', $customerData->lastname ?? '') }}" required />
-                                </div>
-
-                                <!-- Telephone -->
-                                <div class="mb-3">
-                                    <label class="form-label" for="telephone">Telephone</label>
-                                    <input type="text" class="form-control" name="telephone" id="telephone"
-                                        value="{{ old('telephone', $customerData->telephone ?? '') }}" required />
-                                </div>
-
+                                        value="{{ old('lastname', $customerData->lastname ?? '') }}"  />
+                                </div> -->
+ 
+                              
                                 <!-- Company -->
                                 <div class="mb-3">
                                     <label class="form-label" for="company">Company</label>
                                     <input type="text" class="form-control" name="company" id="company"
                                         value="{{ old('company', $customerData->company ?? '') }}" />
                                 </div>
+                              
+                                <!-- Telephone -->
+                                <div class="mb-3">
+                                    <label class="form-label" for="telephone">Telephone</label>
+                                    <input type="text" class="form-control" name="telephone" id="telephone"
+                                        value="{{ old('telephone', $customerData->telephone ?? '') }}"  />
+                                </div>
+
+                               
 
                                 <!-- Street Address -->
                                 <div class="mb-3">
@@ -58,60 +61,60 @@
                                         required />
                                 </div>
 
-                                <!-- Suburb -->
+                                <!-- Suburb 
                                 <div class="mb-3">
                                     <label class="form-label" for="suburb">Suburb</label>
                                     <input type="text" class="form-control" name="suburb" id="suburb"
-                                        value="{{ old('suburb', $customerData->suburb ?? '') }}" />
-                                </div>
+                                        value="{{ old('suburb', $customerData->suburb ?? '') }}" /> 
+                                </div> -->
 
-                                <!-- Buzzer Code -->
+                                <!-- Buzzer Code 
                                 <div class="mb-3">
                                     <label class="form-label" for="buzzer_code">Buzzer Code</label>
                                     <input type="text" class="form-control" name="buzzer_code" id="buzzer_code"
                                         value="{{ old('buzzer_code', $customerData->buzzer_code ?? '') }}" />
-                                </div>
+                                </div>  -->
 
                                 <!-- City -->
                                 <div class="mb-3">
                                     <label class="form-label" for="city">City</label>
                                     <input type="text" class="form-control" name="city" id="city"
-                                        value="{{ old('city', $customerData->city ?? '') }}" required />
+                                        value="{{ old('city', $customerData->city ?? '') }}"  />
                                 </div>
 
                                 <!-- Postcode -->
                                 <div class="mb-3">
                                     <label class="form-label" for="postcode">Postcode</label>
                                     <input type="text" class="form-control" name="postcode" id="postcode"
-                                        value="{{ old('postcode', $customerData->postcode ?? '') }}" required />
+                                        value="{{ old('postcode', $customerData->postcode ?? '') }}"  />
                                 </div>
 
                                 <!-- State -->
                                 <div class="mb-3">
                                     <label class="form-label" for="state">State</label>
                                     <input type="text" class="form-control" name="state" id="state"
-                                        value="{{ old('state', $customerData->state ?? '') }}" required />
+                                        value="{{ old('state', $customerData->state ?? '') }}"  />
                                 </div>
 
                                 <!-- Country -->
                                 <div class="mb-3">
                                     <label class="form-label" for="country">Country</label>
                                     <input type="text" class="form-control" name="country" id="country"
-                                        value="{{ old('country', $customerData->country ?? '') }}" required />
+                                        value="{{ old('country', $customerData->country ?? '') }}"  />
                                 </div>
 
-                                <!-- Email -->
+                                <!-- Email
                                 <div class="mb-3">
                                     <label class="form-label" for="email">Email</label>
                                     <input type="email" class="form-control" name="email" id="email"
-                                        value="{{ old('email', $customerData->email ?? '') }}" required />
-                                </div>
-
-                                <!-- User ID -->
+                                        value="{{ old('email', $customerData->email ?? '') }}"  />
+                                </div>  -->
+ 
+                                <!-- User ID 
                                 <div class="mb-3">
                                     <input type="hidden" class="form-control" name="user_id" id="user_id"
-                                        value="{{ Auth::user()->id }}" required />
-                                </div>
+                                        value="{{ Auth::user()->id }}"  />
+                                </div> -->
 
                             </div>
                         </div>
