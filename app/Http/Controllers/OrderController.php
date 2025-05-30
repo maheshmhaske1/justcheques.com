@@ -20,61 +20,65 @@ class OrderController extends Controller
 
     public function history()
     {
-        // Check if the user is authenticated
         if (Auth::check()) {
-            // Retrieve all orders made by the logged-in user
             $orders = Order::where('vendor_id', Auth::user()->id)->latest()->get();
 
             foreach ($orders as $order) {
-                // Retrieve customer details for each order
                 $customerDetails = Customer::find($order->customer_id);
-
-                // Add customer details to the order object
                 $order->customerDetails = $customerDetails;
             }
-            // Initialize an empty array to store total prices
+
             $totalPrices = [];
 
-            // Loop through each order and calculate the total price
             foreach ($orders as $order) {
-                // Retrieve the cheque category data
                 $chequeData = ChequeCategories::find($order->cheque_category_id);
 
-
                 if ($chequeData) {
-                    // Retrieve the price from the cheque category
-                    $price = $chequeData->price;
+                    $price = (float) $chequeData->price;
 
-                    // Determine the sub-category name based on the type of cheque
-                    if ($chequeData->manual_cheque_id != 0) {
-                        $chequeSubCategory = ManualCheque::where('id', $chequeData->manual_cheque_id)->pluck('categoriesName')->first();
-                    } elseif ($chequeData->laser_cheque_id != 0) {
-                        $chequeSubCategory = LaserCheque::where('id', $chequeData->laser_cheque_id)->pluck('categoriesName')->first();
-                    } else {
-                        $chequeSubCategory = 'Unknown'; // Handle case where no sub-category is found
+                    $manualCheque = (int) $chequeData->manual_cheque_id;
+                    $laserCheque = (int) $chequeData->laser_cheque_id;
+                    $personalCheque = (int) $chequeData->personal_cheque_id;
+
+                    $chequeSubCategory = 'Unknown';
+                    $chequeType = 'Unknown';
+
+                    if ($manualCheque !== 0) {
+                        $chequeType = 'Manual Cheque';
+                        $chequeSubCategory = ManualCheque::where('id', $manualCheque)->pluck('categoriesName')->first() ?? 'Manual Cheque';
+                    } elseif ($laserCheque !== 0) {
+                        $chequeType = 'Laser Cheque';
+                        $chequeSubCategory = LaserCheque::where('id', $laserCheque)->pluck('categoriesName')->first() ?? 'Laser Cheque';
+                    } elseif ($personalCheque !== 0) {
+                        $chequeType = 'Personal Cheque';
+                        $chequeSubCategory = 'Personal Cheque';
                     }
 
-                    // Calculate total price by multiplying quantity by price
                     $totalPrice = $order->quantity * $price;
 
-                    // Store the total price with the order ID as the key
-                    $totalPrices[$order->id] = $totalPrice;
+                    $totalPrices[$order->id] = [
+                        'totalPrice' => $totalPrice,
+                        'chequeSubCategory' => $chequeSubCategory,
+                        'chequeType' => $chequeType,
+                        'chequeName' => $chequeData->chequeName ?? 'Unknown',
+                    ];
                 } else {
-                    // Handle case where cheque category is not found
-                    $totalPrices[$order->id] = 0;
+                    $totalPrices[$order->id] = [
+                        'totalPrice' => 0,
+                        'chequeSubCategory' => 'Unknown',
+                        'chequeType' => 'Unknown',
+                        'chequeName' => 'Unknown',
+                    ];
                 }
             }
-            if ($orders->isNotEmpty()) {
-                // Pass orders and total prices to the view
-                return view('partials.orderHistory', compact('orders', 'totalPrices', 'chequeData', 'chequeSubCategory'));
-            } else {
-                return view('partials.orderHistory', compact('orders', ));
-            }
+
+            return view('partials.orderHistory', compact('orders', 'totalPrices'));
         } else {
-            // Redirect to the login page if the user is not authenticated
             return redirect()->route('login');
         }
     }
+
+
     /**
      * Display a listing of the resource.
      */
