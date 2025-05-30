@@ -49,9 +49,9 @@
                                     </div>
 
                                     <div class="product-price-box text-center p-3 mt-3 bg-light rounded">
-                                        <span class="text-muted">Price:</span>
-                                        <span class="h4 text-primary ml-2"
-                                            id="dynamic-price">${{ $chequeList->price }}</span>
+                                        <strong class="text-muted">Price:</strong>
+                                        <p><span id="previewPrice">${{ $chequeList->price }}</span>
+                                        </p>
                                     </div>
                                 </div>
 
@@ -83,7 +83,7 @@
                                         </div>
                                     </div>
 
-                                    <button type="button" id="reorder-button" class="btn btn-info mb-3" data-toggle="modal"
+                                    <button type="button" id="reorder-button" class="btn btn-secondary mb-3" data-toggle="modal"
                                         data-target="#reorder" style="display: none;">
                                         <i class="fas fa-redo-alt"></i> Reorder
                                     </button>
@@ -325,14 +325,14 @@
                 </form>
 
                 <!-- Preview Modal -->
-                <div class="modal" id="previewModal" tabindex="-1" aria-hidden="true">
+                <!-- Preview Modal -->
+                <div class="modal fade" id="previewModal" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="modal-header bg-primary text-white">
                                 <h5 class="modal-title">Order Preview</h5>
-                                <!-- <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                                                                                                                                <span aria-hidden="true">&times;</span>
-                                                                                                                            </button> -->
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 <div class="row">
@@ -346,7 +346,7 @@
                                             <div class="card-body text-center">
                                                 <img id="chequeImgPreview"
                                                     src="{{ asset('assets/front/img/' . $chequeList->img) }}"
-                                                    class="img-fluid border" style="max-height: 250px;">
+                                                    class="img-fluid border preview-image">
                                                 <div class="mt-3">
                                                     <div class="color-preview d-inline-block"></div>
                                                     <span id="previewColor" class="ml-2 font-weight-bold"></span>
@@ -364,8 +364,8 @@
                                                 <div class="mb-3">
                                                     <h6>Voided Cheque</h6>
                                                     <img id="voidedChequeFilePreview" src=""
-                                                        class="img-fluid border mb-2"
-                                                        style="max-height: 150px; display: none;">
+                                                        class="img-fluid border mb-2 preview-image"
+                                                        style="display: none;">
                                                     <p id="voidedChequeText" class="small text-muted">No file uploaded</p>
                                                 </div>
 
@@ -373,8 +373,8 @@
                                                 <div>
                                                     <h6>Company Logo</h6>
                                                     <img id="companyLogoPreview" src=""
-                                                        class="img-fluid border mb-2"
-                                                        style="max-height: 150px; display: none;">
+                                                        class="img-fluid border mb-2 preview-image"
+                                                        style="display: none;">
                                                     <p id="companyLogoText" class="small text-muted">No file uploaded</p>
                                                 </div>
                                             </div>
@@ -388,6 +388,20 @@
                                                 <h6>Order Details</h6>
                                             </div>
                                             <div class="card-body">
+                                                <!-- Product Info -->
+                                                <div class="mb-3">
+                                                    <h6 class="border-bottom pb-2">Product Information</h6>
+                                                    <p><strong>Product:</strong> {{ $chequeList->chequeName }}</p>
+                                                    <p><strong>Category:</strong> {{ $chequeCategoryName }} &raquo;
+                                                        {{ $chequeSubCategoryName }}</p>
+                                                    <p><strong>Quantity:</strong> <span id="previewQuantity">50</span>
+                                                        cheques</p>
+                                                    <p><strong>Color:</strong> <span id="previewColorText">Burgundy</span>
+                                                    </p>
+                                                    <p><strong>Price:</strong> <span
+                                                            id="previewPriceCost">${{ $chequeList->price }}</span></p>
+                                                </div>
+
                                                 <!-- Customer Info -->
                                                 <div class="mb-3">
                                                     <h6 class="border-bottom pb-2">Customer Information</h6>
@@ -398,58 +412,30 @@
                                                         class="border p-2 bg-light rounded small"></div>
                                                 </div>
 
-                                                <!-- Order Details -->
-                                                <div class="mb-3">
-                                                    <h6 class="border-bottom pb-2">Order Specifications</h6>
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <p><strong>Product:</strong> {{ $chequeList->chequeName }}</p>
-                                                            <p><strong>Quantity:</strong> <span id="previewQuantity">Not
-                                                                    selected</span></p>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <p><strong>Price:</strong> <span
-                                                                    id="previewPrice">${{ $chequeList->price }}</span></p>
-                                                            <p><strong>Color:</strong> <span id="previewColorText">Not
-                                                                    selected</span></p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Bank Info -->
+                                                <!-- Bank Information -->
                                                 <div class="mb-3">
                                                     <h6 class="border-bottom pb-2">Bank Information</h6>
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <p><strong>Void Cheque:</strong> <span
-                                                                    id="previewVoidOption">Not selected</span></p>
-                                                            <p><strong>Institution #:</strong> <span
-                                                                    id="previewInstitutionNumber">Not provided</span></p>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <p><strong>Transit #:</strong> <span
-                                                                    id="previewTransitNumber">Not provided</span></p>
-                                                            <p><strong>Account #:</strong> <span
-                                                                    id="previewAccountNumber">Not provided</span></p>
-                                                        </div>
+                                                    <p><strong>Void Cheque Option:</strong> <span
+                                                            id="previewVoidOption">Not selected</span></p>
+                                                    <div id="previewBankDetails">
+                                                        <p><strong>Institution #:</strong> <span
+                                                                id="previewInstitutionNumber">Not provided</span></p>
+                                                        <p><strong>Transit #:</strong> <span id="previewTransitNumber">Not
+                                                                provided</span></p>
+                                                        <p><strong>Account #:</strong> <span id="previewAccountNumber">Not
+                                                                provided</span></p>
                                                     </div>
                                                 </div>
 
                                                 <!-- Cheque Numbers -->
                                                 <div class="mb-3">
                                                     <h6 class="border-bottom pb-2">Cheque Numbers</h6>
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <p><strong>Start #:</strong> <span
-                                                                    id="previewChequeStartNumber">Not provided</span></p>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <p><strong>End #:</strong> <span
-                                                                    id="previewChequeEndNumber">Not provided</span></p>
-                                                        </div>
-                                                    </div>
-                                                    <p><strong>Range:</strong> <span id="previewChequeRange">Not
+                                                    <p><strong>Start #:</strong> <span id="previewChequeStartNumber">Not
                                                             provided</span></p>
+                                                    <p><strong>Signature Lines:</strong> <span
+                                                            id="previewSignatureLine">Not selected</span></p>
+                                                    <p><strong>Logo Alignment:</strong> <span id="previewLogoAlignment">Not
+                                                            selected</span></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -457,9 +443,8 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                {{-- <button type="button" class="btn btn-secondary" id="editOrderBtn" data-dismiss="modal">
-                                    <i class="fas fa-edit mr-1"></i> Edit Order
-                                </button> --}}
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i
+                                        class="fas fa-edit mr-1"></i> Edit Order</button>
                                 <button type="button" class="btn btn-primary" id="confirmOrderBtn">
                                     <i class="fas fa-check mr-1"></i> Confirm Order
                                 </button>
@@ -473,11 +458,11 @@
                     aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
-                            <div class="modal-header bg-info text-white">
+                            <div class="modal-header bg-primary text-white">
                                 <h5 class="modal-title" id="reorderModalLabel">Reorder Cheques</h5>
                                 <!-- <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                                                                                                                        <span aria-hidden="true">&times;</span>
-                                                                                                                    </button> -->
+                                                                                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                                                                                </button> -->
                             </div>
                             <div class="modal-body">
                                 <form id="reorderForm">
@@ -514,10 +499,11 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                        {{-- <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close">
                                             <i class="fas fa-times"></i> Cancel
-                                        </button>
-                                        <button type="button" class="btn btn-info" id="reorder-form-button">
+                                        </button> --}}
+                                        <button type="button" class="btn btn-primary" id="reorder-form-button">
                                             <i class="fas fa-check"></i> Place Reorder
                                         </button>
                                     </div>
@@ -677,6 +663,54 @@
             </div>
         </div>
     </section>
+
+    <style>
+        .primary,
+        .bg-primary,
+        .btn-primary {
+            background-color: rgb(179, 146, 122) !important;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: rgb(179, 146, 122) !important;
+            color: #fff !important;
+        }
+
+        .btn-outline-primary {
+            color: rgb(179, 146, 122) !important;
+            border-color: rgb(179, 146, 122) !important;
+        }
+
+        .preview-image {
+            max-height: 200px;
+            object-fit: contain;
+        }
+
+        .color-preview {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 1px solid #ddd;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        #previewModal .modal-body {
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        @media (max-width: 768px) {
+            #previewModal .modal-dialog {
+                margin: 10px auto;
+                max-width: 95%;
+            }
+
+            #previewModal .modal-body {
+                max-height: 65vh;
+            }
+        }
+    </style>
 
     <style>
         .cheque-order-section {
@@ -1190,165 +1224,93 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Define price tiers (quantity: additional price)
-            const priceTiers = {
-                50: 69,
-                100: 79,
-                250: 139,
-                500: 219,
-                1000: 319,
-                2000: 479,
-                2500: 539,
-                3000: 599,
-                4000: 759,
-                5000: 929,
-                10000: 1499,
-                15000: 1799
-            };
-
-            // Get elements
             const quantityInput = document.getElementById('quantity');
             const minusBtn = document.getElementById('quantity-minus');
             const plusBtn = document.getElementById('quantity-plus');
-            const priceDisplay = document.getElementById('dynamic-price');
+            const priceDisplay = document.getElementById('previewPrice');
             const quantityOption = document.getElementById('quantity_option');
-            const basePrice = {{ $chequeList->price }};
 
-            // Initialize
+            const basePricePerCheque = {{ $chequeList->price }};
+            const minQuantity = 50;
+            const quantitySteps = [50, 100, 250, 500, 1000, 2000, 2500, 3000, 4000, 5000, 10000, 15000];
+
             updatePrice(parseInt(quantityInput.value));
 
-            // Event listeners
-            minusBtn.addEventListener('click', decreaseQuantity);
-            plusBtn.addEventListener('click', increaseQuantity);
+            minusBtn.addEventListener('click', () => adjustQuantity(-1));
+            plusBtn.addEventListener('click', () => adjustQuantity(1));
             quantityInput.addEventListener('change', validateQuantity);
 
-            function decreaseQuantity() {
+            function adjustQuantity(direction) {
                 let currentQty = parseInt(quantityInput.value);
-                const quantities = Object.keys(priceTiers).map(Number).sort((a, b) => a - b);
+                let index = quantitySteps.indexOf(currentQty);
+                if (index === -1) index = 0;
 
-                // Find next lower tier
-                for (let i = quantities.length - 1; i >= 0; i--) {
-                    if (quantities[i] < currentQty) {
-                        quantityInput.value = quantities[i];
-                        updatePrice(quantities[i]);
-                        return;
-                    }
+                if (direction === -1 && index > 0) {
+                    quantityInput.value = quantitySteps[index - 1];
+                } else if (direction === 1 && index < quantitySteps.length - 1) {
+                    quantityInput.value = quantitySteps[index + 1];
                 }
 
-                // If we get here, we're at minimum quantity
-                if (currentQty > 50) {
-                    quantityInput.value = 50;
-                    updatePrice(50);
-                }
-            }
-
-            function increaseQuantity() {
-                let currentQty = parseInt(quantityInput.value);
-                const quantities = Object.keys(priceTiers).map(Number).sort((a, b) => a - b);
-                // Find next higher tier
-                for (let i = 0; i < quantities.length; i++) {
-                    if (quantities[i] > currentQty) {
-                        quantityInput.value = quantities[i];
-                        updatePrice(quantities[i]);
-                        return;
-                    }
-                }
-
-                // If we get here, we're at maximum quantity
-                if (currentQty < 15000) {
-                    quantityInput.value = 15000;
-                    updatePrice(15000);
-                }
+                updatePrice(parseInt(quantityInput.value));
             }
 
             function validateQuantity() {
                 let qty = parseInt(quantityInput.value);
-                if (isNaN(qty)) {
-                    qty = 50;
+                if (isNaN(qty) || qty < minQuantity) {
+                    qty = minQuantity;
                 }
 
-                // Find closest tier
-                const quantities = Object.keys(priceTiers).map(Number).sort((a, b) => a - b);
-                let closest = quantities[0];
-
-                for (let i = 0; i < quantities.length; i++) {
-                    if (Math.abs(quantities[i] - qty) < Math.abs(closest - qty)) {
-                        closest = quantities[i];
-                    }
-                }
+                // Snap to closest allowed quantity
+                let closest = quantitySteps.reduce((prev, curr) =>
+                    Math.abs(curr - qty) < Math.abs(prev - qty) ? curr : prev
+                );
 
                 quantityInput.value = closest;
                 updatePrice(closest);
             }
 
             function updatePrice(quantity) {
-                // Find the correct price tier
-                let additionalPrice = 0;
-                let optionValue = '65'; // Default option
-
-                // Find the closest tier (equal or higher)
-                const quantities = Object.keys(priceTiers).map(Number).sort((a, b) => a - b);
-                for (let i = 0; i < quantities.length; i++) {
-                    if (quantity <= quantities[i]) {
-                        additionalPrice = priceTiers[quantities[i]];
-                        optionValue = getOptionValueForQuantity(quantities[i]);
-                        break;
-                    }
-                }
-
-                // If quantity is higher than our max tier
-                if (quantity > quantities[quantities.length - 1]) {
-                    additionalPrice = priceTiers[15000];
-                    optionValue = '244';
-                }
-
-                // Update display and hidden field
-                const totalPrice = basePrice + additionalPrice;
+                const totalPrice = basePricePerCheque * quantity;
                 priceDisplay.textContent = `$${totalPrice.toFixed(2)}`;
-                quantityOption.value = optionValue;
-            }
 
-            function getOptionValueForQuantity(quantity) {
-                // Map quantities to your original option values
-                const quantityToOption = {
-                    50: '21',
-                    100: '22',
-                    250: '23',
-                    500: '24',
-                    1000: '25',
-                    2000: '26',
-                    2500: '27',
-                    3000: '28',
-                    4000: '29',
-                    5000: '30',
-                    10000: '64',
-                    15000: '244'
-                };
-                return quantityToOption[quantity] || '65';
+                // Optional: update hidden quantity_option if needed
+                quantityOption.value = quantity;
             }
         });
     </script>
 
     <script>
-        // ... (keep your existing quantity/price JavaScript code) ...
+        document.addEventListener('DOMContentLoaded', function() {
+            // Preview button click handler
+            document.getElementById('previewButton').addEventListener('click', function(e) {
+                e.preventDefault();
+                updatePreviewData();
+            });
 
-        // Preview functionality
-        document.getElementById('previewButton').addEventListener('click', function(e) {
-            e.preventDefault();
-            updatePreviewData();
-        });
+            // File input change handlers
+            document.getElementById('voided_cheque_file').addEventListener('change', function() {
+                previewFile(this, 'voidedChequeFilePreview', 'voidedChequeText');
+            });
 
-        // Confirm order button in preview modal
-        document.getElementById('confirmOrderBtn').addEventListener('click', function() {
-            if (validateForm()) {
-                document.getElementById('chequeOrderForm').submit();
+            document.getElementById('company_logo').addEventListener('change', function() {
+                previewFile(this, 'companyLogoPreview', 'companyLogoText');
+            });
+
+            // Confirm order button in preview modal
+            document.getElementById('confirmOrderBtn').addEventListener('click', function() {
+                if (validateForm()) {
+                    document.getElementById('chequeOrderForm').submit();
+                }
+            });
+
+            function validateForm() {
+                // Validate account numbers match if bank info is shown
+                if (document.getElementById('bank-info-section').style.display !== 'none') {
+                    return checkAccountNumber();
+                }
+                return true;
             }
         });
-
-        function validateForm() {
-            // Add any additional form validation here
-            return true; // Return false if validation fails
-        }
 
         function updatePreviewData() {
             // Customer Information
@@ -1357,11 +1319,15 @@
                 customerSelect.selectedIndex > 0 ? customerSelect.options[customerSelect.selectedIndex].text :
                 "Not selected";
 
-            // Quantity and Price
-            const quantity = document.getElementById('quantity').value;
-            const priceDisplay = document.getElementById('dynamic-price').textContent;
-            document.getElementById('previewQuantity').textContent = quantity + ' cheques';
-            document.getElementById('previewPrice').textContent = priceDisplay;
+            // Order Details
+            document.getElementById('previewQuantity').textContent =
+                document.getElementById('quantity').value + ' cheques';
+
+            // Update price based on quantity
+            const quantity = parseInt(document.getElementById('quantity').value);
+            const basePrice = {{ $chequeList->price }};
+            const totalPrice = (basePrice * quantity).toFixed(2);
+            document.getElementById('previewPriceCost').textContent = '$' + totalPrice;
 
             // Color Selection
             const selectedColor = document.querySelector('input[name="color"]:checked');
@@ -1384,8 +1350,8 @@
 
             // Void Cheque Option
             const voidOption = document.getElementById('voided_cheque');
-            document.getElementById('previewVoidOption').textContent =
-                voidOption.options[voidOption.selectedIndex].text || "Not selected";
+            const voidOptionText = voidOption.options[voidOption.selectedIndex].text || "Not selected";
+            document.getElementById('previewVoidOption').textContent = voidOptionText;
 
             // Bank Information
             const showBankInfo = voidOption.value === 'notVoidCheck';
@@ -1400,14 +1366,20 @@
                 showBankInfo ? (accountNumber ? '•'.repeat(accountNumber.length) : "Not provided") : "N/A";
 
             // Cheque Numbers
-            const startNum = document.getElementById('cheque_start_number').value;
-            const endNum = document.getElementById('cheque_end_number').value;
-            document.getElementById('previewChequeStartNumber').textContent = startNum || "Not provided";
-            document.getElementById('previewChequeEndNumber').textContent = endNum || "Not provided";
-            document.getElementById('previewChequeRange').textContent =
-                (startNum && endNum) ? `${startNum} to ${endNum}` : "Not provided";
+            document.getElementById('previewChequeStartNumber').textContent =
+                document.getElementById('cheque_start_number').value || "Not provided";
 
-            // File uploads preview
+            // Signature Line
+            const signatureLine = document.getElementById('signature_line');
+            document.getElementById('previewSignatureLine').textContent =
+                signatureLine.options[signatureLine.selectedIndex]?.text || "Not selected";
+
+            // Logo Alignment
+            const logoAlignment = document.getElementById('logo_alignment');
+            document.getElementById('previewLogoAlignment').textContent =
+                logoAlignment.options[logoAlignment.selectedIndex]?.text || "Not selected";
+
+            // File uploads
             previewFile(document.getElementById('voided_cheque_file'), 'voidedChequeFilePreview', 'voidedChequeText');
             previewFile(document.getElementById('company_logo'), 'companyLogoPreview', 'companyLogoText');
 
@@ -1421,13 +1393,14 @@
                 'Blue': 'Blue.jpg',
                 'Green': 'green.jpg',
                 'Tan': 'tan.jpg',
+                'gray': 'grey.jpg',
                 'Grey': 'grey.jpg',
-                'Purple': 'purple.jpg',
-                'Orange': 'orange.jpg'
+                'purple': 'purple.jpg',
+                'orange': 'orange.jpg'
             };
 
-            if (colorImages[colorValue]) {
-                const imgPath = "{{ asset('assets/front/img/') }}/" + colorImages[colorValue];
+            if (colorImages[colorValue.value]) {
+                const imgPath = "{{ asset('assets/front/img/') }}/" + colorImages[colorValue.value];
                 document.getElementById('chequeImgPreview').src = imgPath;
             }
         }
@@ -1457,10 +1430,26 @@
                 'Green': '#008000',
                 'Tan': '#D2B48C',
                 'Grey': '#808080',
-                'Purple': '#800080',
-                'Orange': '#FFA500'
+                'purple': '#800080',
+                'orange': '#FFA500'
             };
             return colorMap[colorName] || '#800080';
+        }
+
+        function checkAccountNumber() {
+            var accountNumber = document.getElementById('account_number').value;
+            var confirmAccountNumber = document.getElementById('confirm_account_number').value;
+            var errorElement = document.getElementById('account-number-error');
+
+            if (accountNumber !== confirmAccountNumber) {
+                errorElement.style.display = 'block';
+                document.getElementById('confirm_account_number').classList.add('is-invalid');
+                return false;
+            } else {
+                errorElement.style.display = 'none';
+                document.getElementById('confirm_account_number').classList.remove('is-invalid');
+                return true;
+            }
         }
     </script>
 
