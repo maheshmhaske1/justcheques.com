@@ -28,7 +28,7 @@ class OrderController extends Controller
             foreach ($orders as $order) {
                 // Retrieve customer details for each order
                 $customerDetails = Customer::find($order->customer_id);
-    
+
                 // Add customer details to the order object
                 $order->customerDetails = $customerDetails;
             }
@@ -36,39 +36,39 @@ class OrderController extends Controller
             $totalPrices = [];
 
             // Loop through each order and calculate the total price
-                foreach ($orders as $order) {
-                    // Retrieve the cheque category data
-                    $chequeData = ChequeCategories::find($order->cheque_category_id);
+            foreach ($orders as $order) {
+                // Retrieve the cheque category data
+                $chequeData = ChequeCategories::find($order->cheque_category_id);
 
 
-                    if ($chequeData) {
-                        // Retrieve the price from the cheque category
-                        $price = $chequeData->price;
+                if ($chequeData) {
+                    // Retrieve the price from the cheque category
+                    $price = $chequeData->price;
 
-                        // Determine the sub-category name based on the type of cheque
-                        if ($chequeData->manual_cheque_id != 0) {
-                            $chequeSubCategory = ManualCheque::where('id', $chequeData->manual_cheque_id)->pluck('categoriesName')->first();
-                        } elseif ($chequeData->laser_cheque_id != 0) {
-                            $chequeSubCategory = LaserCheque::where('id', $chequeData->laser_cheque_id)->pluck('categoriesName')->first();
-                        } else {
-                            $chequeSubCategory = 'Unknown'; // Handle case where no sub-category is found
-                        }
-
-                        // Calculate total price by multiplying quantity by price
-                        $totalPrice = $order->quantity * $price;
-
-                        // Store the total price with the order ID as the key
-                        $totalPrices[$order->id] = $totalPrice;
+                    // Determine the sub-category name based on the type of cheque
+                    if ($chequeData->manual_cheque_id != 0) {
+                        $chequeSubCategory = ManualCheque::where('id', $chequeData->manual_cheque_id)->pluck('categoriesName')->first();
+                    } elseif ($chequeData->laser_cheque_id != 0) {
+                        $chequeSubCategory = LaserCheque::where('id', $chequeData->laser_cheque_id)->pluck('categoriesName')->first();
                     } else {
-                        // Handle case where cheque category is not found
-                        $totalPrices[$order->id] = 0;
+                        $chequeSubCategory = 'Unknown'; // Handle case where no sub-category is found
                     }
+
+                    // Calculate total price by multiplying quantity by price
+                    $totalPrice = $order->quantity * $price;
+
+                    // Store the total price with the order ID as the key
+                    $totalPrices[$order->id] = $totalPrice;
+                } else {
+                    // Handle case where cheque category is not found
+                    $totalPrices[$order->id] = 0;
                 }
+            }
             if ($orders->isNotEmpty()) {
                 // Pass orders and total prices to the view
                 return view('partials.orderHistory', compact('orders', 'totalPrices', 'chequeData', 'chequeSubCategory'));
-            }else{
-                return view('partials.orderHistory',compact('orders',));
+            } else {
+                return view('partials.orderHistory', compact('orders', ));
             }
         } else {
             // Redirect to the login page if the user is not authenticated
@@ -99,9 +99,12 @@ class OrderController extends Controller
 
 
 
-    public function checkOrders($customerId)
+    public function checkOrders($customerId, $categoryId)
     {
-        $hasOrders = Order::where('customer_id', $customerId)->exists();
+        $hasOrders = Order::where('customer_id', $customerId)
+            ->where('cheque_category_id', $categoryId)
+            ->exists();
+
 
         return response()->json(['hasOrders' => $hasOrders]);
     }
@@ -132,10 +135,23 @@ class OrderController extends Controller
         $newOrder->quantity = $validatedData['quantity'];
         $newOrder->reorder = 'reordered';  // mark it as reorder
 
+        $customers = Customer::findOrFail($request->customer_id);
+
         $newOrder->order_status = 'pending';
         $newOrder->balance_status = 'pending';
 
         $newOrder->save();
+
+        $newOrder->company = $customers->company;
+        $user = Auth::user();
+
+        if ($user->role == 'vendor') {
+            Mail::to($user->email)->send(new OrderPlaced($newOrder));
+        }
+
+        if ($user->role == 'admin') {
+            Mail::to($user->email)->send(new AdminOrder($newOrder));
+        }
 
         return redirect()->back()->with('success', 'Reorder placed successfully!');
     }
@@ -198,12 +214,12 @@ class OrderController extends Controller
         }
 
         if ($request->cheque_img) {
-        
+
             $order->cheque_img = $request->cheque_img;
         }
 
 
-        $order->chequeCategory; 
+        $order->chequeCategory;
         // dd( $order);
         $customers = Customer::findOrFail($request->customer_id);
 

@@ -123,7 +123,7 @@ Route::get('/customer-history', [VendorController::class, 'history'])->name('cus
 
 Route::post('order', [OrderController::class, 'store'])->name('order.store');
 
-Route::get('/check-orders/{customerId}', [OrderController::class, 'checkOrders']);
+Route::get('/check-orders/{customerId}/{categoryId}', [OrderController::class, 'checkOrders']);
 
 // Route::post('/reorder/{customer}', [OrderController::class, 'reorder'])->name('reorder');
 Route::post('/order/reorder', [OrderController::class, 'reorder'])->name('order.reorder');

@@ -281,7 +281,6 @@
                                                     <option value="" selected disabled>Cheque Logo Alignment</option>
                                                     <option value="center">Center</option>
                                                     <option value="left">Left</option>
-                                                    <option value="right">Right</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -332,8 +331,8 @@
                             <div class="modal-header bg-primary text-white">
                                 <h5 class="modal-title">Order Preview</h5>
                                 <!-- <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                                                                                                                            <span aria-hidden="true">&times;</span>
-                                                                                                                        </button> -->
+                                                                                                                                <span aria-hidden="true">&times;</span>
+                                                                                                                            </button> -->
                             </div>
                             <div class="modal-body">
                                 <div class="row">
@@ -477,8 +476,8 @@
                             <div class="modal-header bg-info text-white">
                                 <h5 class="modal-title" id="reorderModalLabel">Reorder Cheques</h5>
                                 <!-- <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                                                                                                                    <span aria-hidden="true">&times;</span>
-                                                                                                                </button> -->
+                                                                                                                        <span aria-hidden="true">&times;</span>
+                                                                                                                    </button> -->
                             </div>
                             <div class="modal-body">
                                 <form id="reorderForm">
@@ -880,7 +879,7 @@
 
             // Handle reorder form submission
             $('#reorder-form-button').click(function(e) {
-            // $('#reorderForm').submit(function(e) {
+                // $('#reorderForm').submit(function(e) {
                 e.preventDefault();
 
                 const customerId = $('#reorder-button').data('customer-id');
@@ -904,7 +903,7 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
-                            window.location.href = "{{ route('success') }}";
+                        window.location.href = "{{ route('success') }}";
                     },
                     error: function(xhr) {
                         let errorMsg = 'Failed to place reorder. Please try again.';
@@ -925,8 +924,9 @@
             // When customer changes, check for reorder eligibility
             $('#customer_id').change(function() {
                 const customerId = $(this).val();
+                const categoryId = $('#cheque_category_id').val();
                 if (customerId) {
-                    $.get(`/check-orders/${customerId}`, function(data) {
+                    $.get(`/check-orders/${customerId}/${categoryId}`, function(data) {
                         if (data.hasOrders) {
                             $('#reorder-button').show().data('customer-id', customerId);
                         } else {
