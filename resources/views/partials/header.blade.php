@@ -182,9 +182,9 @@
         </div>
         <ul class="menu" id="menu">
             <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
-            <li><a href="{{ url('manual-cheque-list/' . 1) }}">Manual Cheques</a></li>
-            <li><a href="{{ url('laser-cheque') }}">Laser Cheques</a></li>
-            <li><a href="{{ url('personal-cheque') }}">Personal Cheques</a></li>
+            @foreach($menuCategories as $category)
+                <li><a href="{{ route('category.show', $category->slug) }}">{{ $category->name }}</a></li>
+            @endforeach
             <li><a href="{{ url('about-us') }}">About Us</a></li>
             <li class="dropdown">
                 <a href="javascript:void(0)" class="dropdown-toggle" id="user-toggle">

@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Mail\OrderPlaced;
+use App\Models\Category;
 use App\Models\ChequeCategories;
+use App\Models\Color;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\User;
@@ -19,6 +21,7 @@ use App\Mail\UserCreated;
 use Illuminate\Support\Facades\Validator;
 use App\Mail\VendorAccountCreatedMail;
 use App\Mail\NotifyAdminOfNewVendorMail;
+use App\Mail\UserStatusUpdated;
 
 
 class DashboardController extends Controller
@@ -57,8 +60,8 @@ class DashboardController extends Controller
     {
         $totalUsers = User::count();
 
-        // Paginate and orders
-        $users = User::paginate(10);
+        // Paginate and orders - sorted by ID descending (newest first)
+        $users = User::orderBy('id', 'desc')->paginate(10);
 
         return view('admin/partials/dashboard/user/index', compact('totalUsers', 'users'));
     }
@@ -160,12 +163,18 @@ class DashboardController extends Controller
             'email' => 'required|email',
             'status' => 'nullable|in:pending,approved',
             'email_verified_at' => 'nullable|same:email',
-            'password' => 'required|string',
+            'password' => 'nullable|string|min:6',
             'role' => 'required|string|in:vendor,admin',
+            'notify_user' => 'nullable|boolean',
         ]);
 
-        // Create a new user
+        // Find and update user
         $userData = User::findOrFail($id);
+
+        // Track if status changed
+        $statusChanged = $userData->status !== $request->input('status');
+        $oldStatus = $userData->status;
+
         $userData->firstname = $request->input('firstname');
         $userData->lastname = $request->input('lastname');
         $userData->telephone = $request->input('telephone');
@@ -180,8 +189,22 @@ class DashboardController extends Controller
         $userData->email = $request->input('email');
         $userData->status = $request->input('status');
         $userData->role = $request->input('role');
-        $userData->password = Hash::make($request->input('password'));
+
+        // Only update password if provided and not empty
+        if ($request->filled('password') && trim($request->input('password')) !== '') {
+            $userData->password = $request->input('password'); // Will be auto-hashed by the model
+        }
+
         $userData->update();
+
+        // Send email notification if checkbox was checked and status changed
+        if ($request->has('notify_user') && $request->input('notify_user') == '1' && $statusChanged) {
+            try {
+                Mail::to($userData->email)->send(new UserStatusUpdated($userData, $userData->status));
+            } catch (\Exception $e) {
+                \Log::error('Failed to send status update email: ' . $e->getMessage());
+            }
+        }
 
         return redirect()->route('admin.users')->with('success', 'User updated successfully!');
     }
@@ -512,5 +535,142 @@ class DashboardController extends Controller
         $logoName = substr($users->firstname, 0, 1) . substr($users->lastname, 0, 1);
 
         return view('admin.login.profile', compact('users', 'logoName'));
+    }
+
+    // Colors CRUD
+    public function colorsIndex()
+    {
+        $colors = Color::orderBy('id', 'desc')->paginate(10);
+        return view('admin.partials.dashboard.colors.index', compact('colors'));
+    }
+
+    public function colorsStore(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'value' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'is_active' => 'nullable|boolean',
+        ]);
+
+        $data = $request->all();
+        $data['is_active'] = $request->has('is_active') ? 1 : 0;
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $hash = md5(uniqid($file->getClientOriginalName(), true));
+            $filename = $hash . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('assets/front/img'), $filename);
+            $data['image'] = $filename;
+        }
+
+        Color::create($data);
+
+        return redirect()->route('admin.colors')->with('success', 'Color created successfully.');
+    }
+
+    public function colorsEdit($id)
+    {
+        $color = Color::findOrFail($id);
+        return view('admin.partials.dashboard.colors.edit', compact('color'));
+    }
+
+    public function colorsUpdate(Request $request, $id)
+    {
+        $color = Color::findOrFail($id);
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'value' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'is_active' => 'nullable|boolean',
+        ]);
+
+        $data = $request->all();
+        $data['is_active'] = $request->has('is_active') ? 1 : 0;
+
+        if ($request->hasFile('image')) {
+            // Delete old image
+            if ($color->image && File::exists(public_path('assets/front/img/' . $color->image))) {
+                File::delete(public_path('assets/front/img/' . $color->image));
+            }
+
+            $file = $request->file('image');
+            $hash = md5(uniqid($file->getClientOriginalName(), true));
+            $filename = $hash . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('assets/front/img'), $filename);
+            $data['image'] = $filename;
+        }
+
+        $color->update($data);
+
+        return redirect()->route('admin.colors')->with('success', 'Color updated successfully.');
+    }
+
+    public function colorsDestroy($id)
+    {
+        $color = Color::findOrFail($id);
+
+        // Delete image file if exists
+        if ($color->image && File::exists(public_path('assets/front/img/' . $color->image))) {
+            File::delete(public_path('assets/front/img/' . $color->image));
+        }
+
+        $color->delete();
+
+        return redirect()->route('admin.colors')->with('success', 'Color deleted successfully.');
+    }
+
+    // Categories CRUD
+    public function categoriesIndex()
+    {
+        $categories = Category::orderBy('id', 'desc')->paginate(10);
+        return view('admin.partials.dashboard.categories.index', compact('categories'));
+    }
+
+    public function categoriesStore(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255|unique:categories,name',
+            'is_active' => 'nullable|boolean',
+        ]);
+
+        $data = $request->all();
+        $data['is_active'] = $request->has('is_active') ? 1 : 0;
+
+        Category::create($data);
+
+        return redirect()->route('admin.categories')->with('success', 'Category created successfully.');
+    }
+
+    public function categoriesEdit($id)
+    {
+        $category = Category::findOrFail($id);
+        return view('admin.partials.dashboard.categories.edit', compact('category'));
+    }
+
+    public function categoriesUpdate(Request $request, $id)
+    {
+        $category = Category::findOrFail($id);
+
+        $request->validate([
+            'name' => 'required|string|max:255|unique:categories,name,' . $id,
+            'is_active' => 'nullable|boolean',
+        ]);
+
+        $data = $request->all();
+        $data['is_active'] = $request->has('is_active') ? 1 : 0;
+
+        $category->update($data);
+
+        return redirect()->route('admin.categories')->with('success', 'Category updated successfully.');
+    }
+
+    public function categoriesDestroy($id)
+    {
+        $category = Category::findOrFail($id);
+        $category->delete();
+
+        return redirect()->route('admin.categories')->with('success', 'Category deleted successfully.');
     }
 }

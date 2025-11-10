@@ -13,6 +13,7 @@ class ChequeCategories extends Model
         'manual_cheque_id',
         'laser_cheque_id',
         'personal_cheque_id',
+        'subcategory_id',
         'chequeName',
         'price',
         'img',

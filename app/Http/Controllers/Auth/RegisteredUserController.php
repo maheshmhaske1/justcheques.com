@@ -13,6 +13,7 @@ use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\UserCreated;
+use App\Mail\NotifyAdminOfNewVendorMail;
 
 class RegisteredUserController extends Controller
 {
@@ -50,14 +51,15 @@ class RegisteredUserController extends Controller
         ]);
 
         event(new Registered($user));
+
+        // Send email verification notification to user
         Mail::to($user->email)->send(new UserCreated($user));
 
-        if ($user->role === 'vendor') {
-            return redirect()->route('login')->with('success', 'Vendor account created. Please wait for approval or contact the admin.');
-        }
+        // Notify admin about new user registration
+        Mail::to('order@justcheques.ca')->send(new NotifyAdminOfNewVendorMail($user));
 
-        Auth::login($user);
-        return redirect(route('dashboard'))->with('success', 'Account created successfully!');
+        // Do not log the user in automatically - they need to verify email first
+        return redirect()->route('login')->with('success', 'Registration successful! Please check your email to verify your account before logging in.');
     }
 
 }

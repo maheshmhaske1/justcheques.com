@@ -127,5 +127,19 @@
         $('#resetUser').click(function() {
             window.location.href = "{{ route('admin.users') }}";
         });
+
+        // Show/hide notify checkbox when status changes
+        $('#status').on('change', function() {
+            var originalStatus = $('#originalStatus').val();
+            var newStatus = $(this).val();
+
+            if (originalStatus && originalStatus !== newStatus) {
+                $('#notifyUserContainer').slideDown();
+                $('#notify_user').prop('checked', true); // Auto-check the box
+            } else {
+                $('#notifyUserContainer').slideUp();
+                $('#notify_user').prop('checked', false);
+            }
+        });
     });
 </script>

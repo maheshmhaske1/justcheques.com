@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\View;
+use App\Models\Category;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,5 +24,13 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Paginator::useBootstrap();
+
+        // Share categories with all views
+        View::composer('*', function ($view) {
+            $menuCategories = Category::where('is_active', true)
+                ->orderBy('id', 'asc')
+                ->get();
+            $view->with('menuCategories', $menuCategories);
+        });
     }
 }

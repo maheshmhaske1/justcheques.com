@@ -25,33 +25,7 @@
             </a>
         </li>
 
-        <!-- Cheques -->
-        <li
-            class="menu-item {{ Request::is('admin/manualcheques', 'admin/lasercheques', 'admin/personalcheques') ? 'active' : '' }}">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons mdi mdi-checkbook-arrow-right"></i>
-                <div data-i18n="Layouts">Cheques</div>
-            </a>
-            <ul class="menu-sub">
-                <li class="menu-item {{ Request::is('admin/manualcheques') ? 'active' : '' }}">
-                    <a href="{{ url('admin/manualcheques') }}" class="menu-link">
-                        <div data-i18n="Without menu">Manual Cheques</div>
-                    </a>
-                </li>
-                <li class="menu-item {{ Request::is('admin/lasercheques') ? 'active' : '' }}">
-                    <a href="{{ url('admin/lasercheques') }}" class="menu-link">
-                        <div data-i18n="Without navbar">Laser Cheques</div>
-                    </a>
-                </li>
-                <li class="menu-item {{ Request::is('admin/personalcheques') ? 'active' : '' }}">
-                    <a href="{{ url('admin/personalcheques') }}" class="menu-link">
-                        <div data-i18n="Container">Personal Cheques</div>
-                    </a>
-                </li>
-            </ul>
-        </li>
-
-         <!-- Orders -->
+        <!-- Orders -->
         <li class="menu-item {{ Request::is('admin/orders') ? 'active' : '' }}">
             <a href="{{ route('admin.orders') }}" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-cart"></i>
@@ -75,12 +49,42 @@
             </a>
         </li>
 
-        <!-- Cheques Categories -->
-        <li class="menu-item {{ Request::is('admin/cheque_categories') ? 'active' : '' }}">
-            <a href="{{ route('admin.cheque_categories') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-category"></i>
-                <div data-i18n="Analytics">Cheques Categories</div>
+        <!-- Colors -->
+        <li class="menu-item {{ Request::is('admin/colors') ? 'active' : '' }}">
+            <a href="{{ route('admin.colors') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-palette"></i>
+                <div data-i18n="Analytics">Colors</div>
             </a>
+        </li>
+
+        <!-- Product Management -->
+        <li class="menu-item {{ Request::is('admin/categories*', 'admin/subcategories*', 'admin/quantity-tiers*', 'admin/pricing*') ? 'active open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-store"></i>
+                <div data-i18n="Layouts">Product Management</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item {{ Request::is('admin/categories*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.categories.index') }}" class="menu-link">
+                        <div data-i18n="Without menu">Categories</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ Request::is('admin/subcategories*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.subcategories.index') }}" class="menu-link">
+                        <div data-i18n="Without navbar">Subcategories</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ Request::is('admin/quantity-tiers*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.quantity-tiers.index') }}" class="menu-link">
+                        <div data-i18n="Container">Quantity Tiers</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ Request::is('admin/pricing*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.pricing.index') }}" class="menu-link">
+                        <div data-i18n="Container">Pricing</div>
+                    </a>
+                </li>
+            </ul>
         </li>
 
         <!-- Logout -->

@@ -145,28 +145,36 @@
                                                         <td class="status">{{ $order->order_status }}</td>
                                                         <td class="status">{{ $order->balance_status }}</td>
                                                         <td class="status">
-                                                            <div class="item">
-                                                                <a class="fancybox-buttons" data-fancybox-group="button"
-                                                                    id="mainProductImage" rel="productImages"
-                                                                    href="/storage/logos/{{ $order->company_logo }}"
-                                                                    target="blank">
-                                                                    <img src="{{ asset('storage/logos/' . $order->company_logo) }}"
-                                                                        alt="null" title="null" width="80"
-                                                                        height="80">
-                                                                </a>
-                                                            </div>
+                                                            @if($order->company_logo && file_exists(storage_path('app/public/logos/' . $order->company_logo)))
+                                                                <div class="item">
+                                                                    <a class="fancybox-buttons" data-fancybox-group="button"
+                                                                        id="mainProductImage" rel="productImages"
+                                                                        href="{{ asset('storage/logos/' . $order->company_logo) }}"
+                                                                        target="_blank">
+                                                                        <img src="{{ asset('storage/logos/' . $order->company_logo) }}"
+                                                                            alt="Company Logo" title="Company Logo" width="80"
+                                                                            height="80" style="object-fit: cover;">
+                                                                    </a>
+                                                                </div>
+                                                            @else
+                                                                <span class="text-muted">No logo</span>
+                                                            @endif
                                                         </td>
                                                         <td class="status">
-                                                            <div class="item">
-                                                                <a class="fancybox-buttons" data-fancybox-group="button"
-                                                                    id="mainProductImage" rel="productImages"
-                                                                    href="/storage/logos/{{ $order->voided_cheque_file }}"
-                                                                    target="blank">
-                                                                    <img src="{{ asset('storage/logos/' . $order->voided_cheque_file) }}"
-                                                                        alt="null" title="null" width="80"
-                                                                        height="80">
-                                                                </a>
-                                                            </div>
+                                                            @if($order->voided_cheque_file && file_exists(storage_path('app/public/logos/' . $order->voided_cheque_file)))
+                                                                <div class="item">
+                                                                    <a class="fancybox-buttons" data-fancybox-group="button"
+                                                                        id="mainProductImage" rel="productImages"
+                                                                        href="{{ asset('storage/logos/' . $order->voided_cheque_file) }}"
+                                                                        target="_blank">
+                                                                        <img src="{{ asset('storage/logos/' . $order->voided_cheque_file) }}"
+                                                                            alt="Voided Cheque" title="Voided Cheque" width="80"
+                                                                            height="80" style="object-fit: cover;">
+                                                                    </a>
+                                                                </div>
+                                                            @else
+                                                                <span class="text-muted">No file</span>
+                                                            @endif
                                                         </td>
                                                         <td class="reorder">{{ $order->reorder }}</td>
                                                     </tr>

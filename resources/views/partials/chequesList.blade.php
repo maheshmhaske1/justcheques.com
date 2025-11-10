@@ -7,12 +7,8 @@
             <div class="row">
                 <div class="col-md-12"> <!-- bof  breadcrumb -->
                     <div id="navBreadCrumb"> <a href="/">Home</a>&nbsp;<span class="separator">//</span>&nbsp;
-                        <a href="{{ url('manual-cheque-list/' . 1) }}">{{ $chequeCategoryName }}</a>&nbsp;<span class="separator">
-                            @if ($chequeCategoryName == 'Laser Cheques')
-                                //
-                        </span>&nbsp;
+                        <a href="{{ route('category.show', $category->slug) }}">{{ $chequeCategoryName }}</a>&nbsp;<span class="separator">//</span>&nbsp;
                         {{ $chequeSubCategoryName }}
-                        @endif
                     </div>
                     <div class=" col-sm-12 col-md-12 one_section">
                         <gcse:searchresults></gcse:searchresults>

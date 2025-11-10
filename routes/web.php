@@ -13,15 +13,22 @@ use App\Http\Controllers\AboutusController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\PersonalChequeController;
 use App\Http\Controllers\Admin\LoginController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\SubcategoryController;
+use App\Http\Controllers\Admin\QuantityTierController;
+use App\Http\Controllers\Admin\PricingController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
 //     return view('welcome');
 // });
 
-Route::get('/', function () {
-    return view('partials.home');
-})->name('dashboard');
+Route::get('/', [HomeController::class, 'index'])->name('dashboard');
+
+Route::get('/category/{categorySlug}', [HomeController::class, 'show'])->name('category.show');
+
+Route::get('/make-order/{id}', [HomeController::class, 'makeOrder'])->name('make-order');
 
 Route::get('/success', function () {
     return view('layouts.success');
@@ -79,6 +86,20 @@ Route::middleware(['auth'])->group(function () {
     Route::put('admin/cheque_categories/{id}', [DashboardController::class, 'chequeCategoriesUpdate'])->name('admin.cheque_categories.update');
     Route::delete('admin/cheque_categories/{id}', [DashboardController::class, 'chequeCategoriesDestroy'])->name('admin.cheque_categories.destroy');
 
+    // Colors
+    Route::get('/admin/colors', [DashboardController::class, 'colorsIndex'])->name('admin.colors');
+    Route::post('/admin/colors/store', [DashboardController::class, 'colorsStore'])->name('admin.colorsStore');
+    Route::get('admin/colors/{id}/edit', [DashboardController::class, 'colorsEdit'])->name('admin.colors.edit');
+    Route::put('admin/colors/{id}', [DashboardController::class, 'colorsUpdate'])->name('admin.colors.update');
+    Route::delete('admin/colors/{id}', [DashboardController::class, 'colorsDestroy'])->name('admin.colors.destroy');
+
+    // Categories
+    Route::get('/admin/categories', [DashboardController::class, 'categoriesIndex'])->name('admin.categories');
+    Route::post('/admin/categories/store', [DashboardController::class, 'categoriesStore'])->name('admin.categoriesStore');
+    Route::get('admin/categories/{id}/edit', [DashboardController::class, 'categoriesEdit'])->name('admin.categories.edit');
+    Route::put('admin/categories/{id}', [DashboardController::class, 'categoriesUpdate'])->name('admin.categories.update');
+    Route::delete('admin/categories/{id}', [DashboardController::class, 'categoriesDestroy'])->name('admin.categories.destroy');
+
     Route::get('admin/manualcheques', [AdminController::class, 'manual_cheques'])->name('admin-manual_cheques');
     Route::get('admin/lasercheques', [AdminController::class, 'laser_cheques'])->name('admin-laser_cheques');
     Route::get('admin/personalcheques', [AdminController::class, 'personal_cheques'])->name('admin-personal_cheques');
@@ -104,6 +125,48 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/update-personal-cheque/{id}', [PersonalChequeController::class, 'update'])->name('update.personal.cheque');
     Route::delete('/admin/delete-personal-cheque/{id}', [PersonalChequeController::class, 'destroy'])->name('delete.personal.cheque');
 
+    // New Categories Management Routes
+    Route::resource('admin/categories', CategoryController::class)->names([
+        'index' => 'admin.categories.index',
+        'create' => 'admin.categories.create',
+        'store' => 'admin.categories.store',
+        'edit' => 'admin.categories.edit',
+        'update' => 'admin.categories.update',
+        'destroy' => 'admin.categories.destroy',
+    ]);
+    Route::get('admin/categories/{category}/manage-subcategories', [CategoryController::class, 'manageSubcategories'])->name('admin.categories.manage-subcategories');
+    Route::post('admin/categories/{category}/assign-subcategory', [CategoryController::class, 'assignSubcategory'])->name('admin.categories.assign-subcategory');
+    Route::delete('admin/categories/{category}/subcategories/{subcategory}', [CategoryController::class, 'removeSubcategory'])->name('admin.categories.remove-subcategory');
+    Route::post('admin/categories/{category}/update-subcategory-order', [CategoryController::class, 'updateSubcategoryOrder'])->name('admin.categories.update-subcategory-order');
+
+    // Subcategories Management Routes
+    Route::resource('admin/subcategories', SubcategoryController::class)->names([
+        'index' => 'admin.subcategories.index',
+        'create' => 'admin.subcategories.create',
+        'store' => 'admin.subcategories.store',
+        'edit' => 'admin.subcategories.edit',
+        'update' => 'admin.subcategories.update',
+        'destroy' => 'admin.subcategories.destroy',
+    ]);
+
+    // Quantity Tiers Management Routes
+    Route::resource('admin/quantity-tiers', QuantityTierController::class)->names([
+        'index' => 'admin.quantity-tiers.index',
+        'create' => 'admin.quantity-tiers.create',
+        'store' => 'admin.quantity-tiers.store',
+        'edit' => 'admin.quantity-tiers.edit',
+        'update' => 'admin.quantity-tiers.update',
+        'destroy' => 'admin.quantity-tiers.destroy',
+    ]);
+    Route::post('admin/quantity-tiers/update-order', [QuantityTierController::class, 'updateOrder'])->name('admin.quantity-tiers.update-order');
+
+    // Pricing Management Routes
+    Route::get('admin/pricing', [PricingController::class, 'index'])->name('admin.pricing.index');
+    Route::get('admin/pricing/subcategory/{subcategory}', [PricingController::class, 'manageSubcategory'])->name('admin.pricing.manage-subcategory');
+    Route::post('admin/pricing/subcategory/{subcategory}', [PricingController::class, 'updateSubcategoryPricing'])->name('admin.pricing.update-subcategory');
+    Route::get('admin/pricing/bulk-manage', [PricingController::class, 'bulkManage'])->name('admin.pricing.bulk-manage');
+    Route::post('admin/pricing/bulk-update', [PricingController::class, 'bulkUpdate'])->name('admin.pricing.bulk-update');
+    Route::delete('admin/pricing/{pricing}', [PricingController::class, 'destroy'])->name('admin.pricing.destroy');
 
 });
 

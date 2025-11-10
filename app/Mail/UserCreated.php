@@ -14,6 +14,7 @@ class UserCreated extends Mailable
     use Queueable, SerializesModels;
 
     public $user;
+
     /**
      * Create a new message instance.
      *
@@ -31,7 +32,7 @@ class UserCreated extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Account Created Successfull',
+            subject: 'Registration Successful - Pending Approval',
         );
     }
 

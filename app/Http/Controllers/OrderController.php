@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\AdminOrder;
 use App\Models\ChequeCategories;
+use App\Models\Color;
 use App\Models\Customer;
 use App\Models\LaserCheque;
 use App\Models\ManualCheque;
@@ -87,6 +88,7 @@ class OrderController extends Controller
         // Retrieve the cheque category by id
         $chequeList = ChequeCategories::findOrFail($id);
         $customers = Customer::all();
+        $colors = Color::where('is_active', true)->orderBy('name')->get();
 
         // Determine the category and subcategory names
         if ($chequeList->manual_cheque_id) {
@@ -98,7 +100,7 @@ class OrderController extends Controller
         }
 
         // Pass the cheque category data to the view
-        return view('partials/chequeDetailsForm', compact('chequeList', 'chequeCategoryName', 'chequeSubCategoryName', 'customers'));
+        return view('partials/chequeDetailsForm', compact('chequeList', 'chequeCategoryName', 'chequeSubCategoryName', 'customers', 'colors'));
     }
 
 
@@ -185,21 +187,30 @@ class OrderController extends Controller
             'quantity' => 'required|integer|min:1',
             'color' => 'required|string|max:255',
             'company_info' => 'nullable|string|max:1000',
-            'voided_cheque_file' => 'nullable',
+            'voided_cheque_file' => 'nullable|file',
+            'voided_cheque' => 'nullable|string',
             'institution_number' => 'nullable|string|max:20',
             'transit_number' => 'nullable|string|max:20',
             'account_number' => 'nullable|string|max:20',
-            'confirm_account_number' => 'nullable|string|same:account_number',
-            'cheque_start_number' => 'nullable|integer|min:1',
+            'confirm_account_number' => 'nullable|string',
+            'cheque_start_number' => 'nullable|string|max:20',
             'cheque_end_number' => 'nullable|integer|min:1',
-            'cart_quantity' => 'required|integer|min:1',
-            'cheque_category_id' => 'required|integer',
-            'company_logo' => 'nullable',
-            'cheque_img' => 'nullable',
-            'reorder' => 'nullable',
-            'signature_line' => 'nullable',
-            'logo_alignment' => 'nullable',
+            'cart_quantity' => 'nullable|integer|min:1',
+            'cheque_category_id' => 'nullable|integer',
+            'subcategory_id' => 'nullable|integer',
+            'company_logo' => 'nullable|file',
+            'cheque_img' => 'nullable|string',
+            'reorder' => 'nullable|string',
+            'signature_line' => 'nullable|string',
+            'logo_alignment' => 'nullable|string',
+            'vendor_id' => 'nullable|integer',
+            'quantity_option' => 'nullable|string',
         ]);
+
+        // Handle both old (cheque_category_id) and new (subcategory_id) systems
+        if ($request->has('subcategory_id') && !$request->has('cheque_category_id')) {
+            $request->merge(['cheque_category_id' => $request->subcategory_id]);
+        }
         // Create a new Order object
         $order = new Order($request->except(['voided_cheque_file', 'company_logo', 'cheque_img']));
         // Handle file uploads - store hashed names only

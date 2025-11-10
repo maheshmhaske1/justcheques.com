@@ -41,15 +41,20 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
+        // Check if email exists
+        $user = \App\Models\User::where('email', $this->input('email'))->first();
+
+        if (!$user) {
+            RateLimiter::hit($this->throttleKey());
+            return "No account found with this email address. Please check your email and try again.";
+        }
+
+        // Email exists, now try to authenticate
         if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
-
-            return "We couldn't find an account with that email and password. Please try again";
-            throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
-            ]);
+            return "The password you entered is incorrect. Please try again.";
         }
-       
+
         RateLimiter::clear($this->throttleKey());
         return "You've been successfully logged in";
     }

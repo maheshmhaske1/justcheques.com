@@ -26,13 +26,19 @@ class AuthenticatedSessionController extends Controller
     {
         $result = $request->authenticate();
 
-        if ($result === "We couldn't find an account with that email and password. Please try again") {
+        // Check if authentication failed (any error message other than success)
+        if ($result !== "You've been successfully logged in") {
             return back()->with('error', $result);
         }
 
         $request->session()->regenerate();
 
         $user = Auth::user();
+
+        // Double check user is authenticated
+        if (!$user) {
+            return back()->with('error', 'Authentication failed. Please try again.');
+        }
 
         if ($user->role === 'admin') {
             return redirect()->route('admin')->with('success', "You've been successfully logged in as Admin");

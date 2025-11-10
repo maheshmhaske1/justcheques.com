@@ -27,7 +27,7 @@ class NotifyAdminOfNewVendorMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Notify Admin Of New Vendor Mail',
+            subject: 'New User Registration - ' . $this->user->firstname . ' ' . $this->user->lastname,
         );
     }
 

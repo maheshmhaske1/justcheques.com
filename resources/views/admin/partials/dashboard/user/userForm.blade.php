@@ -151,6 +151,21 @@
                                     </select>
                                 </div>
 
+                                {{-- Notify user checkbox - only show when editing and status changes --}}
+                                @if(isset($userData))
+                                <div class="mb-3" id="notifyUserContainer" style="display: none;">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="notify_user" id="notify_user" value="1">
+                                        <label class="form-check-label" for="notify_user">
+                                            <strong>Send notification email to user about status change</strong>
+                                        </label>
+                                        <br>
+                                        <small class="text-muted">User will receive an email informing them about their account status update.</small>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="originalStatus" value="{{ $userData->status ?? '' }}">
+                                @endif
+
 
                                 <!-- Email Verified At -->
                                 <!-- <div class="mb-3">
@@ -164,7 +179,12 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="password">Password</label>
                                     <input type="password" class="form-control" name="password" id="password"
+                                        placeholder="Leave blank to keep current password"
+                                        autocomplete="new-password"
                                         {{ isset($userData) ? '' : 'required' }} />
+                                    @if(isset($userData))
+                                        <small class="text-muted">Leave this field empty if you don't want to change the password</small>
+                                    @endif
                                 </div>
 
                                 <!-- Role -->

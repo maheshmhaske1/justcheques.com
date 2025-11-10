@@ -30,7 +30,7 @@
                     <div class="textwidget custom-html-widget">Toll Free : <a
                             href="tel+:18667602661">+1 778 374 7100</a><br>
                         Fax :877-760-2435<br>
-                        Email : <a href="mailto:orders@printnow.ca">order@justcheques.ca</a>
+                        Email : <a href="mailto:orders@justcheques.com">order@justcheques.com</a>
                         <br>
                     </div>
                 </div>
@@ -41,8 +41,8 @@
 <div class="row">
     <div id="footer-bottom" class="clearfix">
         <div class="container">
-            <div class="col-xs-12 text-center nopadding">
-                Copyright Just Cheques Inc.</div>
+            <div class="text-center ">
+              Copyright by Just Cheques Inc. © | <a href="https://softechcoderz.com/">Developed by Softech Coderz IT Solutins </a></div>
         </div>
     </div>
 </div>

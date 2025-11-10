@@ -113,63 +113,27 @@
                                         <label class="font-weight-bold">Select Colour <span
                                                 class="text-danger">*</span></label>
                                         <div class="color-options row">
-                                            <div class="col-4 col-md-3 mb-3">
-                                                <label class="color-option">
-                                                    <input type="radio" name="color" value="Purple" checked
-                                                        class="d-none">
-                                                    <img src="{{ asset('assets/front/img/Burgundy.jpg') }}" alt="Burgundy"
-                                                        class="img-fluid rounded border">
-                                                    <span class="d-block text-center mt-1">Burgundy</span>
-                                                </label>
-                                            </div>
-                                            <div class="col-4 col-md-3 mb-3">
-                                                <label class="color-option">
-                                                    <input type="radio" name="color" value="Blue" class="d-none">
-                                                    <img src="{{ asset('assets/front/img/Blue.jpg') }}" alt="Blue"
-                                                        class="img-fluid rounded border">
-                                                    <span class="d-block text-center mt-1">Blue</span>
-                                                </label>
-                                            </div>
-                                            <div class="col-4 col-md-3 mb-3">
-                                                <label class="color-option">
-                                                    <input type="radio" name="color" value="Green" class="d-none">
-                                                    <img src="{{ asset('assets/front/img/green.jpg') }}" alt="Green"
-                                                        class="img-fluid rounded border">
-                                                    <span class="d-block text-center mt-1">Green</span>
-                                                </label>
-                                            </div>
-                                            <div class="col-4 col-md-3 mb-3">
-                                                <label class="color-option">
-                                                    <input type="radio" name="color" value="Tan" class="d-none">
-                                                    <img src="{{ asset('assets/front/img/tan.jpg') }}" alt="Tan"
-                                                        class="img-fluid rounded border">
-                                                    <span class="d-block text-center mt-1">Tan</span>
-                                                </label>
-                                            </div>
-                                            <div class="col-4 col-md-3 mb-3">
-                                                <label class="color-option">
-                                                    <input type="radio" name="color" value="gray" class="d-none">
-                                                    <img src="{{ asset('assets/front/img/grey.jpg') }}" alt="Grey"
-                                                        class="img-fluid rounded border">
-                                                    <span class="d-block text-center mt-1">Grey</span>
-                                                </label>
-                                            </div>
-                                            <div class="col-4 col-md-3 mb-3">
-                                                <label class="color-option">
-                                                    <input type="radio" name="color" value="purple" class="d-none">
-                                                    <img src="{{ asset('assets/front/img/purple.jpg') }}" alt="Purple"
-                                                        class="img-fluid rounded border">
-                                                    <span class="d-block text-center mt-1">Purple</span>
-                                                </label>
-                                            </div>
-                                            <div class="col-4 col-md-3 mb-3">
-                                                <label class="color-option">
-                                                    <input type="radio" name="color" value="orange" class="d-none">
-                                                    <img src="{{ asset('assets/front/img/orange.jpg') }}" alt="Orange"
-                                                        class="img-fluid rounded border">
-                                                    <span class="d-block text-center mt-1">Orange</span>
-                                                </label>
-                                            </div>
+                                            @foreach($colors as $index => $color)
+                                                <div class="col-4 col-md-3 mb-3">
+                                                    <label class="color-option">
+                                                        <input type="radio" name="color" value="{{ $color->value }}"
+                                                            {{ $index == 0 ? 'checked' : '' }}
+                                                            class="d-none">
+                                                        @if($color->image)
+                                                            <img src="{{ asset('assets/front/img/' . $color->image) }}"
+                                                                alt="{{ $color->name }}"
+                                                                class="color-image rounded border"
+                                                                style="width: 100px; height: 100px; object-fit: cover; display: block;">
+                                                        @else
+                                                            <div class="rounded border d-flex align-items-center justify-content-center"
+                                                                style="width: 100px; height: 100px; background-color: #f0f0f0;">
+                                                                <span>{{ $color->name }}</span>
+                                                            </div>
+                                                        @endif
+                                                        <span class="d-block text-center mt-1">{{ $color->name }}</span>
+                                                    </label>
+                                                </div>
+                                            @endforeach
                                         </div>
                                     </div>
 
