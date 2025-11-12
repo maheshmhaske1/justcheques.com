@@ -54,11 +54,27 @@
         </tr>
         <tr>
             <th>Cheque Name</th>
-            <td>{{ $order->chequeCategory->chequeName }}</td>
+            <td>
+                @if($order->subcategory_id && $order->subcategory)
+                    {{ $order->subcategory->name }}
+                @elseif($order->chequeCategory)
+                    {{ $order->chequeCategory->chequeName }}
+                @else
+                    N/A
+                @endif
+            </td>
         </tr>
         <tr>
             <th>Cheque Price</th>
-            <td>${{ $order->chequeCategory->price }}</td>
+            <td>
+                @if($order->price)
+                    ${{ number_format($order->price, 2) }}
+                @elseif($order->chequeCategory)
+                    ${{ number_format($order->chequeCategory->price, 2) }}
+                @else
+                    N/A
+                @endif
+            </td>
         </tr>
         <tr>
             <th>Quantity:</th>

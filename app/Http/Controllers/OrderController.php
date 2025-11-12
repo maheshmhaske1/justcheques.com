@@ -22,7 +22,10 @@ class OrderController extends Controller
     public function history()
     {
         if (Auth::check()) {
-            $orders = Order::where('vendor_id', Auth::user()->id)->latest()->get();
+            $orders = Order::with(['customer', 'subcategory', 'chequeCategory'])
+                ->where('vendor_id', Auth::user()->id)
+                ->latest()
+                ->get();
 
             foreach ($orders as $order) {
                 $customerDetails = Customer::find($order->customer_id);
@@ -32,28 +35,13 @@ class OrderController extends Controller
             $totalPrices = [];
 
             foreach ($orders as $order) {
-                $chequeData = ChequeCategories::find($order->cheque_category_id);
-
-                if ($chequeData) {
-                    $price = (float) $chequeData->price;
-
-                    $manualCheque = (int) $chequeData->manual_cheque_id;
-                    $laserCheque = (int) $chequeData->laser_cheque_id;
-                    $personalCheque = (int) $chequeData->personal_cheque_id;
-
-                    $chequeSubCategory = 'Unknown';
-                    $chequeType = 'Unknown';
-
-                    if ($manualCheque !== 0) {
-                        $chequeType = 'Manual Cheque';
-                        $chequeSubCategory = ManualCheque::where('id', $manualCheque)->pluck('categoriesName')->first() ?? 'Manual Cheque';
-                    } elseif ($laserCheque !== 0) {
-                        $chequeType = 'Laser Cheque';
-                        $chequeSubCategory = LaserCheque::where('id', $laserCheque)->pluck('categoriesName')->first() ?? 'Laser Cheque';
-                    } elseif ($personalCheque !== 0) {
-                        $chequeType = 'Personal Cheque';
-                        $chequeSubCategory = 'Personal Cheque';
-                    }
+                // Try new system first (subcategory_id)
+                if ($order->subcategory_id && $order->subcategory) {
+                    $price = $order->price ?? 0;
+                    $category = $order->subcategory->categories()->first();
+                    $chequeType = $category ? $category->name : 'Unknown';
+                    $chequeSubCategory = $order->subcategory->name;
+                    $chequeName = $order->subcategory->name;
 
                     $totalPrice = $order->quantity * $price;
 
@@ -61,8 +49,50 @@ class OrderController extends Controller
                         'totalPrice' => $totalPrice,
                         'chequeSubCategory' => $chequeSubCategory,
                         'chequeType' => $chequeType,
-                        'chequeName' => $chequeData->chequeName ?? 'Unknown',
+                        'chequeName' => $chequeName,
                     ];
+                }
+                // Fall back to old system (cheque_category_id)
+                elseif ($order->cheque_category_id) {
+                    $chequeData = ChequeCategories::find($order->cheque_category_id);
+
+                    if ($chequeData) {
+                        $price = (float) $chequeData->price;
+
+                        $manualCheque = (int) $chequeData->manual_cheque_id;
+                        $laserCheque = (int) $chequeData->laser_cheque_id;
+                        $personalCheque = (int) $chequeData->personal_cheque_id;
+
+                        $chequeSubCategory = 'Unknown';
+                        $chequeType = 'Unknown';
+
+                        if ($manualCheque !== 0) {
+                            $chequeType = 'Manual Cheque';
+                            $chequeSubCategory = ManualCheque::where('id', $manualCheque)->pluck('categoriesName')->first() ?? 'Manual Cheque';
+                        } elseif ($laserCheque !== 0) {
+                            $chequeType = 'Laser Cheque';
+                            $chequeSubCategory = LaserCheque::where('id', $laserCheque)->pluck('categoriesName')->first() ?? 'Laser Cheque';
+                        } elseif ($personalCheque !== 0) {
+                            $chequeType = 'Personal Cheque';
+                            $chequeSubCategory = 'Personal Cheque';
+                        }
+
+                        $totalPrice = $order->quantity * $price;
+
+                        $totalPrices[$order->id] = [
+                            'totalPrice' => $totalPrice,
+                            'chequeSubCategory' => $chequeSubCategory,
+                            'chequeType' => $chequeType,
+                            'chequeName' => $chequeData->chequeName ?? 'Unknown',
+                        ];
+                    } else {
+                        $totalPrices[$order->id] = [
+                            'totalPrice' => 0,
+                            'chequeSubCategory' => 'Unknown',
+                            'chequeType' => 'Unknown',
+                            'chequeName' => 'Unknown',
+                        ];
+                    }
                 } else {
                     $totalPrices[$order->id] = [
                         'totalPrice' => 0,
@@ -148,6 +178,9 @@ class OrderController extends Controller
 
         $newOrder->save();
 
+        // Load relationships for email
+        $newOrder->load(['subcategory', 'chequeCategory']);
+
         $newOrder->company = $customers->company;
         $user = Auth::user();
 
@@ -211,6 +244,18 @@ class OrderController extends Controller
         if ($request->has('subcategory_id') && !$request->has('cheque_category_id')) {
             $request->merge(['cheque_category_id' => $request->subcategory_id]);
         }
+
+        // Calculate and add price for new system
+        if ($request->has('subcategory_id') && $request->has('quantity')) {
+            $pricing = \App\Models\Pricing::whereHas('quantityTier', function($query) use ($request) {
+                $query->where('quantity', $request->quantity);
+            })->where('subcategory_id', $request->subcategory_id)->first();
+
+            if ($pricing) {
+                $request->merge(['price' => $pricing->price]);
+            }
+        }
+
         // Create a new Order object
         $order = new Order($request->except(['voided_cheque_file', 'company_logo', 'cheque_img']));
         // Handle file uploads - store hashed names only
@@ -246,6 +291,10 @@ class OrderController extends Controller
 
         // Save the order to the database
         $order->save();
+
+        // Load relationships for email
+        $order->load(['subcategory', 'chequeCategory']);
+
         // add company name to order
         $order->company = $customers->company;
 

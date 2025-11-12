@@ -23,6 +23,8 @@ class Order extends Model
         'cheque_end_number',
         'cart_quantity',
         'cheque_category_id',
+        'subcategory_id',
+        'price',
         'voided_cheque_file',
         'company_logo',
         'vendor_id',
@@ -52,5 +54,57 @@ class Order extends Model
     public function chequeCategory()
     {
         return $this->belongsTo(ChequeCategories::class, 'cheque_category_id');
+    }
+
+    public function subcategory()
+    {
+        return $this->belongsTo(Subcategory::class, 'subcategory_id');
+    }
+
+    // Helper method to get category name (works with both old and new system)
+    public function getCategoryNameAttribute()
+    {
+        if ($this->subcategory_id && $this->subcategory) {
+            // Get the first category for this subcategory
+            $category = $this->subcategory->categories()->first();
+            return $category ? $category->name : 'N/A';
+        } elseif ($this->cheque_category_id && $this->chequeCategory) {
+            // Old system fallback
+            if ($this->chequeCategory->manual_cheque_id) {
+                return 'Manual Cheques';
+            } elseif ($this->chequeCategory->laser_cheque_id) {
+                return 'Laser Cheques';
+            } elseif ($this->chequeCategory->personal_cheque_id) {
+                return 'Personal Cheques';
+            }
+        }
+        return 'Unknown';
+    }
+
+    // Helper method to get subcategory name (works with both old and new system)
+    public function getSubcategoryNameAttribute()
+    {
+        if ($this->subcategory_id && $this->subcategory) {
+            return $this->subcategory->name;
+        } elseif ($this->cheque_category_id && $this->chequeCategory) {
+            return $this->chequeCategory->chequeName ?? 'Unknown';
+        }
+        return 'Unknown';
+    }
+
+    // Helper method to get price (works with both old and new system)
+    public function getPriceAttribute($value)
+    {
+        // If price is stored directly, return it
+        if ($value !== null) {
+            return $value;
+        }
+
+        // Old system fallback
+        if ($this->cheque_category_id && $this->chequeCategory) {
+            return $this->chequeCategory->price ?? 0;
+        }
+
+        return 0;
     }
 }
