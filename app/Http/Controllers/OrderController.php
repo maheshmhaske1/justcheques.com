@@ -242,8 +242,10 @@ class OrderController extends Controller
         ]);
 
         // Handle both old (cheque_category_id) and new (subcategory_id) systems
+        // Don't automatically copy subcategory_id to cheque_category_id as they are different systems
+        // If using new system (subcategory_id), set cheque_category_id to null
         if ($request->has('subcategory_id') && !$request->has('cheque_category_id')) {
-            $request->merge(['cheque_category_id' => $request->subcategory_id]);
+            $request->merge(['cheque_category_id' => null]);
         }
 
         // Calculate and add price for new system
