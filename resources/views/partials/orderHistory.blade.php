@@ -148,15 +148,16 @@
                                                         <td class="status">{{ $order->order_status }}</td>
                                                         <td class="status">{{ $order->balance_status }}</td>
                                                         <td class="status">
-                                                            @if($order->company_logo && file_exists(storage_path('app/public/logos/' . $order->company_logo)))
+                                                            @if($order->company_logo)
                                                                 <div class="item">
                                                                     <a class="fancybox-buttons" data-fancybox-group="button"
                                                                         id="mainProductImage" rel="productImages"
-                                                                        href="{{ asset('storage/logos/' . $order->company_logo) }}"
+                                                                        href="{{ url('storage/logos/' . $order->company_logo) }}"
                                                                         target="_blank">
-                                                                        <img src="{{ asset('storage/logos/' . $order->company_logo) }}"
+                                                                        <img src="{{ url('storage/logos/' . $order->company_logo) }}"
                                                                             alt="Company Logo" title="Company Logo" width="80"
-                                                                            height="80" style="object-fit: cover;">
+                                                                            height="80" style="object-fit: cover;"
+                                                                            onerror="this.parentElement.parentElement.innerHTML='<span class=\'text-muted\'>No logo</span>'">
                                                                     </a>
                                                                 </div>
                                                             @else
@@ -164,15 +165,16 @@
                                                             @endif
                                                         </td>
                                                         <td class="status">
-                                                            @if($order->voided_cheque_file && file_exists(storage_path('app/public/logos/' . $order->voided_cheque_file)))
+                                                            @if($order->voided_cheque_file)
                                                                 <div class="item">
                                                                     <a class="fancybox-buttons" data-fancybox-group="button"
                                                                         id="mainProductImage" rel="productImages"
-                                                                        href="{{ asset('storage/logos/' . $order->voided_cheque_file) }}"
+                                                                        href="{{ url('storage/logos/' . $order->voided_cheque_file) }}"
                                                                         target="_blank">
-                                                                        <img src="{{ asset('storage/logos/' . $order->voided_cheque_file) }}"
+                                                                        <img src="{{ url('storage/logos/' . $order->voided_cheque_file) }}"
                                                                             alt="Voided Cheque" title="Voided Cheque" width="80"
-                                                                            height="80" style="object-fit: cover;">
+                                                                            height="80" style="object-fit: cover;"
+                                                                            onerror="this.parentElement.parentElement.innerHTML='<span class=\'text-muted\'>No file</span>'">
                                                                     </a>
                                                                 </div>
                                                             @else

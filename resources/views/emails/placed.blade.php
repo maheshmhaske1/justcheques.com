@@ -53,23 +53,43 @@
             <td>{{ $order->company }}</td>
         </tr>
         <tr>
-            <th>Cheque Name</th>
+            <th>Cheque Details</th>
             <td>
-                @if($order->subcategory_id && $order->subcategory)
-                    {{ $order->subcategory->name }}
-                @elseif($order->chequeCategory)
-                    {{ $order->chequeCategory->chequeName }}
-                @else
-                    N/A
-                @endif
+                @php
+                    $chequeDetails = [];
+
+                    // Get category
+                    if ($order->subcategory_id && $order->subcategory) {
+                        $category = $order->subcategory->categories()->first();
+                        if ($category) {
+                            $chequeDetails[] = $category->name;
+                        }
+                    } elseif ($order->chequeCategory) {
+                        if ($order->chequeCategory->manual_cheque_id) {
+                            $chequeDetails[] = 'Manual Cheques';
+                        } elseif ($order->chequeCategory->laser_cheque_id) {
+                            $chequeDetails[] = 'Laser Cheques';
+                        } elseif ($order->chequeCategory->personal_cheque_id) {
+                            $chequeDetails[] = 'Personal Cheques';
+                        }
+                    }
+
+                    // Get subcategory
+                    if ($order->subcategory_id && $order->subcategory) {
+                        $chequeDetails[] = $order->subcategory->name;
+                    } elseif ($order->chequeCategory) {
+                        $chequeDetails[] = $order->chequeCategory->chequeName;
+                    }
+
+                    // Get selected item
+                    if ($order->subcategory_item_id && $order->subcategoryItem) {
+                        $chequeDetails[] = $order->subcategoryItem->name;
+                    }
+
+                    echo !empty($chequeDetails) ? implode(', ', $chequeDetails) : 'N/A';
+                @endphp
             </td>
         </tr>
-        @if($order->subcategory_item_id && $order->subcategoryItem)
-        <tr>
-            <th>Selected Item:</th>
-            <td>{{ $order->subcategoryItem->name }}</td>
-        </tr>
-        @endif
         <tr>
             <th>Cheque Price</th>
             <td>
