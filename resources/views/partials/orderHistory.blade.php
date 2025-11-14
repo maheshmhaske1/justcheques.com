@@ -138,6 +138,9 @@
                                                             {{ $totalPrices[$order->id]['chequeType'] }}<br>
                                                             {{ $totalPrices[$order->id]['chequeName'] }}<br>
                                                             {{ $totalPrices[$order->id]['chequeSubCategory'] }}
+                                                            @if($order->subcategory_item_id && $order->subcategoryItem)
+                                                                <br><strong>Item:</strong> {{ $order->subcategoryItem->name }}
+                                                            @endif
                                                         </td>
                                                         <td class="quantity">{{ $order->quantity }}</td>
                                                         <td class="total">${{ $totalPrices[$order->id]['totalPrice'] }}

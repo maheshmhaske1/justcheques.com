@@ -66,6 +66,9 @@ class HomeController extends Controller
             }, 'colors' => function($query) {
                 $query->where('is_active', true)
                       ->orderBy('name');
+            }, 'items' => function($query) {
+                $query->where('is_active', true)
+                      ->orderBy('created_at', 'asc');
             }])
             ->firstOrFail();
 
@@ -79,6 +82,7 @@ class HomeController extends Controller
         // Get customers and colors (only colors attached to this subcategory)
         $customers = Customer::all();
         $colors = $subcategory->colors;
+        $items = $subcategory->items;
 
         // Get quantity tiers with pricing for this subcategory
         $quantityTiers = QuantityTier::where('is_active', true)
@@ -101,7 +105,8 @@ class HomeController extends Controller
             'chequeSubCategoryName',
             'customers',
             'colors',
-            'quantityTiers'
+            'quantityTiers',
+            'items'
         ));
     }
 }

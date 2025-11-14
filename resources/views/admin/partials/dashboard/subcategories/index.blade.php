@@ -85,6 +85,9 @@
                                             <i class="bx bx-dots-vertical-rounded"></i>
                                         </button>
                                         <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="{{ route('admin.subcategories.manage-items', $subcategory->id) }}"><i
+                                                    class="bx bx-list-ul me-1"></i>
+                                                Manage Items</a>
                                             <a class="dropdown-item" href="{{ route('admin.pricing.manage-subcategory', $subcategory->id) }}"><i
                                                     class="bx bx-dollar me-1"></i>
                                                 Manage Pricing</a>

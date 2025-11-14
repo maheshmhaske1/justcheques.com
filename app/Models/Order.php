@@ -24,6 +24,7 @@ class Order extends Model
         'cart_quantity',
         'cheque_category_id',
         'subcategory_id',
+        'subcategory_item_id',
         'price',
         'voided_cheque_file',
         'company_logo',
@@ -59,6 +60,11 @@ class Order extends Model
     public function subcategory()
     {
         return $this->belongsTo(Subcategory::class, 'subcategory_id');
+    }
+
+    public function subcategoryItem()
+    {
+        return $this->belongsTo(SubcategoryItem::class, 'subcategory_item_id');
     }
 
     // Helper method to get category name (works with both old and new system)

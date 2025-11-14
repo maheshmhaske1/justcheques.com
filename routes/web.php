@@ -15,6 +15,7 @@ use App\Http\Controllers\PersonalChequeController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\SubcategoryController;
+use App\Http\Controllers\Admin\SubcategoryItemController;
 use App\Http\Controllers\Admin\QuantityTierController;
 use App\Http\Controllers\Admin\PricingController;
 use App\Http\Controllers\HomeController;
@@ -148,6 +149,10 @@ Route::middleware(['auth'])->group(function () {
         'update' => 'admin.subcategories.update',
         'destroy' => 'admin.subcategories.destroy',
     ]);
+    Route::get('admin/subcategories/{subcategory}/manage-items', [SubcategoryController::class, 'manageItems'])->name('admin.subcategories.manage-items');
+    Route::post('admin/subcategories/{subcategory}/store-item', [SubcategoryController::class, 'storeItem'])->name('admin.subcategories.store-item');
+    Route::put('admin/subcategories/{subcategory}/items/{item}', [SubcategoryController::class, 'updateItem'])->name('admin.subcategories.update-item');
+    Route::delete('admin/subcategories/{subcategory}/items/{item}', [SubcategoryController::class, 'toggleItem'])->name('admin.subcategories.toggle-item');
 
     // Quantity Tiers Management Routes
     Route::resource('admin/quantity-tiers', QuantityTierController::class)->names([

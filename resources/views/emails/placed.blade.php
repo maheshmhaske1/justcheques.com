@@ -64,6 +64,12 @@
                 @endif
             </td>
         </tr>
+        @if($order->subcategory_item_id && $order->subcategoryItem)
+        <tr>
+            <th>Selected Item:</th>
+            <td>{{ $order->subcategoryItem->name }}</td>
+        </tr>
+        @endif
         <tr>
             <th>Cheque Price</th>
             <td>

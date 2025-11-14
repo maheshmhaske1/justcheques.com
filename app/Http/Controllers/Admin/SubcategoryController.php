@@ -132,4 +132,65 @@ class SubcategoryController extends Controller
         return redirect()->route('admin.subcategories.index')
             ->with('success', 'Subcategory deleted successfully.');
     }
+
+    /**
+     * Manage items for a specific subcategory
+     */
+    public function manageItems(Subcategory $subcategory)
+    {
+        $items = $subcategory->items()->orderBy('created_at', 'desc')->get();
+        return view('admin.partials.dashboard.subcategories.manage-items', compact('subcategory', 'items'));
+    }
+
+    /**
+     * Store a new item for a subcategory
+     */
+    public function storeItem(Request $request, Subcategory $subcategory)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'is_active' => 'boolean',
+        ]);
+
+        $validated['is_active'] = $request->has('is_active') ? 1 : 0;
+        $validated['subcategory_id'] = $subcategory->id;
+
+        \App\Models\SubcategoryItem::create($validated);
+
+        return redirect()->route('admin.subcategories.manage-items', $subcategory)
+            ->with('success', 'Item created successfully.');
+    }
+
+    /**
+     * Update an item
+     */
+    public function updateItem(Request $request, Subcategory $subcategory, $itemId)
+    {
+        $item = \App\Models\SubcategoryItem::findOrFail($itemId);
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'is_active' => 'boolean',
+        ]);
+
+        $validated['is_active'] = $request->has('is_active') ? 1 : 0;
+
+        $item->update($validated);
+
+        return redirect()->route('admin.subcategories.manage-items', $subcategory)
+            ->with('success', 'Item updated successfully.');
+    }
+
+    /**
+     * Toggle item status
+     */
+    public function toggleItem(Subcategory $subcategory, $itemId)
+    {
+        $item = \App\Models\SubcategoryItem::findOrFail($itemId);
+        $item->update(['is_active' => !$item->is_active]);
+
+        $status = $item->is_active ? 'enabled' : 'disabled';
+        return redirect()->route('admin.subcategories.manage-items', $subcategory)
+            ->with('success', "Item {$status} successfully.");
+    }
 }

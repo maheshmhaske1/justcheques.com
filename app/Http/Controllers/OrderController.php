@@ -22,7 +22,7 @@ class OrderController extends Controller
     public function history()
     {
         if (Auth::check()) {
-            $orders = Order::with(['customer', 'subcategory', 'chequeCategory'])
+            $orders = Order::with(['customer', 'subcategory', 'subcategoryItem', 'chequeCategory'])
                 ->where('vendor_id', Auth::user()->id)
                 ->latest()
                 ->get();
@@ -231,6 +231,7 @@ class OrderController extends Controller
             'cart_quantity' => 'nullable|integer|min:1',
             'cheque_category_id' => 'nullable|integer',
             'subcategory_id' => 'nullable|integer',
+            'subcategory_item_id' => 'nullable|integer|exists:subcategory_items,id',
             'company_logo' => 'nullable|file',
             'cheque_img' => 'nullable|string',
             'reorder' => 'nullable|string',
@@ -293,7 +294,7 @@ class OrderController extends Controller
         $order->save();
 
         // Load relationships for email
-        $order->load(['subcategory', 'chequeCategory']);
+        $order->load(['subcategory', 'subcategoryItem', 'chequeCategory']);
 
         // add company name to order
         $order->company = $customers->company;

@@ -113,6 +113,21 @@
                                         <input type="hidden" name="quantity_option" id="quantity_option" value="21">
                                     </div>
 
+                                    <!-- Item Selection -->
+                                    @if($items && $items->count() > 0)
+                                        <div class="form-group">
+                                            <label for="subcategory_item_id" class="font-weight-bold">Select Item <span class="text-danger">*</span></label>
+                                            <select name="subcategory_item_id" id="subcategory_item_id" class="form-control" required>
+                                                <option value="" selected disabled>Select an item</option>
+                                                @foreach($items as $item)
+                                                    <option value="{{ $item->id }}" {{ old('subcategory_item_id') == $item->id ? 'selected' : '' }}>
+                                                        {{ $item->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    @endif
+
                                     <!-- Color Selection -->
                                     <div class="form-group">
                                         <label class="font-weight-bold">Select Colour <span

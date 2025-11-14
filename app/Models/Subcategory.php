@@ -40,6 +40,12 @@ class Subcategory extends Model
                     ->withTimestamps();
     }
 
+    // Relationship: Has Many Subcategory Items
+    public function items()
+    {
+        return $this->hasMany(SubcategoryItem::class);
+    }
+
     // Auto-generate slug from name
     protected static function boot()
     {
