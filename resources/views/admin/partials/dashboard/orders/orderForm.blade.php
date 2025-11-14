@@ -123,21 +123,6 @@
                                         required />
                                 </div>
 
-                                <!-- Cheque Category ID -->
-                                <div class="mb-3">
-                                    <label class="form-label" for="cheque_category_id">Cheque Category ID</label>
-                                    <select class="form-control" name="cheque_category_id" id="cheque_category_id"
-                                        required>
-                                        <option value="">Select a Customer</option>
-                                        @foreach (\App\Models\ChequeCategories::all() as $chequeCategory)
-                                            <option value="{{ $chequeCategory->id }}"
-                                                {{ old('cheque_category_id', $orderData->cheque_category_id ?? '') == $chequeCategory->id ? 'selected' : '' }}>
-                                                {{ $chequeCategory->chequeName }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
                                 <!-- Voided Cheque File -->
                                 <div class="mb-3">
                                     <label class="form-label" for="voided_cheque_file">Voided Cheque File</label>
