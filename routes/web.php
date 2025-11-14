@@ -210,5 +210,15 @@ Route::get('about-us', [AboutusController::class, 'index'])->name('about-us');
 
 Route::resource('customer', CustomerController::class)->middleware('auth');
 
+// Serve images directly from storage without symlink
+Route::get('/storage/logos/{filename}', function ($filename) {
+    $path = storage_path('app/public/logos/' . $filename);
+
+    if (!file_exists($path)) {
+        abort(404);
+    }
+
+    return response()->file($path);
+})->where('filename', '.*');
 
 require __DIR__.'/auth.php';
