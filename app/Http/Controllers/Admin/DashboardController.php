@@ -17,6 +17,7 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use App\Mail\UserCreated;
 use Illuminate\Support\Facades\Validator;
 use App\Mail\VendorAccountCreatedMail;
@@ -250,6 +251,7 @@ class DashboardController extends Controller
         if ($request->hasFile('voided_cheque_file')) {
             $file = $request->file('voided_cheque_file');
             $filename = md5(uniqid()) . '.' . $file->getClientOriginalExtension();
+            Storage::makeDirectory('public/logos');
             $file->storeAs('public/logos', $filename); // Store in storage
             $order->voided_cheque_file = $filename; // Save only filename
         }
@@ -257,6 +259,7 @@ class DashboardController extends Controller
         if ($request->hasFile('company_logo')) {
             $file = $request->file('company_logo');
             $filename = md5(uniqid()) . '.' . $file->getClientOriginalExtension();
+            Storage::makeDirectory('public/logos');
             $file->storeAs('public/logos', $filename);
             $order->company_logo = $filename;
         }
@@ -264,6 +267,7 @@ class DashboardController extends Controller
         if ($request->hasFile('cheque_img')) {
             $file = $request->file('cheque_img');
             $filename = md5(uniqid()) . '.' . $file->getClientOriginalExtension();
+            Storage::makeDirectory('public/logos');
             $file->storeAs('public/logos', $filename);
             $order->cheque_img = $filename;
         }
@@ -337,6 +341,7 @@ class DashboardController extends Controller
         if ($request->hasFile('voided_cheque_file')) {
             $file = $request->file('voided_cheque_file');
             $filename = md5(uniqid()) . '.' . $file->getClientOriginalExtension();
+            Storage::makeDirectory('public/logos');
             $file->storeAs('public/logos', $filename); // Store in storage
             $order->voided_cheque_file = $filename; // Save only filename
         }
@@ -344,6 +349,7 @@ class DashboardController extends Controller
         if ($request->hasFile('company_logo')) {
             $file = $request->file('company_logo');
             $filename = md5(uniqid()) . '.' . $file->getClientOriginalExtension();
+            Storage::makeDirectory('public/logos');
             $file->storeAs('public/logos', $filename);
             $order->company_logo = $filename;
         }
@@ -352,6 +358,7 @@ class DashboardController extends Controller
         if ($request->hasFile('cheque_img')) {
             $file = $request->file('cheque_img');
             $filename = md5(uniqid()) . '.' . $file->getClientOriginalExtension();
+            Storage::makeDirectory('public/logos');
             $file->storeAs('public/logos', $filename);
             $order->cheque_img = $filename;
         }

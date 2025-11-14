@@ -12,6 +12,7 @@ use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use App\Mail\OrderPlaced;
 use App\Mail\Reorder;
 use App\Models\User;
@@ -265,6 +266,7 @@ class OrderController extends Controller
         if ($request->hasFile('voided_cheque_file')) {
             $file = $request->file('voided_cheque_file');
             $filename = md5(uniqid()) . '.' . $file->getClientOriginalExtension();
+            Storage::makeDirectory('public/logos');
             $file->storeAs('public/logos', $filename); // Store in storage
             $order->voided_cheque_file = $filename; // Save only filename
         }
@@ -272,6 +274,7 @@ class OrderController extends Controller
         if ($request->hasFile('company_logo')) {
             $file = $request->file('company_logo');
             $filename = md5(uniqid()) . '.' . $file->getClientOriginalExtension();
+            Storage::makeDirectory('public/logos');
             $file->storeAs('public/logos', $filename);
             $order->company_logo = $filename;
         }
