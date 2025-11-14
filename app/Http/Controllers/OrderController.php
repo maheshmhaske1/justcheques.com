@@ -44,10 +44,8 @@ class OrderController extends Controller
                     $chequeSubCategory = $order->subcategory->name;
                     $chequeName = $order->subcategory->name;
 
-                    $totalPrice = $order->quantity * $price;
-
                     $totalPrices[$order->id] = [
-                        'totalPrice' => $totalPrice,
+                        'totalPrice' => $price,
                         'chequeSubCategory' => $chequeSubCategory,
                         'chequeType' => $chequeType,
                         'chequeName' => $chequeName,
@@ -78,10 +76,8 @@ class OrderController extends Controller
                             $chequeSubCategory = 'Personal Cheque';
                         }
 
-                        $totalPrice = $order->quantity * $price;
-
                         $totalPrices[$order->id] = [
-                            'totalPrice' => $totalPrice,
+                            'totalPrice' => $price,
                             'chequeSubCategory' => $chequeSubCategory,
                             'chequeType' => $chequeType,
                             'chequeName' => $chequeData->chequeName ?? 'Unknown',

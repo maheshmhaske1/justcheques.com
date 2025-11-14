@@ -85,7 +85,7 @@
                         <div class="order-history-wrapper histxt">
                             <div class="under_txt_ser">
                                 <div class="table-responsive">
-                                    <table class="table order-history-table test" style="width: 100%; min-width: 1500px;">
+                                    <table class="table order-history-table test" style="width: 100%; min-width: 2500px;">
                                         <thead>
                                             <tr>
                                                 <th class="order-number">Order Id</th>
@@ -94,7 +94,14 @@
                                                 <th class="shipping-to" style="width: 250px;">Company Details</th>
                                                 <th class="shipping-to">Product Details</th>
                                                 <th class="total">Order Quantity</th>
-                                                <th class="total">Order Cost</th>
+                                                <th class="total">Unit Price</th>
+                                                <th class="status">Color</th>
+                                                <th class="status">Institution #</th>
+                                                <th class="status">Transit #</th>
+                                                <th class="status">Account #</th>
+                                                <th class="status">Start #</th>
+                                                <th class="status">Signature Line</th>
+                                                <th class="status">Logo Alignment</th>
                                                 <th class="status">Order Status</th>
                                                 <th class="status">Payment Status</th>
                                                 <th class="status">Company Logo</th>
@@ -145,6 +152,13 @@
                                                         <td class="quantity">{{ $order->quantity }}</td>
                                                         <td class="total">${{ $totalPrices[$order->id]['totalPrice'] }}
                                                         </td>
+                                                        <td class="status">{{ $order->color ?? 'N/A' }}</td>
+                                                        <td class="status">{{ $order->institution_number ?? 'N/A' }}</td>
+                                                        <td class="status">{{ $order->transit_number ?? 'N/A' }}</td>
+                                                        <td class="status">{{ $order->account_number ?? 'N/A' }}</td>
+                                                        <td class="status">{{ $order->cheque_start_number ?? 'N/A' }}</td>
+                                                        <td class="status">{{ $order->signature_line ?? 'N/A' }}</td>
+                                                        <td class="status">{{ $order->logo_alignment ?? 'N/A' }}</td>
                                                         <td class="status">{{ $order->order_status }}</td>
                                                         <td class="status">{{ $order->balance_status }}</td>
                                                         <td class="status">

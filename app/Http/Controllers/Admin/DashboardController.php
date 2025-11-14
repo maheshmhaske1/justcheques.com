@@ -50,8 +50,8 @@ class DashboardController extends Controller
     {
         $totalOrder = Order::count();
 
-        // Paginate and orders
-        $orders = Order::paginate(10);
+        // Paginate and orders with relationships
+        $orders = Order::with(['subcategory', 'subcategoryItem'])->paginate(10);
 
         // dd($orders);
         return view('admin/partials/dashboard/orders/index', compact('totalOrder', 'orders'));

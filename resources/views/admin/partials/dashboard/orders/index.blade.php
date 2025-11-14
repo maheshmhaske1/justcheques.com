@@ -26,7 +26,9 @@
                         <th><strong>Sr No.</strong></th>
                         <th><strong>Customer Name</strong></th>
                         <th><strong>Vendor Name</strong></th>
+                        <th><strong>Product Details</strong></th>
                         <th><strong>Quantity</strong></th>
+                        <th><strong>Unit Price</strong></th>
                         <th><strong>Color</strong></th>
                         <th><strong>Company Info</strong></th>
                         <th><strong>Voided Cheque</strong></th>
@@ -36,6 +38,8 @@
                         <th><strong>Confirm Account Number</strong></th>
                         <th><strong>Cheque Start Number</strong></th>
                         <th><strong>Cheque End Number</strong></th>
+                        <th><strong>Signature Line</strong></th>
+                        <th><strong>Logo Alignment</strong></th>
                         <th><strong>Cart Quantity</strong></th>
                         <th><strong>Cheque Category Id</strong></th>
                         <th><strong>Voided Cheque File</strong></th>
@@ -54,7 +58,19 @@
                         <td><strong>{{ $loop->iteration + ($orders->currentPage() - 1) * $orders->perPage() }}</strong></td>
                         <td>{{ \App\Models\Customer::find($order->customer_id)?->company }} {{ \App\Models\Customer::find($order->customer_id)?->lastname }}</td>
                         <td>{{ \App\Models\User::find($order->vendor_id)?->firstname }} {{ \App\Models\User::find($order->vendor_id)?->lastname }}</td>
+                        <td>
+                            @if($order->subcategory)
+                                {{ $order->subcategory->categories()->first()?->name ?? 'N/A' }}<br>
+                                {{ $order->subcategory->name }}<br>
+                                @if($order->subcategoryItem)
+                                    <strong>Item:</strong> {{ $order->subcategoryItem->name }}
+                                @endif
+                            @else
+                                N/A
+                            @endif
+                        </td>
                         <td>{{ $order->quantity }}</td>
+                        <td>${{ $order->price ?? 'N/A' }}</td>
                         <td>{{ $order->color }}</td>
                         <td>{{ $order->company_info }}</td>
                         <td>{{ $order->voided_cheque }}</td>
@@ -64,6 +80,8 @@
                         <td>{{ $order->confirm_account_number }}</td>
                         <td>{{ $order->cheque_start_number }}</td>
                         <td>{{ $order->cheque_end_number }}</td>
+                        <td>{{ $order->signature_line ?? 'N/A' }}</td>
+                        <td>{{ $order->logo_alignment ?? 'N/A' }}</td>
                         <td>{{ $order->cart_quantity }}</td>
                         <td>{{ $order->cheque_category_id }}</td>
                         <td><img src="{{ asset('storage/logos/' . $order->voided_cheque_file) }}" alt
